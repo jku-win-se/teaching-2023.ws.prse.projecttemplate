@@ -61,6 +61,40 @@ Draw.io ist eine kostenlose SaaS Lösung zur Erstellung von Flussdiagrammen, Pro
   - Integration von herstellerspezifischen Symbolen
   - Unterstützung der meisten Diagramm Notationen
 
+## Creately
+
+Creately ist ein kostenlosen webbasiertes Diagrammtool, welches es Benutzern ermöglicht ein verschiedene Diagrammtypen, darunter auch UML-Modelle zu erstellen. Neben einer kostenlosen Version bietet das Tool auch noch einige Vorteile wie kollaboratives Arbeiten, verschiedene Vorlagen, Export in verschiedenen Formaten und Integration mit anderen Tools wie Confluence oder Jira. Zudem ist die Software cloud-basiert und benötigt keine Installation, was ein Arbeiten von verschiedenen Geräten aus ermöglicht.
+
+einfache Anmeldung unter https://creately.com
+
+### Funktionen
+
+* Diagrammerstellung
+  * Erstellung von verschiedenen Diagrramme wie UML, Organigramme, Flowcharts etc. in einer intuitiven Benuzteroberfläche.
+* Kollaboration
+  * Diagramme können geteilt werden, was eine gemeinsame Bearbeitung in Echtzeit ermöglicht
+ * Export
+  * Diagramme können in verschiedenen Bildformaten exportiert werden.
+* Integration
+  * Creatly kann als Plugin in Projektmanangement Tools wie Confluence oder Jira installiert werden.
+* Cloud-basiert
+  * Creately ist eine cloudbasierte Plattform, was ein Arbeiten von verschiedenen Geräten ohne Installation ermöglicht.
+
+### Vorteile
+
+* leicht zugänglich - Anmeldung dauert nur wenige Minuten
+* benutzerfreundlich
+* kollaboratives Arbeiten möglich
+* cloud-baisert
+* Export- und Integrationsmöglichkeiten
+* viel Vorlagen
+* kostenlose Version verfügbar
+
+### Nachteile
+* keine Offline-Nutzung
+* ausschließlich Grundfunktionen
+* Kosten bei umfagnreicher Nutzung
+
 ## Chat UML
 
 ChatUML ist ein KI-Tool zur automatisierten Erstellung von UML Diagrammen. Es basiert auf dem ChatGPT-4 Modell und fungiert als ChatBot, welcher aufgrund der eingegebenen Parameter ein Diagramm entwirft und ebenso zeichnet.
