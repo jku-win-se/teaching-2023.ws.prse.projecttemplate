@@ -60,5 +60,30 @@ Draw.io ist eine kostenlose SaaS Lösung zur Erstellung von Flussdiagrammen, Pro
 
   - Integration von herstellerspezifischen Symbolen
   - Unterstützung der meisten Diagramm Notationen
+ 
+ ## Lucidchart
+
+Lucidchart ist ein webbasiertes Tool zur Diagrammerstellung, mit der Benutzer visuell beim Zeichnen, Überarbeiten und Teilen von Diagrammen (Organigramme, Flussdiagramme, Netzwerkdiagramme, UML-Diagramme und viele mehr) zusammenarbeiten und Prozesse, Systeme und Organisationsstrukturen verbessern können
+
+### Funktionen
+- **Einfache Zusammenarbeit:** Lucidchart ermöglicht die gleichzeitige Zusammenarbeit mehrerer Benutzer an einem Diagramm und die Anzeige von Änderungen in Echtzeit angezeigt, und ist vor allem nützlich für Teams, die an gemeinsamen Projekten arbeiten.
+  
+- **Benutzerfreundlich:** Lucidchart ist einfach zu bedienen und erfordert keine umfangreiche Schulung. Die Benutzeroberfläche ist intuitiv und ermöglicht es Benutzern u.a mittels der Drag- and Drop Funktionen, schnell Diagramme zu erstellen.
+
+- **Zahlreiche Vorlagen:** Lucidchart bietet eine breite Palette von Vorlagen für verschiedene Diagrammtypen, wobei wöchentlich neue Vorlagen von erfahrenen Vorlagenspezialisten hinzugefügt werden. Jede Vorlage kann vollständig angepasst werden: jede Form, jede Linie und jedes Textfeld neu ausrichten und formatieren.
+  
+- **Live Daten verknüpfen:** Mit der Funktion zur Datenverknüpfung kann man Live-Datensätze direkt mit den entsprechenden Diagrammen verknüpfen. Man kann Daten aus Excel, Google Tabellen, Zapier, Salesforce und vielen mehr einfügen – die Funktion zur Datenverknüpfung aktualisiert das Diagramm automatisch, wenn Änderungen am Datensatz vorgenommen werden.
+
+- **Aus Visio, Gliffy, OmniGraffle und draw.io importieren:** Lucidchart erleichtert zudem den Import von Arbeiten aus anderen Programmen, darunter Visio, Gliffy, OmniGraffle und draw.io.
+
+- **Dokumente präsentieren, veröffentlichen und teilen:** Lucidchart ermöglicht das Teilen oder Veröffentlichen von Diagrammen als PDF, JPEG oder PNG per E-Mail oder mit veröffentlichen Links. Mit dem Präsentationsmodus im Editor, die Integration mit Google Präsentationen oder die PowerPoint-Integration, ist es außerdem möglich, Dokumente zu präsentieren.
+
+### Nachteile 
+* im Vergleich zu dedizierte UML Tools, wird automatische Code Generierung nicht unterstützt
+* keine erweiterte Analysewerkzeuge, um Qualität und Konsistenz von Softwaremodell zu überprüfen
+* da webbasiert, Internet notwendig nicht lokal gespeichert
+
+
+
 
   
