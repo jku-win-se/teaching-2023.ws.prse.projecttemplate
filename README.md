@@ -60,6 +60,32 @@ Draw.io ist eine kostenlose SaaS Lösung zur Erstellung von Flussdiagrammen, Pro
 
   - Integration von herstellerspezifischen Symbolen
   - Unterstützung der meisten Diagramm Notationen
+
+## Chat UML
+
+ChatUML ist ein KI-Tool zur automatisierten Erstellung von UML Diagrammen. Es basiert auf dem ChatGPT-4 Modell und fungiert als ChatBot, welcher aufgrund der eingegebenen Parameter ein Diagramm entwirft und ebenso zeichnet.
+
+### Funktionen
+
+* Diagramm-Erstellung erfolgt via Chat
+  * durch die Integration von ChatGPT werden ebenso Vorschläge gebracht und man muss die Struktur noch nicht selbst wissen. z.B. "Generiere mir ein ER Diagramm für einen Onlineshop".
+* Export-Möglichkeit
+  * SVG, PNG
+
+### Vorteile
+
+- einfache Bedienung
+- Geschwindigkeit -> Erstentwurf eines Diagramms in wenigen Sekunden erstellt
+- KI liefert Vorschlag
+- kein Vorwissen notwendig, das die KI Diagramme komplett selbst generiert
+- Anwender muss die Syntax des jeweiligen Diagramms nicht kennen
+
+### Nachteile
+
+* außerhalb der Demo-Phase kostenpflichtig
+  * 600 Befehle kosten einmalig 14,99$
+* Elemente können nicht manuell bearbeitet werden, sondern müssen textuell umschrieben werden
+
  
  ## Lucidchart
 
