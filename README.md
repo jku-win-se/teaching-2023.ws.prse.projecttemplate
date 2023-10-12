@@ -141,7 +141,7 @@ Lucidchart ist ein webbasiertes Tool zur Diagrammerstellung, mit der Benutzer vi
 ### Nachteile 
 * im Vergleich zu dedizierte UML Tools, wird automatische Code Generierung nicht unterstützt
 * keine erweiterte Analysewerkzeuge, um Qualität und Konsistenz von Softwaremodell zu überprüfen
-* da webbasiert, Internet notwendig nicht lokal gespeichert
+* außerhalb der Testversion kostenpflichtig (5-tägige Testversion)
 
 
 
