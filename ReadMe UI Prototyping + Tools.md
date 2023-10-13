@@ -47,7 +47,7 @@ Erstelle ein Figma-Konto auf [figma.com](figma.com)
 ## Vorteile:
 1-	Keine Programmierung notwendig. Drag-and-Drop von Elementen.
 
-2-	Alle visuellen Elemente der UI bereits als Assets enthalten. Nichts muss selbst 
+2-	Alle visuellen Elemente der UI bereits als Assets enthalten. Nichts muss selbst gestaltet werden.
 
 3-	Zu der schnellen Erstellung von Prototypen sind Templates verfügbar.
 
@@ -63,6 +63,7 @@ Erstelle ein Figma-Konto auf [figma.com](figma.com)
 2-	Keine Programmierung möglich. Prototyp kann keine komplexen Elemente haben.
 
 3-	Abo notwendig.
+
 4-	Internetverbindung immer notwendig da Web-basiert.
 
 ## Installation:
