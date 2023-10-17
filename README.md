@@ -1,4 +1,4 @@
-# Praktikum Software Engineering WS  2023
+# Praktikum Software Engineering WS2023
 
 
 
