@@ -1,7 +1,7 @@
 # Praktikum Software Engineering WS 2023 - UML Tools
 
 ## Prototyp Fahrtenbuch 
-https://www.figma.com/file/uS6ZQE29Ug4cUVFpfFBYfK/Untitled?type=design&node-id=0%3A1&mode=design&t=eRd3X0ueWxJAVFvE-1
+https://www.figma.com/file/uS6ZQE29Ug4cUVFpfFBYfK/Prototyp-Fahrtenbuch?type=design&node-id=118%3A644&mode=design&t=eRd3X0ueWxJAVFvE-1
 
 ## Draw.io
 
