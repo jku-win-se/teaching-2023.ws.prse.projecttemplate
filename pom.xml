@@ -41,7 +41,7 @@
             		          
             <target>15</target>
             		          
-            <testFailureIgnore>true</testFailureIgnore>
+
             		        
           </configuration>
           		      
