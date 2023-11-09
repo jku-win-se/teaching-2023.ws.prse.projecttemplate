@@ -5,16 +5,58 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="templates/template.xhtml">
 
-    <h:head>
-    </h:head>
-
     <ui:define name="content">
-        <f:view>
-            <p:panel>
-                <p:outputLabel>
-                    Hello World
-                </p:outputLabel>
+        <f:view locale="DE">
+            <p:panel header="Fahrtenbuch (Administration)">
+                <h:form id="form">
+                    <p:dataTable id="fahrten" var="fahrt" value="#{administrationView.fahrten}" style="margin-bottom:20px" lazy="false">
+                        <p:column headerText="Id" style="text-align: center; width: 3rem;">
+                            <p:outputLabel value="#{fahrt.id}"/>
+                        </p:column>
+                        <p:column headerText="Kennzeichen" style="text-align: center;">
+                            <p:outputLabel value="#{fahrt.carPlate}"/>
+                        </p:column>
+                        <p:column headerText="Datum" style="text-align: center;">
+                            <p:outputLabel value="#{fahrt.date}"/>
+                        </p:column>
+                        <p:column headerText="Abfahrtszeit" style="text-align: center;">
+                            <p:outputLabel value="#{fahrt.depTime}"/>
+                        </p:column>
+
+                        <p:column headerText="Ankunftszeit" style="text-align: center;">
+                            <p:outputLabel value="#{fahrt.arrTime}"/>
+                        </p:column>
+                        <p:column headerText="Kilometer" style="text-align: center;">
+                            <p:outputLabel value="#{fahrt.riddenKM}"/>
+                        </p:column>
+                        <p:column headerText="Stehzeit" style="text-align: center; width:11rem;">
+                            <p:outputLabel value="#{fahrt.timeStood}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Neue Fahrt" onclick="PF('creationDialog').show()" styleClass="ui-priority-primary" icon="pi pi-plus"/>
+                </h:form>
             </p:panel>
         </f:view>
-    </ui:define>>
+
+        <p:dialog id="creationDialog" widgetVar="creationDialog" header="Neue Fahrt" closable="true" modal="true">
+            <h:form>
+                <p:panelGrid columns="2" style="width: 450px; text-align: center; vertical-align: middle;">
+                    <p:outputLabel value="KFZ-Kennzeichen"/>
+                    <p:inputText widgetVar="plateInp" value="#{administrationView.newFahrt.carPlate}" />
+                    <p:outputLabel value="Datum" />
+                    <p:datePicker widgetVar="dateInp" value="#{administrationView.newFahrt.date}" />
+                    <p:outputLabel value="Abfahrtszeit" />
+                    <p:datePicker value="#{administrationView.newFahrt.depTime}" timeOnly="true"/>
+                    <p:outputLabel value="Ankunftszeit" />
+                    <p:datePicker value="#{administrationView.newFahrt.arrTime}" timeOnly="true"/>
+                    <p:outputLabel value="Gefahrene Kilometer" />
+                    <p:inputNumber minValue="0" value="#{administrationView.newFahrt.riddenKM}"/>
+                    <p:outputLabel value="Stehzeit" />
+                    <p:datePicker value="#{administrationView.newFahrt.timeStood}" timeOnly="true"/>
+                </p:panelGrid>
+                <p:divider/>
+                <p:commandButton action="#{administrationView.saveNewFahrt()}" process="@form" update="@all" value="Speichern" styleClass="ui-button-plain" icon="pi pi-save" style="text-align: center"/>
+            </h:form>
+        </p:dialog>
+    </ui:define>
 </ui:composition>
