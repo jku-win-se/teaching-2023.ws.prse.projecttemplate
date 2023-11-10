@@ -1,17 +1,32 @@
 package at.jku.se.prse.team3;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
+
 import java.util.List;
 
 public class Fahrt {
 
     private String kfzKennzeichen;
-    private Date datum;
+    private LocalDate datum;
     private LocalTime abfahrtszeit;
     private LocalTime ankunftszeit;
     private Double gefahreneKilometer;
     private LocalTime aktiveFahrzeit;
+
+    private List<String> kategorien;
+    private FahrtStatus fahrtstatus;
+
+    public Fahrt(String kfzKennzeichen, LocalDate datum, LocalTime abfahrtszeit, LocalTime ankunftszeit, Double gefahreneKilometer, LocalTime aktiveFahrzeit, List<String> fahrtKategorie,FahrtStatus fahrtstatus) {
+        this.kfzKennzeichen = kfzKennzeichen;
+        this.datum = datum;
+        this.abfahrtszeit = abfahrtszeit;
+        this.ankunftszeit = ankunftszeit;
+        this.gefahreneKilometer = gefahreneKilometer;
+        this.aktiveFahrzeit = aktiveFahrzeit;
+        this.fahrtstatus = fahrtstatus;
+        this.kategorien = fahrtKategorie;
+    }
 
     public Double getGefahreneKilometer() {
         return gefahreneKilometer;
@@ -29,11 +44,11 @@ public class Fahrt {
         this.aktiveFahrzeit = aktiveFahrzeit;
     }
 
-    public List<Kategorie> getKategorien() {
+    public List<String> getKategorien() {
         return kategorien;
     }
 
-    public void setKategorien(List<Kategorie> kategorien) {
+    public void setKategorien(List<String> kategorien) {
         this.kategorien = kategorien;
     }
 
@@ -46,15 +61,15 @@ public class Fahrt {
     }
 
     public FahrtStatus getFahrtstatus() {
-        return Fahrtstatus;
+        return fahrtstatus;
     }
 
     public void setFahrtstatus(FahrtStatus fahrtstatus) {
-        Fahrtstatus = fahrtstatus;
+        this.fahrtstatus = fahrtstatus;
     }
 
-    private FahrtStatus Fahrtstatus;
-    private List<Kategorie> kategorien;
+
+
 
     public LocalTime getAbfahrtszeit() {
         return abfahrtszeit;
@@ -78,15 +93,15 @@ public class Fahrt {
         this.kfzKennzeichen = kfzKennzeichen;
     }
 
-    public void setDatum(Date datum) {
+    public void setDatum(LocalDate datum) {
         this.datum = datum;
     }
 
-    public Date getDatum() {
+    public LocalDate getDatum() {
         return datum;
     }
     //ID7
-    public void addKategorie(Kategorie kategorie){
+    public void addKategorie(String kategorie){
         kategorien.add(kategorie);
     }
 
