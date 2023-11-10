@@ -1,5 +1,7 @@
 package at.jku.se.prse.team3;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +18,8 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static javafx.application.Application.launch;
 
@@ -46,8 +50,8 @@ public class FahrtenbuchUI extends App {
         TableColumn<Fahrt, LocalTime> abf = new TableColumn<>("Abfahrtszeit");
         abf.setCellValueFactory(new PropertyValueFactory<>("abfahrtszeit"));
 
-        TableColumn<Fahrt, LocalTime> ank = new TableColumn<>("ankunftszeit");
-        ank.setCellValueFactory(new PropertyValueFactory<>("Ankunftszeit"));
+        TableColumn<Fahrt, LocalTime> ank = new TableColumn<>("Ankunftszeit");
+        ank.setCellValueFactory(new PropertyValueFactory<>("ankunftszeit"));
 
         TableColumn<Fahrt, Double> gefKM = new TableColumn<>("gefahrene Kilometer");
         gefKM.setCellValueFactory(new PropertyValueFactory<>("gefahreneKilometer"));
@@ -59,14 +63,17 @@ public class FahrtenbuchUI extends App {
         status.setCellValueFactory(new PropertyValueFactory<>("fahrtstatus"));
 
 
-        //Kategorien ist eine Liste idk wie ich die einfügen soll
 
 
 
-     //   TableColumn<Fahrt, List<String>> kateg = new TableColumn<>("Kategorien");
-       // kateg.setCellValueFactory(new PropertyValueFactory<>("fahrtKategorie"));
+       TableColumn<Fahrt, String> kateg = new TableColumn<>("Kategorien");
+       kateg.setCellValueFactory(cellData -> {
+           List<String> categories= cellData.getValue().getKategorien();
+           String catToString=categories.stream().collect(Collectors.joining(", "));
+           return new SimpleStringProperty(catToString);
+       });
 
-        fahrtenTabelle.getColumns().addAll(kfz,date,abf,ank,gefKM,aktivFZ,status/*,kateg*/);
+        fahrtenTabelle.getColumns().addAll(kfz,date,abf,ank,gefKM,aktivFZ,status,kateg);
 
         //ende tabellarische ansicht
         primaryStage.setTitle("Fahrtenbuch");
@@ -96,6 +103,7 @@ public class FahrtenbuchUI extends App {
         TextField enterSavePath = new TextField();
         enterSavePath.setText("enter Save Path:");
         enterSavePath.setAlignment(Pos.TOP_RIGHT);
+
         primaryStage.setTitle("Einstellungen");
         StackPane layoutSettings=new StackPane();
         layoutSettings.getChildren().add(enterSavePath);
