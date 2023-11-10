@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Box;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.TimeStringConverter;
@@ -20,7 +21,9 @@ import javafx.util.converter.TimeStringConverter;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static javafx.application.Application.launch;
@@ -124,11 +127,17 @@ public class FahrtenbuchUI extends App {
         primaryStage.show();
     }
     private void neueFahrt(Stage primaryStage){
+        //Liste von zukünftigen Fahrten
+        List<LocalDate> futureDates= new ArrayList<>();
         TextField kfzKennzeichen = new TextField();
         kfzKennzeichen.setPromptText("KFZ-Kennzeichen:");
 
         DatePicker datum= new DatePicker();
         datum.setPromptText("Datum der Fahrt");
+        datum.setOnAction(event -> {
+            datum.getValue();
+
+        });
 
         TextField abfahrtsZeit = new TextField();
         abfahrtsZeit.setPromptText("Abfahrtszeit im Format HH:MM");
@@ -146,9 +155,46 @@ public class FahrtenbuchUI extends App {
         aktiveFahrzeit.setPromptText("Fahrzeit");
         aktiveFahrzeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
 
+
+        DatePicker future= new DatePicker();
+        future.setPromptText("Zukünftige Fahrten");
+
+
+
+        TextArea selectedDates= new TextArea();
+        selectedDates.setDisable(true);
+        selectedDates.setVisible(false);
+        selectedDates.setPrefWidth(84);
+
+        future.setOnAction(event -> {
+            LocalDate date =future.getValue();
+            addToReoccurances(date, futureDates::add);
+            selectedDates.setVisible(true);
+            selectedDates.setText(selectedDates.getText()+future.getValue().toString()+"; ");
+            selectedDates.setPrefWidth(84*futureDates.size());
+        });
+
+        selectedDates.setPrefHeight(30);
+
+
+
+        HBox futureDatesBox= new HBox(10);
+        futureDatesBox.getChildren().addAll(future,selectedDates);
+
+        futureDatesBox.setVisible(false);
+
         ComboBox fahrtstatus= new ComboBox<>();
         fahrtstatus.setItems(FXCollections.observableArrayList(FahrtStatus.values()));
         fahrtstatus.setPromptText("Fahrtstatus:");
+        fahrtstatus.setOnAction(event -> {
+            if (FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue())){
+
+                futureDatesBox.setVisible(true);
+            }
+
+        });
+
+
 
         TextField kategorien = new TextField();
         kategorien.setPromptText("Kategorien eingeben:");
@@ -159,7 +205,7 @@ public class FahrtenbuchUI extends App {
 
         VBox fahrtTextinputboxen = new VBox(1);
         fahrtTextinputboxen.getChildren().addAll(box,kfzKennzeichen,datum,abfahrtsZeit,ankunftsZeit,
-                gefahreneKilometer, aktiveFahrzeit, fahrtstatus, kategorien
+                gefahreneKilometer, aktiveFahrzeit, fahrtstatus,futureDatesBox, kategorien
 
         );
 
@@ -178,8 +224,12 @@ public class FahrtenbuchUI extends App {
         primaryStage.show();
     }
 
-    private void switchToSettings(Stage primaryStage){
+    private void addToReoccurances(LocalDate date, Consumer<LocalDate> addFutureDate) {
+        addFutureDate.accept(date);
+    }
 
+    private void switchToSettings(Stage primaryStage){
+        backButton =new Button();
         backButton.setText("<- BACK");
         backButton.setOnAction(actionEvent -> start(primaryStage));
         TextField enterSavePath = new TextField();

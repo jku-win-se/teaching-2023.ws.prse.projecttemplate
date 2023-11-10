@@ -21,7 +21,7 @@ public abstract class App
         System.out.println(" | __|_ _| |_  _ _| |_ ___ _ _ | |__ _  _ __| |_  ");
         System.out.println(" | _/ _` | ' \\| '_|  _/ -_) ' \\| '_ \\ || / _| ' \\ ");
         System.out.println(" |_|\\__,_|_||_|_|  \\__\\___|_||_|_.__/\\_,_\\__|_||_|");
-        System.out.println("     by  TEAM 3 - JKU                                   ");
+        System.out.println("     by  TEAM 3 - JKU   release 0.0.3                   ");
 
         List<String> kategorien = new ArrayList<>();
         List<Fahrt> fahrten = new ArrayList<>();
