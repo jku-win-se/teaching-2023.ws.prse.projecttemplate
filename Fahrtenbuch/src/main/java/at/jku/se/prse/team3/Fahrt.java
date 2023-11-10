@@ -13,6 +13,38 @@ public class Fahrt {
     private Double gefahreneKilometer;
     private LocalTime aktiveFahrzeit;
 
+    public Double getGefahreneKilometer() {
+        return gefahreneKilometer;
+    }
+
+    public void setGefahreneKilometer(Double gefahreneKilometer) {
+        this.gefahreneKilometer = gefahreneKilometer;
+    }
+
+    public LocalTime getAktiveFahrzeit() {
+        return aktiveFahrzeit;
+    }
+
+    public void setAktiveFahrzeit(LocalTime aktiveFahrzeit) {
+        this.aktiveFahrzeit = aktiveFahrzeit;
+    }
+
+    public List<Kategorie> getKategorien() {
+        return kategorien;
+    }
+
+    public void setKategorien(List<Kategorie> kategorien) {
+        this.kategorien = kategorien;
+    }
+
+    public LocalTime getAnkunftszeit() {
+        return ankunftszeit;
+    }
+
+    public void setAnkunftszeit(LocalTime ankunftszeit) {
+        this.ankunftszeit = ankunftszeit;
+    }
+
     public FahrtStatus getFahrtstatus() {
         return Fahrtstatus;
     }

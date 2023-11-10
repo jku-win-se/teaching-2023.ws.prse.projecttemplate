@@ -2,6 +2,8 @@ package at.jku.se.prse.team3;
 import com.opencsv.CSVWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,21 +13,42 @@ public class Fahrtenbuch {
     private List<Fahrt> fahrten;
 
     public Fahrtenbuch(List<Kategorie> kategorien, List<Fahrt> fahrten) {
-        kategorien = kategorien;
-        fahrten = fahrten;
+        this.kategorien = new ArrayList<>(kategorien);
+        this.fahrten = new ArrayList<>(fahrten);
     }
     //ID1
-    public void neueFahrt(){
-
+    public void neueFahrt(Fahrt fahrt){
+        fahrten.add(fahrt);
     }
     //ID3
-    public void bearbeiteFahrt(){
+    public void bearbeiteFahrt(String kfzKennzeichen, LocalDate datum, LocalTime abfahrtszeit,
+                               LocalTime neueAnkunftszeit, Double neueGefahreneKilometer,
+                               LocalTime neueAktiveFahrzeit) {
+        for (Fahrt fahrt : fahrten) {
+            // Finde die spezifische Fahrt basierend auf dem Schlüssel
+            if (fahrt.getKfzKennzeichen().equals(kfzKennzeichen) &&
+                    fahrt.getDatum().equals(datum) &&
+                    fahrt.getAbfahrtszeit().equals(abfahrtszeit)) {
 
+                // Update der Eigenschaften der gefundenen Fahrt
+                fahrt.setAnkunftszeit(neueAnkunftszeit);
+                fahrt.setGefahreneKilometer(neueGefahreneKilometer);
+                fahrt.setAktiveFahrzeit(neueAktiveFahrzeit);
+
+                // Breche die Schleife ab, da die Fahrt gefunden und bearbeitet wurde
+                break;
+            }
+        }
     }
     //ID4
-    public void loescheFahrten(){
 
+    public void loescheFahrten(String kfzKennzeichen, LocalDate datum, LocalTime abfahrtszeit) {
+        fahrten.removeIf(fahrt ->
+                fahrt.getKfzKennzeichen().equals(kfzKennzeichen) &&
+                        fahrt.getDatum().equals(datum) &&
+                        fahrt.getAbfahrtszeit().equals(abfahrtszeit));
     }
+
     //ID5
     public void planeZukuenftigeFahrten(){
 
