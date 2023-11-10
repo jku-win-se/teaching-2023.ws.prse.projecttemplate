@@ -1,4 +1,6 @@
-# Figma:
+# Praktikum Software Engineering WS2023
+
+## Figma:
 
 Figma ist eine webbasierte Plattform für die Gestaltung, die es Designern ermöglicht, benutzerfreundliche Benutzeroberflächen zu entwerfen, Prototypen zu erstellen und nahtlos mit anderen zusammenzuarbeiten. Mit Figma kann man Designprojekte in Echtzeit gemeinsam bearbeiten und Feedback von Teammitgliedern oder Kunden erhalten.
 
@@ -34,7 +36,7 @@ Erstelle ein Figma-Konto auf [figma.com](figma.com)
 
 
 
-# Prototyping Tool: Proto.io
+## Prototyping Tool: Proto.io
 ## Eigenschaften: 
 1-	Web-basierte SaaS Prototyping Plattform.
 
@@ -69,7 +71,7 @@ Erstelle ein Figma-Konto auf [figma.com](figma.com)
 ## Installation:
 Nicht notwendig da Webapplikation.
 
-# PenPot readme.md
+## PenPot readme.md
 
 ### Documentation:
 https://help.penpot.app/user-guide/introduction/
@@ -91,4 +93,7 @@ Templates available e.g.:
 1. Open new project
 1. Create multiple boards on one page to draw on. (different sizes are proposed) **Shortcut: B**
 1. Create flows between boards or board elements. Located on right side of website under tab "Prototyp". 
+
+
+
 
