@@ -24,6 +24,13 @@ public class Fahrt {
     private FahrtStatus Fahrtstatus;
     private List<Kategorie> kategorien;
 
+    public LocalTime getAbfahrtszeit() {
+        return abfahrtszeit;
+    }
+
+    public void setAbfahrtszeit(LocalTime abfahrtszeit) {
+        this.abfahrtszeit = abfahrtszeit;
+    }
 
     // Konstruktor
     public Fahrt(String kfzKennzeichen) {

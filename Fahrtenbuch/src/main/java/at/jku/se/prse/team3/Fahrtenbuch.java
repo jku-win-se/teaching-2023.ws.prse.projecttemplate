@@ -1,7 +1,5 @@
 package at.jku.se.prse.team3;
-
 import com.opencsv.CSVWriter;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
