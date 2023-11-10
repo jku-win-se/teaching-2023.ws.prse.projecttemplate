@@ -1,21 +1,23 @@
 package at.jku.se.prse.team3;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Box;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.TimeStringConverter;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -27,7 +29,9 @@ public class FahrtenbuchUI extends App {
 
 
     private Fahrtenbuch fahrtenbuch;
-    private Button button;
+    private Button setButton;
+    private Button backButton;
+    private Button newTripButton;
     public FahrtenbuchUI (Fahrtenbuch fahrtenbuch){
         this.fahrtenbuch=fahrtenbuch;
     }
@@ -41,6 +45,7 @@ public class FahrtenbuchUI extends App {
         ObservableList<Fahrt> fahrtenListe= FXCollections.observableList(fahrtenbuch.listeFahrten());
         TableView<Fahrt> fahrtenTabelle = new TableView<>(fahrtenListe);
         fahrtenTabelle.setItems(fahrtenListe);
+
         TableColumn<Fahrt, String> kfz = new TableColumn<>("KFZ-Kennzeichen");
         kfz.setCellValueFactory(new PropertyValueFactory<>("kfzKennzeichen"));
 
@@ -77,10 +82,10 @@ public class FahrtenbuchUI extends App {
 
         //ende tabellarische ansicht
         primaryStage.setTitle("Fahrtenbuch");
-        button =new Button();
-        button.setText("Settings");
+        setButton =new Button();
+        setButton.setText("Settings");
 
-        button.setOnAction(new EventHandler<ActionEvent>() {
+        setButton.setOnAction(new EventHandler<ActionEvent>() {
                                @Override
                                public void handle(ActionEvent actionEvent) {
                                     switchToSettings(primaryStage);
@@ -88,9 +93,28 @@ public class FahrtenbuchUI extends App {
                                }
                            });
         StackPane layoutFahrten = new StackPane();
-        layoutFahrten.getChildren().addAll(fahrtenTabelle,button);
-        layoutFahrten.setAlignment(button, Pos.TOP_RIGHT);
-        layoutFahrten.setAlignment(fahrtenTabelle,Pos.CENTER);
+
+        newTripButton =new Button();
+        newTripButton.setText("Neue Fahrt");
+        newTripButton.setStyle("-fx-background-colour: #00ff00");
+        newTripButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                neueFahrt(primaryStage);
+            }
+        });
+
+        HBox box = new HBox(1);
+        box.getChildren().addAll(newTripButton,setButton);
+        box.setAlignment(Pos.TOP_RIGHT);
+
+
+
+
+        layoutFahrten.getChildren().addAll(fahrtenTabelle, box);
+        layoutFahrten.setAlignment(box, Pos.TOP_CENTER);
+        layoutFahrten.setAlignment(fahrtenTabelle,Pos.BOTTOM_CENTER);
+
 
 
 
@@ -99,30 +123,72 @@ public class FahrtenbuchUI extends App {
         primaryStage.setScene(fahrten);
         primaryStage.show();
     }
-    private void switchToFahrten(Stage primaryStage){
-        TextField enterSavePath = new TextField();
-        enterSavePath.setText("enter Save Path:");
-        enterSavePath.setAlignment(Pos.TOP_RIGHT);
+    private void neueFahrt(Stage primaryStage){
+        TextField kfzKennzeichen = new TextField();
+        kfzKennzeichen.setPromptText("KFZ-Kennzeichen:");
 
-        primaryStage.setTitle("Einstellungen");
-        StackPane layoutSettings=new StackPane();
-        layoutSettings.getChildren().add(enterSavePath);
-        Scene einstellungen = new Scene(layoutSettings,1080, 720);
-        primaryStage.setScene(einstellungen);
+        DatePicker datum= new DatePicker();
+        datum.setPromptText("Datum der Fahrt");
+
+        TextField abfahrtsZeit = new TextField();
+        abfahrtsZeit.setPromptText("Abfahrtszeit im Format HH:MM");
+        abfahrtsZeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
+
+        TextField ankunftsZeit = new TextField();
+        ankunftsZeit.setPromptText("Ankunftszeit im Format HH:MM");
+        ankunftsZeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
+
+        TextField gefahreneKilometer = new TextField();
+        gefahreneKilometer.setPromptText("gefahrene Kilometer");
+        gefahreneKilometer.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
+
+        TextField aktiveFahrzeit = new TextField();
+        aktiveFahrzeit.setPromptText("Fahrzeit");
+        aktiveFahrzeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
+
+        ComboBox fahrtstatus= new ComboBox<>();
+        fahrtstatus.setItems(FXCollections.observableArrayList(FahrtStatus.values()));
+        fahrtstatus.setPromptText("Fahrtstatus:");
+
+        TextField kategorien = new TextField();
+        kategorien.setPromptText("Kategorien eingeben:");
+
+        //SPACER BOX
+        Box box= new Box(10,30,720);
+        box.setVisible(false);
+
+        VBox fahrtTextinputboxen = new VBox(1);
+        fahrtTextinputboxen.getChildren().addAll(box,kfzKennzeichen,datum,abfahrtsZeit,ankunftsZeit,
+                gefahreneKilometer, aktiveFahrzeit, fahrtstatus, kategorien
+
+        );
+
+
+
+        backButton = new Button();
+        backButton.setText("<- BACK");
+        backButton.setOnAction(actionEvent -> start(primaryStage));
+
+        primaryStage.setTitle("neue Fahrt");
+        StackPane layoutNewTrip=new StackPane();
+        layoutNewTrip.getChildren().addAll(fahrtTextinputboxen,backButton);
+        layoutNewTrip.setAlignment(backButton,Pos.TOP_RIGHT);
+        Scene neueFahrt = new Scene(layoutNewTrip,1080, 720);
+        primaryStage.setScene(neueFahrt);
         primaryStage.show();
     }
 
     private void switchToSettings(Stage primaryStage){
-        Button back= new Button();
-        back.setText("<- BACK");
-        back.setOnAction(actionEvent -> start(primaryStage));
+
+        backButton.setText("<- BACK");
+        backButton.setOnAction(actionEvent -> start(primaryStage));
         TextField enterSavePath = new TextField();
         enterSavePath.setText("enter Save Path:");
 
         primaryStage.setTitle("Einstellungen");
         StackPane layoutSettings=new StackPane();
-        layoutSettings.getChildren().addAll(enterSavePath,back);
-        layoutSettings.setAlignment(back,Pos.TOP_LEFT);
+        layoutSettings.getChildren().addAll(enterSavePath,backButton);
+        layoutSettings.setAlignment(backButton,Pos.TOP_LEFT);
         layoutSettings.setAlignment(enterSavePath,Pos.CENTER);
 
 
