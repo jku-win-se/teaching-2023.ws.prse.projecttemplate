@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Fahrtenbuch {
@@ -104,13 +105,11 @@ public class Fahrtenbuch {
         return fahrten;
     }
 
-    public List<Fahrt> sortiereFahrten(){
-
-        List<Fahrt> fahrten = new ArrayList<Fahrt>();
-
-        return fahrten;
-
+    public void sortiereFahrten() {
+        fahrten.sort(Comparator.comparing(Fahrt::getDatum)
+                .thenComparing(Fahrt::getAbfahrtszeit));
     }
+
     //ID6
     public FahrtStatus getFahrtstatus(Fahrt fahrt){
         return fahrt.getFahrtstatus();
@@ -131,6 +130,5 @@ public class Fahrtenbuch {
         ) {
             String[] data = {k};
         }
-
     }
 }
