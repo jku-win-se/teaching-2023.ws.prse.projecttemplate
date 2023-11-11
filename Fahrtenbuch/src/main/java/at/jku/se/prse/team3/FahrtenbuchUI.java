@@ -12,10 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Box;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -141,14 +138,23 @@ public class FahrtenbuchUI extends Application {
             }
         });
 
-        HBox box = new HBox(1);
-        box.getChildren().addAll(newTripButton, setButton, newEditButton);
-        box.setAlignment(Pos.TOP_RIGHT);
+        // HBox für die Buttons erstellen
+        HBox leftButtonBox = new HBox(10);
+        leftButtonBox.getChildren().addAll(newTripButton);
+        leftButtonBox.setAlignment(Pos.TOP_LEFT);
 
+        HBox rightButtonBox = new HBox(10);
+        rightButtonBox.getChildren().addAll(setButton, newEditButton);
+        rightButtonBox.setAlignment(Pos.TOP_RIGHT);
 
-        layoutFahrten.getChildren().addAll(fahrtenTabelle, box);
-        layoutFahrten.setAlignment(box, Pos.TOP_CENTER);
-        layoutFahrten.setAlignment(fahrtenTabelle, Pos.BOTTOM_CENTER);
+        // Menü und Buttons im VBox platzieren
+        VBox topBox = new VBox();
+        topBox.getChildren().addAll(leftButtonBox, rightButtonBox);
+        topBox.setAlignment(Pos.TOP_CENTER);
+
+        BorderPane root = new BorderPane();
+        root.setCenter(fahrtenTabelle); // Ersetzen Sie createTableView() durch Ihre TableView-Initialisierung
+        root.setTop(topBox);
 
         // dies würde bei jedem Klick einer Zeile das Edit-Fenster aufmachen
 /*        fahrtenTabelle.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -157,7 +163,7 @@ public class FahrtenbuchUI extends Application {
             }
         });*/
 
-        Scene fahrten = new Scene(layoutFahrten, 1250, 400);
+        Scene fahrten = new Scene(root, 1200, 400);
         primaryStage.setScene(fahrten);
         primaryStage.show();
     }
