@@ -17,6 +17,7 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.TimeStringConverter;
+import org.jfree.data.xy.CategoryTableXYDataset;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -36,18 +37,30 @@ public class FahrtenbuchUI extends App {
     private Button setButton;
     private Button backButton;
     private Button newTripButton;
-    public FahrtenbuchUI (Fahrtenbuch fahrtenbuch){
-        this.fahrtenbuch=fahrtenbuch;
+    private TableView<Fahrt> fahrtenTabelle;
+    private Button speichernButton;
+
+    private ObservableList<Fahrt> fahrtenListe; // Klassenvariable für die Fahrtenliste
+
+    public FahrtenbuchUI(Fahrtenbuch fahrtenbuch) {
+        this.fahrtenbuch = fahrtenbuch;
+        // Initialisierung der fahrtenListe mit leeren Daten oder vorhandenen Daten aus fahrtenbuch
+        this.fahrtenListe = FXCollections.observableArrayList();
+
     }
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
-//start tabellerische Ansicht
-        ObservableList<Fahrt> fahrtenListe= FXCollections.observableList(fahrtenbuch.listeFahrten());
-        TableView<Fahrt> fahrtenTabelle = new TableView<>(fahrtenListe);
+    //start tabellerische Ansicht
+        // Laden der vorhandenen Fahrten aus dem Fahrtenbuch und Initialisierung der fahrtenListe
+        fahrtenListe.addAll(fahrtenbuch.listeFahrten());
+
+        // Erstellen und Konfigurieren der TableView und anderer UI-Komponenten
+        fahrtenTabelle = new TableView<>(fahrtenListe);
         fahrtenTabelle.setItems(fahrtenListe);
 
         TableColumn<Fahrt, String> kfz = new TableColumn<>("KFZ-Kennzeichen");
@@ -70,8 +83,6 @@ public class FahrtenbuchUI extends App {
 
         TableColumn<Fahrt, FahrtStatus> status = new TableColumn<>("Fahrtstatus");
         status.setCellValueFactory(new PropertyValueFactory<>("fahrtstatus"));
-
-
 
 
 
@@ -122,7 +133,7 @@ public class FahrtenbuchUI extends App {
 
 
 
-        Scene fahrten =  new Scene(layoutFahrten,1080,720);
+        Scene fahrten =  new Scene(layoutFahrten,500,400);
 
         primaryStage.setScene(fahrten);
         primaryStage.show();
@@ -184,7 +195,7 @@ public class FahrtenbuchUI extends App {
             selectedDates.setPrefWidth(84*futureDates.size());
         });
 
-        selectedDates.setPrefHeight(30);
+        selectedDates.setPrefHeight(20);
 
         HBox futureDatesBox= new HBox(10);
         futureDatesBox.getChildren().addAll(future,selectedDates);
@@ -209,8 +220,9 @@ public class FahrtenbuchUI extends App {
 
 // TextArea zur Anzeige der hinzugefügten Kategorien
         TextArea angezeigteKategorien = new TextArea();
-        angezeigteKategorien.setEditable(false);
-        angezeigteKategorien.setVisible(false);
+        angezeigteKategorien.setPrefHeight(40);
+        angezeigteKategorien.setEditable(true);
+        angezeigteKategorien.setVisible(true);
 
 // Button zum Hinzufügen von Kategorien
         Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
@@ -224,8 +236,9 @@ public class FahrtenbuchUI extends App {
             }
         });
         TextArea angezeigteKilometer = new TextArea();
-        angezeigteKilometer.setEditable(false);
-        angezeigteKilometer.setVisible(false);
+        angezeigteKilometer.setPrefHeight(40);
+        angezeigteKilometer.setEditable(true);
+        angezeigteKilometer.setVisible(true);
 
         Button kilometerHinzufuegenButton = new Button("Kilometer hinzufügen");
         kilometerHinzufuegenButton.setOnAction(event -> {
@@ -245,8 +258,9 @@ public class FahrtenbuchUI extends App {
 
         // TextArea zur Anzeige der hinzugefügten Fahrzeiten
         TextArea angezeigteFahrzeit = new TextArea();
-        angezeigteFahrzeit.setEditable(false);
-        angezeigteFahrzeit.setVisible(false);
+        angezeigteFahrzeit.setPrefHeight(50);
+        angezeigteFahrzeit.setEditable(true);
+        angezeigteFahrzeit.setVisible(true);
 
 // Button zum Hinzufügen von Fahrzeiten
         Button fahrzeitHinzufuegenButton = new Button("Fahrzeit hinzufügen");
@@ -267,11 +281,13 @@ public class FahrtenbuchUI extends App {
 
         // TextAreas zur Anzeige der hinzugefügten Zeiten
         TextArea angezeigteAbfahrtszeiten = new TextArea();
+        angezeigteAbfahrtszeiten.setPrefHeight(40);
         TextArea angezeigteAnkunftszeiten = new TextArea();
-        angezeigteAbfahrtszeiten.setEditable(false);
-        angezeigteAnkunftszeiten.setEditable(false);
-        angezeigteAbfahrtszeiten.setVisible(false);
-        angezeigteAnkunftszeiten.setVisible(false);
+        angezeigteAnkunftszeiten.setPrefHeight(40);
+        angezeigteAbfahrtszeiten.setEditable(true);
+        angezeigteAnkunftszeiten.setEditable(true);
+        angezeigteAbfahrtszeiten.setVisible(true);
+        angezeigteAnkunftszeiten.setVisible(true);
 
 // Buttons zum Hinzufügen der Zeiten
         Button abfahrtszeitHinzufuegenButton = new Button("Abfahrtszeit hinzufügen");
@@ -309,11 +325,15 @@ public class FahrtenbuchUI extends App {
 
         // TextAreas zur Anzeige der hinzugefügten Daten
         TextArea angezeigteDatum = new TextArea();
+        angezeigteDatum.setPrefHeight(50);
         TextArea angezeigteKFZKennzeichen = new TextArea();
-        angezeigteDatum.setEditable(false);
-        angezeigteKFZKennzeichen.setEditable(false);
-        angezeigteDatum.setVisible(false);
-        angezeigteKFZKennzeichen.setVisible(false);
+        angezeigteKFZKennzeichen.setPrefHeight(40);
+        angezeigteDatum.setEditable(true);
+        angezeigteKFZKennzeichen.setEditable(true);
+        angezeigteDatum.setVisible(true);
+        angezeigteKFZKennzeichen.setVisible(true);
+        TextArea angezeigteSpeicherButton = new TextArea();
+        angezeigteSpeicherButton.setVisible(true);
 
 // Buttons zum Hinzufügen der Daten
         Button datumHinzufuegenButton = new Button("Datum hinzufügen");
@@ -340,9 +360,10 @@ public class FahrtenbuchUI extends App {
         });
 
 
+
         //SPACER BOX
         Box box= new Box(10,30,720);
-        box.setVisible(false);
+        box.setVisible(true);
 
         VBox fahrtTextinputboxen = new VBox(1);
         fahrtTextinputboxen.getChildren().addAll(box,kfzKennzeichen,datum,abfahrtsZeit,ankunftsZeit,
@@ -354,17 +375,52 @@ public class FahrtenbuchUI extends App {
 
         );
 
+
+
         backButton = new Button();
         backButton.setText("<- BACK");
         backButton.setOnAction(actionEvent -> start(primaryStage));
+        ScrollPane scrollPane = new ScrollPane(fahrtTextinputboxen);
+        scrollPane.setFitToWidth(true); // Passt die Breite der ScrollPane an die Breite der VBox an
+        scrollPane.setPrefHeight(400); // Setzen Sie eine bevorzugte Höhe
+
+
 
         primaryStage.setTitle("neue Fahrt");
         StackPane layoutNewTrip=new StackPane();
-        layoutNewTrip.getChildren().addAll(fahrtTextinputboxen,backButton);
-        layoutNewTrip.setAlignment(backButton,Pos.TOP_RIGHT);
+        layoutNewTrip.getChildren().add(scrollPane);
+        backButton = new Button("<- BACK");
+        backButton.setOnAction(event -> start(primaryStage));
+        layoutNewTrip.getChildren().add(backButton);
+        StackPane.setAlignment(backButton, Pos.TOP_LEFT);
+
+        speichernButton = new Button("Fahrt speichern");
+        speichernButton.setOnAction(event -> {
+            // Sammeln der Benutzereingaben
+
+            String kfzText = kfzKennzeichen.getText();
+            LocalDate ausgewaehltesDatum = datum.getValue();
+            LocalTime abfahrtsZeitValue = LocalTime.parse(abfahrtsZeit.getText());
+            LocalTime ankunftsZeitValue = LocalTime.parse(ankunftsZeit.getText());
+            Double gefahreneKilometerValue = Double.parseDouble(gefahreneKilometer.getText());
+            LocalTime aktiveFahrzeitValue = LocalTime.parse(aktiveFahrzeit.getText());
+            FahrtStatus ausgewaehlterStatus = (FahrtStatus) fahrtstatus.getValue();
+            List<String> category = new ArrayList<>(kategorienListe);
+
+
+            // Hinzufügen der neuen Fahrt zum Fahrtenbuch und zur fahrtenListe
+            fahrtenbuch.neueFahrt(kfzText, ausgewaehltesDatum, abfahrtsZeitValue, ankunftsZeitValue,
+                    gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus);
+
+        });
+        layoutNewTrip.getChildren().add(speichernButton);
+        StackPane.setAlignment(speichernButton, Pos.TOP_RIGHT);
+
         Scene neueFahrt = new Scene(layoutNewTrip,1080, 720);
+
         primaryStage.setScene(neueFahrt);
         primaryStage.show();
+
     }
 
     private void addToReoccurances(LocalDate date, Consumer<LocalDate> addFutureDate) {

@@ -25,10 +25,6 @@ public abstract class App {
         List<Fahrt> fahrten = new ArrayList<>();
         Fahrtenbuch fahrtenbuch = new Fahrtenbuch(kategorien, fahrten);
 
-        fahrtenbuch.neueFahrt("L-123", LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(2),
-                50.0, LocalTime.of(1, 0), FahrtStatus.ABSOLVIERT);
-
-
     Platform.startup(()->
 
     {
