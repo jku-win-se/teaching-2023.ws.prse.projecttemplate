@@ -127,8 +127,10 @@ public class FahrtenbuchUI extends App {
         primaryStage.show();
     }
     private void neueFahrt(Stage primaryStage){
-        //Liste von zukünftigen Fahrten
+        //Liste von zukünftigen LocalDates von wiederkehrenden Fahrten
         List<LocalDate> futureDates= new ArrayList<>();
+        List<String> categories= new ArrayList<>();
+
         TextField kfzKennzeichen = new TextField();
         kfzKennzeichen.setPromptText("KFZ-Kennzeichen:");
 
@@ -140,11 +142,12 @@ public class FahrtenbuchUI extends App {
         });
 
         TextField abfahrtsZeit = new TextField();
-        abfahrtsZeit.setPromptText("Abfahrtszeit im Format HH:MM");
+        abfahrtsZeit.setPromptText("Abfahrtszeit im Format HH:MM:SS");
         abfahrtsZeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
 
+
         TextField ankunftsZeit = new TextField();
-        ankunftsZeit.setPromptText("Ankunftszeit im Format HH:MM");
+        ankunftsZeit.setPromptText("Ankunftszeit im Format HH:MM:SS");
         ankunftsZeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
 
         TextField gefahreneKilometer = new TextField();
@@ -152,7 +155,7 @@ public class FahrtenbuchUI extends App {
         gefahreneKilometer.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
 
         TextField aktiveFahrzeit = new TextField();
-        aktiveFahrzeit.setPromptText("Fahrzeit");
+        aktiveFahrzeit.setPromptText("Fahrzeit in HH:MM:SS");
         aktiveFahrzeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
 
 
@@ -228,6 +231,9 @@ public class FahrtenbuchUI extends App {
         addFutureDate.accept(date);
     }
 
+    private void addToKategories(String kate, Consumer<String> addKategorie) {
+        addKategorie.accept(kate);
+    }
     private void switchToSettings(Stage primaryStage){
         backButton =new Button();
         backButton.setText("<- BACK");
