@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Box;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.TimeStringConverter;
@@ -41,10 +42,12 @@ public class FahrtenbuchUI extends Application {
     private Button backButton;
     private Button newTripButton;
     private TableView<Fahrt> fahrtenTabelle;
-    private Button speichernButton;
+    private Button speichernButton = new Button("Fahrt speichern");;
+
     private Button newEditButton;
 
     private ObservableList<Fahrt> fahrtenListe; // Klassenvariable für die Fahrtenliste
+    private ButtonType deleteButtonType = new ButtonType("Löschen", ButtonBar.ButtonData.APPLY);
 
     public FahrtenbuchUI(Fahrtenbuch fahrtenbuch) {
         this.fahrtenbuch = fahrtenbuch;
@@ -87,13 +90,6 @@ public class FahrtenbuchUI extends Application {
 
         TableColumn<Fahrt, FahrtStatus> status = new TableColumn<>("Fahrtstatus");
         status.setCellValueFactory(new PropertyValueFactory<>("fahrtstatus"));
-
-
-        fahrtenTabelle.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                bearbeiteFahrt(newSelection, primaryStage);
-            }
-        });
 
         TableColumn<Fahrt, String> kateg = new TableColumn<>("Kategorien");
         kateg.setCellValueFactory(cellData -> {
@@ -153,14 +149,15 @@ public class FahrtenbuchUI extends Application {
         layoutFahrten.getChildren().addAll(fahrtenTabelle, box);
         layoutFahrten.setAlignment(box, Pos.TOP_CENTER);
         layoutFahrten.setAlignment(fahrtenTabelle, Pos.BOTTOM_CENTER);
-        fahrtenTabelle.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+
+        // dies würde bei jedem Klick einer Zeile das Edit-Fenster aufmachen
+/*        fahrtenTabelle.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                bearbeiteFahrt(newSelection, primaryStage);
+             bearbeiteFahrt(newSelection, primaryStage);
             }
-        });
+        });*/
 
-        Scene fahrten = new Scene(layoutFahrten, 500, 400);
-
+        Scene fahrten = new Scene(layoutFahrten, 1250, 400);
         primaryStage.setScene(fahrten);
         primaryStage.show();
     }
@@ -289,7 +286,6 @@ public class FahrtenbuchUI extends Application {
         backButton.setOnAction(event -> start(primaryStage));
         layoutNewTrip.getChildren().add(backButton);
 
-        speichernButton = new Button("Fahrt speichern");
         layoutNewTrip.getChildren().add(speichernButton);
 
         speichernButton.setOnAction(event -> {
@@ -310,7 +306,6 @@ public class FahrtenbuchUI extends Application {
                     gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus, category);
 
         });
-
         StackPane.setAlignment(speichernButton, Pos.TOP_RIGHT);
 
         Scene neueFahrt = new Scene(layoutNewTrip, 1080, 720);
@@ -343,8 +338,6 @@ public class FahrtenbuchUI extends Application {
         ButtonType speichernButtonType = new ButtonType("Speichern", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(speichernButtonType, ButtonType.CANCEL);
 
-        //Delete Button
-        ButtonType deleteButtonType = new ButtonType("Löschen", ButtonBar.ButtonData.APPLY);
         dialog.getDialogPane().getButtonTypes().addAll(deleteButtonType);
 
 
@@ -389,9 +382,20 @@ public class FahrtenbuchUI extends Application {
                 // ... Aktualisieren Sie weitere Eigenschaften ...
                 return ausgewaehlteFahrt;
             } else if (dialogButton == deleteButtonType) {
-                fahrtenbuch.loescheFahrten(ausgewaehlteFahrt.getKfzKennzeichen(), ausgewaehlteFahrt.getDatum(), ausgewaehlteFahrt.getAbfahrtszeit());
-                fahrtenTabelle.getItems().remove(ausgewaehlteFahrt);
-                return ausgewaehlteFahrt;
+                //Bestätigungsdialog
+                Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationDialog.setTitle("Bestätigung");
+                confirmationDialog.setHeaderText("Löschen bestätigen");
+                confirmationDialog.setContentText("Möchten Sie die ausgewählte Fahrt wirklich löschen?");
+
+                confirmationDialog.initModality(Modality.APPLICATION_MODAL);
+                confirmationDialog.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+                ButtonType result = confirmationDialog.showAndWait().orElse(ButtonType.NO);
+                if (result == ButtonType.YES) {
+                    fahrtenbuch.loescheFahrten(ausgewaehlteFahrt.getKfzKennzeichen(), ausgewaehlteFahrt.getDatum(), ausgewaehlteFahrt.getAbfahrtszeit());
+                    fahrtenTabelle.getItems().remove(ausgewaehlteFahrt);
+                    return ausgewaehlteFahrt;
+                }
             }
             return null;
         });
