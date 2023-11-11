@@ -176,16 +176,39 @@ public class FahrtenbuchUI extends App {
         aktiveFahrzeit.setPromptText("Fahrzeit in HH:MM:SS");
         aktiveFahrzeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
 
+// UI-Komponenten für die Kategorie
+        TextField kategorienInput = new TextField();
+        kategorienInput.setPromptText("Kategorien eingeben:");
+
+        TextArea angezeigteKategorien = new TextArea();
+        angezeigteKategorien.setEditable(false);
+        angezeigteKategorien.setVisible(false); // Anfangs nicht sichtbar machen
+        angezeigteKategorien.setPrefHeight(50); // Höhe der TextArea anpassen
+
+        Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
+        kategorieHinzufuegenButton.setOnAction(event -> {
+            String kategorie = kategorienInput.getText().trim();
+            if (!kategorie.isEmpty()) {
+                addToKategories(kategorie, kategorienListe::add); // Füge die Kategorie zur Liste hinzu
+                angezeigteKategorien.setVisible(true); // TextArea sichtbar machen
+                angezeigteKategorien.appendText(kategorie + "; "); // Kategorie zur TextArea hinzufügen
+                kategorienInput.clear(); // Eingabefeld leeren
+            }
+        });
+
+// Füge die Kategorien-Komponenten zur Benutzeroberfläche hinzu
+        VBox kategorienBox = new VBox(10);
+        kategorienBox.getChildren().addAll(kategorienInput, kategorieHinzufuegenButton, angezeigteKategorien);
+
 
         DatePicker future= new DatePicker();
         future.setPromptText("Zukünftige Fahrten");
-
-
 
         TextArea selectedDates= new TextArea();
         selectedDates.setDisable(true);
         selectedDates.setVisible(false);
         selectedDates.setPrefWidth(84);
+
 
         future.setOnAction(event -> {
             LocalDate date =future.getValue();
@@ -214,165 +237,13 @@ public class FahrtenbuchUI extends App {
         });
 
 
-
-        TextField kategorien = new TextField();
-        kategorien.setPromptText("Kategorien eingeben:");
-
-// TextArea zur Anzeige der hinzugefügten Kategorien
-        TextArea angezeigteKategorien = new TextArea();
-        angezeigteKategorien.setPrefHeight(40);
-        angezeigteKategorien.setEditable(true);
-        angezeigteKategorien.setVisible(true);
-
-// Button zum Hinzufügen von Kategorien
-        Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
-        kategorieHinzufuegenButton.setOnAction(event -> {
-            String kategorie = kategorien.getText().trim();
-            if (!kategorie.isEmpty()) {
-                addToKategories(kategorie, kategorienListe::add);
-                angezeigteKategorien.setVisible(true);
-                angezeigteKategorien.appendText(kategorie + "; ");
-                kategorien.clear();
-            }
-        });
-        TextArea angezeigteKilometer = new TextArea();
-        angezeigteKilometer.setPrefHeight(40);
-        angezeigteKilometer.setEditable(true);
-        angezeigteKilometer.setVisible(true);
-
-        Button kilometerHinzufuegenButton = new Button("Kilometer hinzufügen");
-        kilometerHinzufuegenButton.setOnAction(event -> {
-            String kilometerText = gefahreneKilometer.getText().trim();
-            if (!kilometerText.isEmpty()) {
-                try {
-                    int kilometer = Integer.parseInt(kilometerText);
-                    kilometerListe.add(kilometer);
-                    angezeigteKilometer.setVisible(true);
-                    angezeigteKilometer.appendText(kilometerText + " km; ");
-                    gefahreneKilometer.clear();
-                } catch (NumberFormatException e) {
-                    // Fehlerbehandlung, falls die Eingabe keine gültige Zahl ist
-                }
-            }
-        });
-
-        // TextArea zur Anzeige der hinzugefügten Fahrzeiten
-        TextArea angezeigteFahrzeit = new TextArea();
-        angezeigteFahrzeit.setPrefHeight(50);
-        angezeigteFahrzeit.setEditable(true);
-        angezeigteFahrzeit.setVisible(true);
-
-// Button zum Hinzufügen von Fahrzeiten
-        Button fahrzeitHinzufuegenButton = new Button("Fahrzeit hinzufügen");
-        fahrzeitHinzufuegenButton.setOnAction(event -> {
-            String fahrzeitText = aktiveFahrzeit.getText().trim();
-            if (!fahrzeitText.isEmpty()) {
-                try {
-                    LocalTime fahrzeit = LocalTime.parse(fahrzeitText);
-                    fahrzeitListe.add(fahrzeit);
-                    angezeigteFahrzeit.setVisible(true);
-                    angezeigteFahrzeit.appendText(fahrzeitText + "; ");
-                    aktiveFahrzeit.clear();
-                } catch (DateTimeParseException e) {
-                    // Fehlerbehandlung, falls die Eingabe kein gültiges Zeitformat ist
-                }
-            }
-        });
-
-        // TextAreas zur Anzeige der hinzugefügten Zeiten
-        TextArea angezeigteAbfahrtszeiten = new TextArea();
-        angezeigteAbfahrtszeiten.setPrefHeight(40);
-        TextArea angezeigteAnkunftszeiten = new TextArea();
-        angezeigteAnkunftszeiten.setPrefHeight(40);
-        angezeigteAbfahrtszeiten.setEditable(true);
-        angezeigteAnkunftszeiten.setEditable(true);
-        angezeigteAbfahrtszeiten.setVisible(true);
-        angezeigteAnkunftszeiten.setVisible(true);
-
-// Buttons zum Hinzufügen der Zeiten
-        Button abfahrtszeitHinzufuegenButton = new Button("Abfahrtszeit hinzufügen");
-        Button ankunftszeitHinzufuegenButton = new Button("Ankunftszeit hinzufügen");
-
-        abfahrtszeitHinzufuegenButton.setOnAction(event -> {
-            String zeitText = abfahrtsZeit.getText().trim();
-            if (!zeitText.isEmpty()) {
-                try {
-                    LocalTime zeit = LocalTime.parse(zeitText);
-                    abfahrtszeitListe.add(zeit);
-                    angezeigteAbfahrtszeiten.setVisible(true);
-                    angezeigteAbfahrtszeiten.appendText(zeitText + "; ");
-                    abfahrtsZeit.clear();
-                } catch (DateTimeParseException e) {
-                    // Fehlerbehandlung
-                }
-            }
-        });
-
-        ankunftszeitHinzufuegenButton.setOnAction(event -> {
-            String zeitText = ankunftsZeit.getText().trim();
-            if (!zeitText.isEmpty()) {
-                try {
-                    LocalTime zeit = LocalTime.parse(zeitText);
-                    ankunftszeitListe.add(zeit);
-                    angezeigteAnkunftszeiten.setVisible(true);
-                    angezeigteAnkunftszeiten.appendText(zeitText + "; ");
-                    ankunftsZeit.clear();
-                } catch (DateTimeParseException e) {
-                    // Fehlerbehandlung
-                }
-            }
-        });
-
-        // TextAreas zur Anzeige der hinzugefügten Daten
-        TextArea angezeigteDatum = new TextArea();
-        angezeigteDatum.setPrefHeight(50);
-        TextArea angezeigteKFZKennzeichen = new TextArea();
-        angezeigteKFZKennzeichen.setPrefHeight(40);
-        angezeigteDatum.setEditable(true);
-        angezeigteKFZKennzeichen.setEditable(true);
-        angezeigteDatum.setVisible(true);
-        angezeigteKFZKennzeichen.setVisible(true);
-        TextArea angezeigteSpeicherButton = new TextArea();
-        angezeigteSpeicherButton.setVisible(true);
-
-// Buttons zum Hinzufügen der Daten
-        Button datumHinzufuegenButton = new Button("Datum hinzufügen");
-        Button kfzKennzeichenHinzufuegenButton = new Button("KFZ-Kennzeichen hinzufügen");
-
-        datumHinzufuegenButton.setOnAction(event -> {
-            LocalDate ausgewaehltesDatum = datum.getValue();
-            if (ausgewaehltesDatum != null) {
-                datumListe.add(ausgewaehltesDatum);
-                angezeigteDatum.setVisible(true);
-                angezeigteDatum.appendText(ausgewaehltesDatum.toString() + "; ");
-                datum.setValue(null);
-            }
-        });
-
-        kfzKennzeichenHinzufuegenButton.setOnAction(event -> {
-            String kfzText = kfzKennzeichen.getText().trim();
-            if (!kfzText.isEmpty()) {
-                kfzKennzeichenListe.add(kfzText);
-                angezeigteKFZKennzeichen.setVisible(true);
-                angezeigteKFZKennzeichen.appendText(kfzText + "; ");
-                kfzKennzeichen.clear();
-            }
-        });
-
-
-
         //SPACER BOX
         Box box= new Box(10,30,720);
         box.setVisible(true);
 
         VBox fahrtTextinputboxen = new VBox(1);
         fahrtTextinputboxen.getChildren().addAll(box,kfzKennzeichen,datum,abfahrtsZeit,ankunftsZeit,
-                gefahreneKilometer, aktiveFahrzeit, fahrtstatus,futureDatesBox, kategorien, kategorieHinzufuegenButton,
-                angezeigteKategorien, kilometerHinzufuegenButton, angezeigteKilometer,
-                fahrzeitHinzufuegenButton, angezeigteFahrzeit, abfahrtszeitHinzufuegenButton, angezeigteAbfahrtszeiten,
-                ankunftszeitHinzufuegenButton, angezeigteAnkunftszeiten, datumHinzufuegenButton, angezeigteDatum,
-                kfzKennzeichenHinzufuegenButton, angezeigteKFZKennzeichen
-
+                gefahreneKilometer, aktiveFahrzeit, fahrtstatus,futureDatesBox, kategorienBox
         );
 
 
@@ -395,6 +266,8 @@ public class FahrtenbuchUI extends App {
         StackPane.setAlignment(backButton, Pos.TOP_LEFT);
 
         speichernButton = new Button("Fahrt speichern");
+        layoutNewTrip.getChildren().add(speichernButton);
+
         speichernButton.setOnAction(event -> {
             // Sammeln der Benutzereingaben
 
@@ -410,16 +283,17 @@ public class FahrtenbuchUI extends App {
 
             // Hinzufügen der neuen Fahrt zum Fahrtenbuch und zur fahrtenListe
             fahrtenbuch.neueFahrt(kfzText, ausgewaehltesDatum, abfahrtsZeitValue, ankunftsZeitValue,
-                    gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus);
+                    gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus, category);
 
         });
-        layoutNewTrip.getChildren().add(speichernButton);
+
         StackPane.setAlignment(speichernButton, Pos.TOP_RIGHT);
 
         Scene neueFahrt = new Scene(layoutNewTrip,1080, 720);
 
         primaryStage.setScene(neueFahrt);
         primaryStage.show();
+
 
     }
 

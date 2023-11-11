@@ -28,10 +28,9 @@ public class Fahrtenbuch {
     //ID1
     public void neueFahrt(String kfzKennzeichen, LocalDate datum, LocalTime abfahrtszeit,
                           LocalTime neueAnkunftszeit, Double neueGefahreneKilometer,
-                          LocalTime neueAktiveFahrzeit, FahrtStatus fahrtStatus)
+                          LocalTime neueAktiveFahrzeit, FahrtStatus fahrtStatus, List<String> category)
     {
-        List<String> fahrtKategorie = new ArrayList<>();
-        fahrten.add(new Fahrt(kfzKennzeichen,datum,abfahrtszeit,neueAnkunftszeit,neueGefahreneKilometer,neueAktiveFahrzeit,fahrtKategorie,fahrtStatus));
+        fahrten.add(new Fahrt(kfzKennzeichen,datum,abfahrtszeit,neueAnkunftszeit,neueGefahreneKilometer,neueAktiveFahrzeit,category,fahrtStatus));
     }
     //ID3
     public void bearbeiteFahrt(String kfzKennzeichen, LocalDate datum, LocalTime abfahrtszeit,
@@ -131,6 +130,8 @@ public class Fahrtenbuch {
             String[] data = {k};
         }
     }
+
+
 
 
 }
