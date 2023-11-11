@@ -1,14 +1,17 @@
 package at.jku.se.prse.team3;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -25,6 +28,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -39,6 +43,7 @@ public class FahrtenbuchUI extends App {
     private Button newTripButton;
     private TableView<Fahrt> fahrtenTabelle;
     private Button speichernButton;
+    private Button newEditButton;
 
     private ObservableList<Fahrt> fahrtenListe; // Klassenvariable für die Fahrtenliste
 
@@ -85,6 +90,11 @@ public class FahrtenbuchUI extends App {
         status.setCellValueFactory(new PropertyValueFactory<>("fahrtstatus"));
 
 
+        fahrtenTabelle.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                bearbeiteFahrt(newSelection, primaryStage);
+            }
+        });
 
        TableColumn<Fahrt, String> kateg = new TableColumn<>("Kategorien");
        kateg.setCellValueFactory(cellData -> {
@@ -109,6 +119,24 @@ public class FahrtenbuchUI extends App {
                            });
         StackPane layoutFahrten = new StackPane();
 
+        newEditButton = new Button();
+        newEditButton.setText("Fahrt bearbeiten");
+        newEditButton.setStyle("-fx-background-color: #00ff00;");
+        newEditButton.setOnAction(event -> {
+            Fahrt ausgewaehlteFahrt = fahrtenTabelle.getSelectionModel().getSelectedItem();
+            if (ausgewaehlteFahrt != null) {
+                bearbeiteFahrt(ausgewaehlteFahrt, primaryStage);
+            } else {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Keine Auswahl");
+                alert.setHeaderText(null);
+                alert.setContentText("Bitte wählen Sie zuerst eine Fahrt aus der Liste aus.");
+                alert.showAndWait();
+            }
+        });
+
+
         newTripButton =new Button();
         newTripButton.setText("Neue Fahrt");
         newTripButton.setStyle("-fx-background-colour: #00ff00");
@@ -120,7 +148,7 @@ public class FahrtenbuchUI extends App {
         });
 
         HBox box = new HBox(1);
-        box.getChildren().addAll(newTripButton,setButton);
+        box.getChildren().addAll(newTripButton,setButton, newEditButton);
         box.setAlignment(Pos.TOP_RIGHT);
 
 
@@ -129,6 +157,11 @@ public class FahrtenbuchUI extends App {
         layoutFahrten.getChildren().addAll(fahrtenTabelle, box);
         layoutFahrten.setAlignment(box, Pos.TOP_CENTER);
         layoutFahrten.setAlignment(fahrtenTabelle,Pos.BOTTOM_CENTER);
+        fahrtenTabelle.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                bearbeiteFahrt(newSelection, primaryStage);
+            }
+        });
 
 
 
@@ -256,14 +289,12 @@ public class FahrtenbuchUI extends App {
         scrollPane.setPrefHeight(400); // Setzen Sie eine bevorzugte Höhe
 
 
-
         primaryStage.setTitle("neue Fahrt");
         StackPane layoutNewTrip=new StackPane();
         layoutNewTrip.getChildren().add(scrollPane);
         backButton = new Button("<- BACK");
         backButton.setOnAction(event -> start(primaryStage));
         layoutNewTrip.getChildren().add(backButton);
-        StackPane.setAlignment(backButton, Pos.TOP_LEFT);
 
         speichernButton = new Button("Fahrt speichern");
         layoutNewTrip.getChildren().add(speichernButton);
@@ -296,6 +327,84 @@ public class FahrtenbuchUI extends App {
 
 
     }
+
+    // Diese Methode wird aufgerufen, wenn ein Benutzer einen Eintrag zum Bearbeiten auswählt.
+    private void bearbeiteFahrt(Fahrt ausgewaehlteFahrt, Stage primaryStage) {
+        // Prüfen, ob eine Fahrt ausgewählt wurde
+        if (ausgewaehlteFahrt == null) {
+            // Fehlermeldung anzeigen
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fehler");
+            alert.setHeaderText("Keine Fahrt ausgewählt");
+            alert.setContentText("Bitte wählen Sie eine Fahrt aus der Liste aus.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Dialogfenster für die Bearbeitung erstellen
+        Dialog<Fahrt> dialog = new Dialog<>();
+        dialog.setTitle("Fahrt bearbeiten");
+        dialog.setHeaderText("Bearbeiten Sie die Details der ausgewählten Fahrt.");
+
+        // Buttons setzen
+        ButtonType speichernButtonType = new ButtonType("Speichern", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(speichernButtonType, ButtonType.CANCEL);
+
+        // GridPane für die Eingabefelder
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField kfzKennzeichenField = new TextField(ausgewaehlteFahrt.getKfzKennzeichen());
+        DatePicker datumPicker = new DatePicker(ausgewaehlteFahrt.getDatum());
+        TextField abfahrtszeitField = new TextField(ausgewaehlteFahrt.getAbfahrtszeit().toString());
+        TextField ankunftszeitField = new TextField(ausgewaehlteFahrt.getAnkunftszeit().toString());
+        TextField gefahreneKilometerField = new TextField(String.valueOf(ausgewaehlteFahrt.getGefahreneKilometer()));
+
+
+        grid.add(new Label("KFZ-Kennzeichen:"), 0, 0);
+        grid.add(kfzKennzeichenField, 1, 0);
+        grid.add(new Label("Datum:"), 0, 1);
+        grid.add(datumPicker, 1, 1);
+        grid.add(new Label("Abfahrtszeit:"), 0, 2);
+        grid.add(abfahrtszeitField, 1, 2);
+        grid.add(new Label("Ankunftszeit:"), 0, 3);
+        grid.add(ankunftszeitField, 1, 3);
+        grid.add(new Label("Gefahrene Kilometer:"), 0, 4);
+        grid.add(gefahreneKilometerField, 1, 4);
+
+        // GridPane zum Dialog hinzufügen
+        dialog.getDialogPane().setContent(grid);
+
+        // Request focus auf das erste Eingabefeld
+        Platform.runLater(() -> kfzKennzeichenField.requestFocus());
+
+        // Ergebnis des Dialogs konvertieren, wenn der Benutzer "Speichern" klickt
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == speichernButtonType) {
+                ausgewaehlteFahrt.setKfzKennzeichen(kfzKennzeichenField.getText());
+                ausgewaehlteFahrt.setDatum(datumPicker.getValue());
+                ausgewaehlteFahrt.setAbfahrtszeit(LocalTime.parse(abfahrtszeitField.getText()));
+                ausgewaehlteFahrt.setAnkunftszeit(LocalTime.parse(ankunftszeitField.getText()));
+                ausgewaehlteFahrt.setGefahreneKilometer(Double.parseDouble(gefahreneKilometerField.getText()));
+                // ... Aktualisieren Sie weitere Eigenschaften ...
+                return ausgewaehlteFahrt;
+            }
+            return null;
+        });
+
+        // Dialog anzeigen und warten, bis der Benutzer ihn schließt
+        Optional<Fahrt> result = dialog.showAndWait();
+
+        result.ifPresent(fahrt -> {
+            // Aktualisierte Fahrt in der Liste und in der TableView anzeigen
+            fahrtenTabelle.refresh();
+            // Eventuell Änderungen im Fahrtenbuch speichern oder weitere Aktionen ausführen
+        });
+    }
+
+
 
     private void addToReoccurances(LocalDate date, Consumer<LocalDate> addFutureDate) {
         addFutureDate.accept(date);
