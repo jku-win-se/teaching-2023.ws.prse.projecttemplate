@@ -129,7 +129,7 @@ public class FahrtenbuchUI extends App {
     private void neueFahrt(Stage primaryStage){
         //Liste von zukünftigen LocalDates von wiederkehrenden Fahrten
         List<LocalDate> futureDates= new ArrayList<>();
-        List<String> categories= new ArrayList<>();
+        List<String> kategorienListe = new ArrayList<>();
 
         TextField kfzKennzeichen = new TextField();
         kfzKennzeichen.setPromptText("KFZ-Kennzeichen:");
@@ -179,8 +179,6 @@ public class FahrtenbuchUI extends App {
 
         selectedDates.setPrefHeight(30);
 
-
-
         HBox futureDatesBox= new HBox(10);
         futureDatesBox.getChildren().addAll(future,selectedDates);
 
@@ -202,13 +200,32 @@ public class FahrtenbuchUI extends App {
         TextField kategorien = new TextField();
         kategorien.setPromptText("Kategorien eingeben:");
 
+// TextArea zur Anzeige der hinzugefügten Kategorien
+        TextArea angezeigteKategorien = new TextArea();
+        angezeigteKategorien.setEditable(false);
+        angezeigteKategorien.setVisible(false);
+
+// Button zum Hinzufügen von Kategorien
+        Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
+        kategorieHinzufuegenButton.setOnAction(event -> {
+            String kategorie = kategorien.getText().trim();
+            if (!kategorie.isEmpty()) {
+                addToKategories(kategorie, kategorienListe::add);
+                angezeigteKategorien.setVisible(true);
+                angezeigteKategorien.appendText(kategorie + "; ");
+                kategorien.clear();
+            }
+        });
+
+
+
         //SPACER BOX
         Box box= new Box(10,30,720);
         box.setVisible(false);
 
         VBox fahrtTextinputboxen = new VBox(1);
         fahrtTextinputboxen.getChildren().addAll(box,kfzKennzeichen,datum,abfahrtsZeit,ankunftsZeit,
-                gefahreneKilometer, aktiveFahrzeit, fahrtstatus,futureDatesBox, kategorien
+                gefahreneKilometer, aktiveFahrzeit, fahrtstatus,futureDatesBox, kategorien, kategorieHinzufuegenButton, angezeigteKategorien
 
         );
 
