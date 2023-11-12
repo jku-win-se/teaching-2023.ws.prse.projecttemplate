@@ -57,12 +57,28 @@
                                 <f:facet name="input"><p:datePicker inputStyle="width: 100%" timeOnly="true" value="#{fahrt.timeStood}"/></f:facet>
                             </p:cellEditor>
                         </p:column>
+                        <p:column headerText="Kategorien" style="text-align: center;">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <p:outputLabel value="#{fahrt.getCategoriesAsString()}" style="width: 100%"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectCheckboxMenu value="#{fahrt.categories}" filter="true" filterMatchMode="contains" style="width: 10rem"
+                                                          panelStyle="width: 20rem;" scrollHeight="200" multiple="true" updateLabel="true">
+                                        <f:attribute name="collectionType" value="java.util.HashSet" />
+                                        <f:selectItems value="#{administrationView.kategorien}" var="kat" itemLabel="#{kat.name}"
+                                                       itemValue="#{kat}"/>
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
                         <p:column style="width:32px" exportable="false">
                             <p:rowEditor/>
                         </p:column>
                     </p:dataTable>
                     <p:divider/>
                     <p:commandButton value="Neue Fahrt" onclick="PF('creationDialog').show()" styleClass="ui-priority-primary" icon="pi pi-plus"/>
+                    <p:commandButton value="Kategorien" onclick="PF('kategorieDialog').show()" styleClass="ui-priority-primary" icon="pi pi-tag"/>
                 </h:form>
             </p:panel>
         </f:view>
@@ -85,6 +101,33 @@
                 </p:panelGrid>
                 <p:divider/>
                 <p:commandButton action="#{administrationView.saveNewFahrt()}" process="@form" update="@all" value="Speichern" styleClass="ui-button-plain" icon="pi pi-save" style="text-align: center"/>
+            </h:form>
+        </p:dialog>
+        <p:dialog id="kategorieDialog" widgetVar="kategorieDialog" header="Kategorien" closable="true" resizable="false" modal="true">
+            <h:form>
+                <p:commandButton action="#{administrationView.addNewKategorie()}" update="@form" value="Add" styleClass="ui-button-plain" icon="pi pi-plus"/>
+                <p:divider/>
+                <p:dataTable id="kategorien" var="kat" value="#{administrationView.kategorien}" editable="true" style="width: 600px;">
+
+                    <p:ajax event="rowEdit" listener="#{administrationView.onRowEditKat}" update=":form:msgs"/>
+                    <p:ajax event="rowEditCancel" listener="#{administrationView.onRowCancelKat}" update=":form:msgs"/>
+
+                    <p:column headerText="ID" style="text-align: center;">
+                        <p:outputLabel value="#{kat.id}"/>
+                    </p:column>
+                    <p:column headerText="Name" style="text-align: center;" filterBy="#{kat.name}" sortBy="#{kat.name}">
+                        <p:cellEditor>
+                            <f:facet name="output"><p:outputLabel value="#{kat.name}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{kat.name}"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column style="width: 35px">
+                        <p:rowEditor/>
+                    </p:column>
+                    <p:column style="width: 35px">
+                        <p:commandButton action="#{administrationView.deleteKategorie(kat)}" update="@all" icon="pi pi-trash" style="background-color: red; border-color: red"/>
+                    </p:column>
+                </p:dataTable>
             </h:form>
         </p:dialog>
     </ui:define>
