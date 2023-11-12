@@ -25,9 +25,8 @@ public abstract class App {
 
 
 
-        List<String> kategorien = new ArrayList<>();
-        List<Fahrt> fahrten = new ArrayList<>();
-        Fahrtenbuch fahrtenbuch = new Fahrtenbuch(kategorien, fahrten);
+
+        Fahrtenbuch fahrtenbuch = new Fahrtenbuch();
         fahrtenbuch.importFahrt();
 
     Platform.startup(()->

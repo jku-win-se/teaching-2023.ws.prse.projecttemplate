@@ -73,7 +73,6 @@ public class Fahrtenbuch {
 
     //ID5
     public void planeZukuenftigeFahrten(List<LocalDate> reoccurances,
-                                        LocalTime time,
                                         String      kfzKennzeichen,
                                         LocalTime   abfahrtszeit,
                                         List<String> fahrtKategorie){
@@ -163,7 +162,7 @@ public class Fahrtenbuch {
     public void importFahrt() throws IOException, CsvValidationException {
         //export Fahrten&Kategorien as CSV.
 
-        Path path= Paths.get(System.getProperty("user.home")+ File.separator + "Documents"+File.separator+"Fahrenbuch 0.0.3");
+        Path path= Paths.get(System.getProperty("user.home")+ File.separator + "Documents"+File.separator+"Fahrtenbuch 0.0.3");
         Path realImport = path;
         Path importFahrten = Paths.get(realImport + File.separator + "fahrten.csv");
 
