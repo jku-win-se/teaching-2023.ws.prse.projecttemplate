@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"Alle Klassen und Schnittstellen","u":"allclasses-index.html"},{"p":"at.jku.se.prse.team3","l":"App"},{"p":"at.jku.se.prse.team3","l":"AppTest"},{"p":"at.jku.se.prse.team3","l":"Fahrt"},{"p":"at.jku.se.prse.team3","l":"Fahrtenbuch"},{"p":"at.jku.se.prse.team3","l":"FahrtenbuchUI"},{"p":"at.jku.se.prse.team3","l":"FahrtStatus"}];updateSearchResults();
