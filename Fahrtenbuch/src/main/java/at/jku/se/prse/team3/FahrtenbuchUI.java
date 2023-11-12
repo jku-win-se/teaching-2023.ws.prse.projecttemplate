@@ -16,14 +16,15 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Box;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.TimeStringConverter;
+import javafx.util.converter.*;
 
 
 import java.io.IOException;
+import java.text.Format;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -378,10 +379,33 @@ public class FahrtenbuchUI extends Application {
         grid.setPadding(new Insets(20, 150, 10, 10));
 
         TextField kfzKennzeichenField = new TextField(ausgewaehlteFahrt.getKfzKennzeichen());
+
         DatePicker datumPicker = new DatePicker(ausgewaehlteFahrt.getDatum());
+        datumPicker.setConverter(new LocalDateStringConverter());
         TextField abfahrtszeitField = new TextField(ausgewaehlteFahrt.getAbfahrtszeit().toString());
+        abfahrtszeitField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                abfahrtszeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
+            }
+        });
+
         TextField ankunftszeitField = new TextField(ausgewaehlteFahrt.getAnkunftszeit().toString());
+        ankunftszeitField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ankunftszeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
+            }
+        });
+
         TextField gefahreneKilometerField = new TextField(String.valueOf(ausgewaehlteFahrt.getGefahreneKilometer()));
+        gefahreneKilometerField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                gefahreneKilometerField.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+
+            }
+        });
 
         grid.add(new Label("KFZ-Kennzeichen:"), 0, 0);
         grid.add(kfzKennzeichenField, 1, 0);
