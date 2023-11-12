@@ -322,9 +322,13 @@ public class FahrtenbuchUI extends Application {
 
             // Hinzufügen der neuen Fahrt zum Fahrtenbuch und zur fahrtenListe
             try {
+                if (FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue())){
+                    fahrtenbuch.planeZukuenftigeFahrten(futureDates, kfzText, abfahrtsZeitValue, category);
+                }
+                else{
                 fahrtenbuch.neueFahrt(kfzText, ausgewaehltesDatum, abfahrtsZeitValue, ankunftsZeitValue,
                         gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus, category);
-            } catch (IOException e) {
+            } }catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
