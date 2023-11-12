@@ -368,7 +368,6 @@ public class FahrtenbuchUI extends Application {
         // Buttons setzen
         ButtonType speichernButtonType = new ButtonType(" Speichern", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(speichernButtonType, ButtonType.CANCEL);
-
         dialog.getDialogPane().getButtonTypes().addAll(deleteButtonType);
 
 
@@ -411,7 +410,12 @@ public class FahrtenbuchUI extends Application {
                 ausgewaehlteFahrt.setAnkunftszeit(LocalTime.parse(ankunftszeitField.getText()));
                 ausgewaehlteFahrt.setGefahreneKilometer(Double.parseDouble(gefahreneKilometerField.getText()));
                 // ... Aktualisieren Sie weitere Eigenschaften ...
-                return ausgewaehlteFahrt;
+                try {
+                    fahrtenbuch.exportFahrt();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
             } else if (dialogButton == deleteButtonType) {
                 //Bestätigungsdialog
                 Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
@@ -425,9 +429,14 @@ public class FahrtenbuchUI extends Application {
                 if (result == ButtonType.YES) {
                     fahrtenbuch.loescheFahrten(ausgewaehlteFahrt.getKfzKennzeichen(), ausgewaehlteFahrt.getDatum(), ausgewaehlteFahrt.getAbfahrtszeit());
                     fahrtenTabelle.getItems().remove(ausgewaehlteFahrt);
-                    return ausgewaehlteFahrt;
+                    try {
+                        fahrtenbuch.exportFahrt();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
+
             return null;
         });
 
