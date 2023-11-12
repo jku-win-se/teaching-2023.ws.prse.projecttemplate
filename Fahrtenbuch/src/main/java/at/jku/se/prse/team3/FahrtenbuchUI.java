@@ -17,8 +17,6 @@ import javafx.scene.shape.Box;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.converter.*;
-
-
 import java.io.IOException;
 import java.text.Format;
 import java.text.NumberFormat;
@@ -176,17 +174,13 @@ public class FahrtenbuchUI extends Application {
         //Liste von zukünftigen LocalDates von wiederkehrenden Fahrten
         List<LocalDate> futureDates = new ArrayList<>();
         List<String> kategorienListe = new ArrayList<>();
-        List<Integer> kilometerListe = new ArrayList<>();
-        List<LocalTime> fahrzeitListe = new ArrayList<>();
-        List<LocalTime> abfahrtszeitListe = new ArrayList<>();
-        List<LocalTime> ankunftszeitListe = new ArrayList<>();
-        List<LocalDate> datumListe = new ArrayList<>();
-        List<String> kfzKennzeichenListe = new ArrayList<>();
+
 
 
         TextField kfzKennzeichen = new TextField();
         kfzKennzeichen.setPromptText("KFZ-Kennzeichen:");
         kfzKennzeichen.setMaxWidth(200);
+
 
         DatePicker datum = new DatePicker();
         datum.setPromptText("Datum der Fahrt");
@@ -433,6 +427,11 @@ public class FahrtenbuchUI extends Application {
                 ausgewaehlteFahrt.setAbfahrtszeit(LocalTime.parse(abfahrtszeitField.getText()));
                 ausgewaehlteFahrt.setAnkunftszeit(LocalTime.parse(ankunftszeitField.getText()));
                 ausgewaehlteFahrt.setGefahreneKilometer(Double.parseDouble(gefahreneKilometerField.getText()));
+                int hour= ausgewaehlteFahrt.getAnkunftszeit().getHour()-ausgewaehlteFahrt.getAbfahrtszeit().getHour();
+                int min=ausgewaehlteFahrt.getAnkunftszeit().getMinute()-ausgewaehlteFahrt.getAbfahrtszeit().getMinute();
+                        int sec=ausgewaehlteFahrt.getAnkunftszeit().getSecond()-ausgewaehlteFahrt.getAbfahrtszeit().getSecond();
+
+                ausgewaehlteFahrt.setAktiveFahrzeit(LocalTime.of(hour,min,sec));
                 // ... Aktualisieren Sie weitere Eigenschaften ...
                 try {
                     fahrtenbuch.exportFahrt();
