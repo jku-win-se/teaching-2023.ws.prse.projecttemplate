@@ -62,6 +62,7 @@ public class FahrtenbuchUI extends Application {
     public void start(Stage primaryStage) {
     //start tabellerische Ansicht
         // Laden der vorhandenen Fahrten aus dem Fahrtenbuch und Initialisierung der fahrtenListe
+        fahrtenListe.clear();
         fahrtenListe.addAll(fahrtenbuch.listeFahrten());
 
         // Erstellen und Konfigurieren der TableView und anderer UI-Komponenten
