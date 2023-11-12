@@ -69,13 +69,14 @@ public class Fahrtenbuch {
                 fahrt.getKfzKennzeichen().equals(kfzKennzeichen) &&
                         fahrt.getDatum().equals(datum) &&
                         fahrt.getAbfahrtszeit().equals(abfahrtszeit));
+
     }
 
     //ID5
     public void planeZukuenftigeFahrten(List<LocalDate> reoccurances,
                                         String      kfzKennzeichen,
                                         LocalTime   abfahrtszeit,
-                                        List<String> fahrtKategorie){
+                                        List<String> fahrtKategorie) throws IOException {
 
         for (LocalDate d:reoccurances
              ) {
@@ -94,6 +95,7 @@ public class Fahrtenbuch {
                     FahrtStatus.ZUKUENFTIG));
         }
 
+        exportFahrt();
 
 
     }

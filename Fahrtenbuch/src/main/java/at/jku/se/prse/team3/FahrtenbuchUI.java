@@ -312,9 +312,8 @@ public class FahrtenbuchUI extends Application {
             String kfzText = kfzKennzeichen.getText();
             LocalDate ausgewaehltesDatum = datum.getValue();
             LocalTime abfahrtsZeitValue = LocalTime.parse(abfahrtsZeit.getText());
-            LocalTime ankunftsZeitValue = LocalTime.parse(ankunftsZeit.getText());
-            Double gefahreneKilometerValue = Double.parseDouble(gefahreneKilometer.getText());
-            LocalTime aktiveFahrzeitValue = LocalTime.parse(aktiveFahrzeit.getText());
+
+
             FahrtStatus ausgewaehlterStatus = (FahrtStatus) fahrtstatus.getValue();
             List<String> category = new ArrayList<>(kategorienListe);
 
@@ -322,9 +321,13 @@ public class FahrtenbuchUI extends Application {
             // Hinzufügen der neuen Fahrt zum Fahrtenbuch und zur fahrtenListe
             try {
                 if (FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue())){
+                    futureDates.add(datum.getValue());
                     fahrtenbuch.planeZukuenftigeFahrten(futureDates, kfzText, abfahrtsZeitValue, category);
                 }
                 else{
+                    Double gefahreneKilometerValue = Double.parseDouble(gefahreneKilometer.getText());
+                    LocalTime ankunftsZeitValue = LocalTime.parse(ankunftsZeit.getText());
+                    LocalTime aktiveFahrzeitValue = LocalTime.parse(aktiveFahrzeit.getText());
                 fahrtenbuch.neueFahrt(kfzText, ausgewaehltesDatum, abfahrtsZeitValue, ankunftsZeitValue,
                         gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus, category);
             } }catch (IOException e) {
@@ -430,11 +433,9 @@ public class FahrtenbuchUI extends Application {
                 ausgewaehlteFahrt.setAbfahrtszeit(LocalTime.parse(abfahrtszeitField.getText()));
                 ausgewaehlteFahrt.setAnkunftszeit(LocalTime.parse(ankunftszeitField.getText()));
                 ausgewaehlteFahrt.setGefahreneKilometer(Double.parseDouble(gefahreneKilometerField.getText()));
-                int hour= ausgewaehlteFahrt.getAnkunftszeit().getHour()-ausgewaehlteFahrt.getAbfahrtszeit().getHour();
-                int min=ausgewaehlteFahrt.getAnkunftszeit().getMinute()-ausgewaehlteFahrt.getAbfahrtszeit().getMinute();
-                        int sec=ausgewaehlteFahrt.getAnkunftszeit().getSecond()-ausgewaehlteFahrt.getAbfahrtszeit().getSecond();
 
-                ausgewaehlteFahrt.setAktiveFahrzeit(LocalTime.of(hour,min,sec));
+
+
                 // ... Aktualisieren Sie weitere Eigenschaften ...
                 try {
                     fahrtenbuch.exportFahrt();
