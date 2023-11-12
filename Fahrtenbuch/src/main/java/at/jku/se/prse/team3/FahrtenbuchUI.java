@@ -19,7 +19,8 @@ import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.TimeStringConverter;
 
-import javax.swing.*;
+
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -34,7 +35,7 @@ import static javafx.application.Application.launch;
 
 public class FahrtenbuchUI extends Application {
 
-
+    private String path;
     private Fahrtenbuch fahrtenbuch;
     private Button setButton;
     private Button backButton;
@@ -273,6 +274,12 @@ public class FahrtenbuchUI extends Application {
 
                 futureDatesBox.setVisible(true);
             }
+            else if (FahrtStatus.ABSOLVIERT.equals(fahrtstatus.getValue())){
+                futureDatesBox.setVisible(false);
+            }
+            else if (FahrtStatus.AUF_FAHRT.equals(fahrtstatus.getValue())){
+                futureDatesBox.setVisible(false);
+            }
 
         });
 
@@ -319,8 +326,12 @@ public class FahrtenbuchUI extends Application {
 
 
             // Hinzufügen der neuen Fahrt zum Fahrtenbuch und zur fahrtenListe
-            fahrtenbuch.neueFahrt(kfzText, ausgewaehltesDatum, abfahrtsZeitValue, ankunftsZeitValue,
-                    gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus, category);
+            try {
+                fahrtenbuch.neueFahrt(kfzText, ausgewaehltesDatum, abfahrtsZeitValue, ankunftsZeitValue,
+                        gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus, category);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
         });
 
