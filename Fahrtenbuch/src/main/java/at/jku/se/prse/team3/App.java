@@ -25,7 +25,6 @@ public abstract class App {
 
 
 
-
         Fahrtenbuch fahrtenbuch = new Fahrtenbuch();
         fahrtenbuch.importFahrt();
 

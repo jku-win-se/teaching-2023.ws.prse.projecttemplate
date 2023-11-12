@@ -126,7 +126,7 @@ public class Fahrtenbuch {
     //ID8
     public void exportFahrt() throws IOException {
         //export Fahrten&Kategorien as CSV.
-        Path path= Paths.get(System.getProperty("user.home")+ File.separator + "Documents"+File.separator+"Fahrenbuch 0.0.3");
+        Path path= Paths.get(System.getProperty("user.home")+ File.separator + "Documents"+File.separator+"Fahrtenbuch 0.0.3");
         String realExport=path.toString();
 
         String exportFahrten= realExport+ File.separator+ "fahrten.csv";
