@@ -115,7 +115,7 @@ public class FahrtenbuchUI extends Application {
 
         newEditButton = new Button();
         newEditButton.setText("Fahrt bearbeiten");
-        newEditButton.setStyle("-fx-background-color: #00ff00;");
+
         newEditButton.setOnAction(event -> {
             Fahrt ausgewaehlteFahrt = fahrtenTabelle.getSelectionModel().getSelectedItem();
             if (ausgewaehlteFahrt != null) {
@@ -142,16 +142,15 @@ public class FahrtenbuchUI extends Application {
 
         // HBox für die Buttons erstellen
         HBox leftButtonBox = new HBox(10);
-        leftButtonBox.getChildren().addAll(newTripButton);
+        leftButtonBox.getChildren().addAll(newTripButton,setButton,newEditButton);
         leftButtonBox.setAlignment(Pos.TOP_LEFT);
+        leftButtonBox.setPadding(new javafx.geometry.Insets(4, 1, 10, 1));
 
-        HBox rightButtonBox = new HBox(10);
-        rightButtonBox.getChildren().addAll(setButton, newEditButton);
-        rightButtonBox.setAlignment(Pos.TOP_RIGHT);
+
 
         // Menü und Buttons im VBox platzieren
         VBox topBox = new VBox();
-        topBox.getChildren().addAll(leftButtonBox, rightButtonBox);
+        topBox.getChildren().addAll(leftButtonBox);
         topBox.setAlignment(Pos.TOP_CENTER);
 
         BorderPane root = new BorderPane();
