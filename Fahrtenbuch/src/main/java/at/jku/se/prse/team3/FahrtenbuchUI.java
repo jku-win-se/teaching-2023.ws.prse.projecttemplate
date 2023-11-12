@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.TimeStringConverter;
 
+import javax.swing.*;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -39,7 +40,7 @@ public class FahrtenbuchUI extends Application {
     private Button backButton;
     private Button newTripButton;
     private TableView<Fahrt> fahrtenTabelle;
-    private Button speichernButton = new Button("Fahrt speichern");;
+    private Button speichernButton = new Button("\uD83D\uDCBE Fahrt speichern");;
 
     private Button newEditButton;
 
@@ -163,7 +164,7 @@ public class FahrtenbuchUI extends Application {
             }
         });*/
 
-        Scene fahrten = new Scene(root, 1200, 400);
+        Scene fahrten = new Scene(root, 720, 400);
         primaryStage.setScene(fahrten);
         primaryStage.show();
     }
@@ -179,11 +180,14 @@ public class FahrtenbuchUI extends Application {
         List<LocalDate> datumListe = new ArrayList<>();
         List<String> kfzKennzeichenListe = new ArrayList<>();
 
+
         TextField kfzKennzeichen = new TextField();
         kfzKennzeichen.setPromptText("KFZ-Kennzeichen:");
+        kfzKennzeichen.setMaxWidth(200);
 
         DatePicker datum = new DatePicker();
         datum.setPromptText("Datum der Fahrt");
+        datum.setMaxWidth(200);
         datum.setOnAction(event -> {
             datum.getValue();
 
@@ -191,24 +195,29 @@ public class FahrtenbuchUI extends Application {
 
         TextField abfahrtsZeit = new TextField();
         abfahrtsZeit.setPromptText("Abfahrtszeit im Format HH:MM:SS");
+        abfahrtsZeit.setMaxWidth(200);
         abfahrtsZeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
 
 
         TextField ankunftsZeit = new TextField();
         ankunftsZeit.setPromptText("Ankunftszeit im Format HH:MM:SS");
+        ankunftsZeit.setMaxWidth(200);
         ankunftsZeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
 
         TextField gefahreneKilometer = new TextField();
         gefahreneKilometer.setPromptText("gefahrene Kilometer");
+        gefahreneKilometer.setMaxWidth(200);
         gefahreneKilometer.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
 
         TextField aktiveFahrzeit = new TextField();
         aktiveFahrzeit.setPromptText("Fahrzeit in HH:MM:SS");
+        aktiveFahrzeit.setMaxWidth(200);
         aktiveFahrzeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
 
 // UI-Komponenten für die Kategorie
         TextField kategorienInput = new TextField();
         kategorienInput.setPromptText("Kategorien eingeben:");
+        kategorienInput.setMaxWidth(200);
 
         TextArea angezeigteKategorien = new TextArea();
         angezeigteKategorien.setEditable(false);
@@ -230,9 +239,9 @@ public class FahrtenbuchUI extends Application {
         VBox kategorienBox = new VBox(10);
         kategorienBox.getChildren().addAll(kategorienInput, kategorieHinzufuegenButton, angezeigteKategorien);
 
-
         DatePicker future = new DatePicker();
         future.setPromptText("Zukünftige Fahrten");
+
 
         TextArea selectedDates = new TextArea();
         selectedDates.setDisable(true);
@@ -278,21 +287,22 @@ public class FahrtenbuchUI extends Application {
 
 
         backButton = new Button();
-        backButton.setText("<- BACK");
+        backButton.setText("<- Zurück");
         backButton.setOnAction(actionEvent -> start(primaryStage));
         ScrollPane scrollPane = new ScrollPane(fahrtTextinputboxen);
         scrollPane.setFitToWidth(true); // Passt die Breite der ScrollPane an die Breite der VBox an
         scrollPane.setPrefHeight(400); // Setzen Sie eine bevorzugte Höhe
 
+        Label info = new Label("    Fahrtinformartionen unten eingeben");
 
-        primaryStage.setTitle("neue Fahrt");
+        primaryStage.setTitle("Neue Fahrt");
         StackPane layoutNewTrip = new StackPane();
         layoutNewTrip.getChildren().add(scrollPane);
-        backButton = new Button("<- BACK");
+        backButton = new Button("<- Zurück");
         backButton.setOnAction(event -> start(primaryStage));
         layoutNewTrip.getChildren().add(backButton);
-
         layoutNewTrip.getChildren().add(speichernButton);
+        layoutNewTrip.getChildren().add(info);
 
         speichernButton.setOnAction(event -> {
             // Sammeln der Benutzereingaben
@@ -312,9 +322,12 @@ public class FahrtenbuchUI extends Application {
                     gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus, category);
 
         });
-        StackPane.setAlignment(speichernButton, Pos.TOP_RIGHT);
 
-        Scene neueFahrt = new Scene(layoutNewTrip, 1080, 720);
+        StackPane.setAlignment(speichernButton, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(backButton, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(info, Pos.TOP_LEFT);
+
+        Scene neueFahrt = new Scene(layoutNewTrip, 720, 400);
 
         primaryStage.setScene(neueFahrt);
         primaryStage.show();
@@ -341,7 +354,7 @@ public class FahrtenbuchUI extends Application {
         dialog.setHeaderText("Bearbeiten Sie die Details der ausgewählten Fahrt.");
 
         // Buttons setzen
-        ButtonType speichernButtonType = new ButtonType("Speichern", ButtonBar.ButtonData.OK_DONE);
+        ButtonType speichernButtonType = new ButtonType(" Speichern", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(speichernButtonType, ButtonType.CANCEL);
 
         dialog.getDialogPane().getButtonTypes().addAll(deleteButtonType);
@@ -427,19 +440,25 @@ public class FahrtenbuchUI extends Application {
 
     private void switchToSettings(Stage primaryStage) {
         backButton = new Button();
-        backButton.setText("<- BACK");
+        backButton.setText("<- Zurück");
         backButton.setOnAction(actionEvent -> start(primaryStage));
         TextField enterSavePath = new TextField();
-        enterSavePath.setText("enter Save Path:");
+        enterSavePath.setText("Hier eingeben:");
+        enterSavePath.setStyle("-fx-text-fill: grey;");
+        enterSavePath.setMaxWidth(200);
+        Label Pfad = new Label("Speicherpfad: ");
 
         primaryStage.setTitle("Einstellungen");
         StackPane layoutSettings = new StackPane();
-        layoutSettings.getChildren().addAll(enterSavePath, backButton);
-        layoutSettings.setAlignment(backButton, Pos.TOP_LEFT);
+        layoutSettings.getChildren().addAll(enterSavePath, backButton, Pfad);
+        layoutSettings.setAlignment(backButton, Pos.BOTTOM_LEFT);
         layoutSettings.setAlignment(enterSavePath, Pos.CENTER);
+        layoutSettings.setAlignment(Pfad, Pos.CENTER_LEFT);
+        layoutSettings.requestFocus();
 
-        Scene einstellungen = new Scene(layoutSettings, 1080, 720);
+        Scene einstellungen = new Scene(layoutSettings, 720, 400);
         primaryStage.setScene(einstellungen);
+        Platform.runLater(() -> layoutSettings.requestFocus());
         primaryStage.show();
     }
 }
