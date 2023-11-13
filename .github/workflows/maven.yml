@@ -20,7 +20,7 @@ jobs:
         distribution: 'adopt'
 
     - name: Create Directory
-      run: mkdir Fahrtenbuch 0.0.3
+      run: New-Item -ItemType Directory -Path "Fahrtenbuch 0.0.3"
 
     
     - name: Build with Maven
