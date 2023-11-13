@@ -95,4 +95,9 @@ public class AdministrationView {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
+
+    public void deleteFahrt(Fahrt fahrt) {
+        fahrtService.delete(fahrt);
+        initFahrten();
+    }
 }

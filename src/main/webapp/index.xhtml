@@ -75,6 +75,9 @@
                         <p:column style="width:32px" exportable="false">
                             <p:rowEditor/>
                         </p:column>
+                        <p:column exportable="false">
+                            <p:commandButton action="#{administrationView.deleteFahrt(fahrt)}" update="@all" icon="pi pi-trash" style="background-color: red; border-color: red"/>
+                        </p:column>
                     </p:dataTable>
                     <p:divider/>
                     <p:commandButton value="Neue Fahrt" onclick="PF('creationDialog').show()" styleClass="ui-priority-primary" icon="pi pi-plus"/>

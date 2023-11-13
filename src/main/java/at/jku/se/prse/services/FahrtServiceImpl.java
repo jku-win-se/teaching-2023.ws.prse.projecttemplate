@@ -23,4 +23,9 @@ public class FahrtServiceImpl implements FahrtService {
     public List<Fahrt> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public void delete(Fahrt fahrt) {
+        repository.delete(fahrt);
+    }
 }
