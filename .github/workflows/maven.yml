@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -18,9 +18,12 @@ jobs:
       with:
         java-version: '19'
         distribution: 'adopt'
-
+        
     - name: Create Directory
-      run: New-Item -ItemType Directory -Path "Fahrtenbuch 0.0.3"
+      run: New-Item -ItemType Directory -Path "Documents"
+  
+    - name: Create Directory
+      run: New-Item -ItemType Directory -Path "Documents/Fahrtenbuch 0.0.3"
 
     - name: Create FahrtenCSV
       run: echo "" > "Fahrtenbuch 0.0.3/fahrten.csv"
