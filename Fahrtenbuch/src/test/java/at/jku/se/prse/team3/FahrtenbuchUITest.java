@@ -1,16 +1,11 @@
 package at.jku.se.prse.team3;
 
+
 import org.testfx.api.FxAssert;
 import org.testfx.framework.junit.ApplicationTest;
 import javafx.stage.Stage;
 import org.junit.Test;
-import org.testfx.matcher.control.LabeledMatchers;
-import org.testfx.util.NodeQueryUtils;
 
-import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.control.ButtonMatchers.isDefaultButton;
-import static org.testfx.matcher.control.LabeledMatchers.hasText;
-import static org.testfx.util.NodeQueryUtils.hasText;
 
 
 public class FahrtenbuchUITest extends ApplicationTest {
@@ -41,6 +36,7 @@ public class FahrtenbuchUITest extends ApplicationTest {
     public void testDeleteButton() {
 
         clickOn("#fahrtenTabelle");
+
         clickOn("#deleteButton");
 
 
@@ -49,7 +45,6 @@ public class FahrtenbuchUITest extends ApplicationTest {
     public void testSettingsButton() {
         clickOn("#settingsButton");
     }
-
 
 }
 
