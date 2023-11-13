@@ -101,6 +101,14 @@
                     <p:inputNumber minValue="0" value="#{administrationView.newFahrt.riddenKM}"/>
                     <p:outputLabel value="Stehzeit" />
                     <p:datePicker value="#{administrationView.newFahrt.timeStood}" timeOnly="true"/>
+                    <p:outputLabel value="Wiederholung" />
+                    <p:selectOneRadio id="wiederholungInp" value="#{administrationView.newFahrt.repetition}">
+                        <f:selectItem itemLabel="wöchentlich" itemValue="WOECHENTLICH" />
+                        <f:selectItem itemLabel="monatlich" itemValue="MONATLICH" />
+                        <f:selectItem itemLabel="jährlich" itemValue="JAEHRLICH" />
+                    </p:selectOneRadio>
+                    <p:outputLabel value="Anzahl der Wiederholungen" />
+                    <p:inputNumber minValue="0" value="#{administrationView.newFahrt.numberOfRepetitions}"/>
                 </p:panelGrid>
                 <p:divider/>
                 <p:commandButton action="#{administrationView.saveNewFahrt()}" process="@form" update="@all" value="Speichern" styleClass="ui-button-plain" icon="pi pi-save" style="text-align: center"/>

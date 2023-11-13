@@ -1,5 +1,6 @@
 package at.jku.se.prse.model;
 
+import at.jku.se.prse.enums.Wiederholung;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,6 +46,16 @@ public class Fahrt {
     @Getter
     @Setter
     private LocalTime timeStood = LocalTime.MIN;
+
+    //Issue #6
+    @Getter
+    @Setter
+    private Wiederholung repetition;
+
+    //Issue #6
+    @Getter
+    @Setter
+    private Integer numberOfRepetitions;
 
     @Getter
     @Setter
