@@ -195,12 +195,10 @@ public class FahrtenbuchUI extends Application {
         List<LocalDate> futureDates = new ArrayList<>();
         List<String> kategorienListe = new ArrayList<>();
 
-
-
         TextField kfzKennzeichen = new TextField();
         kfzKennzeichen.setPromptText("KFZ-Kennzeichen:");
         kfzKennzeichen.setMaxWidth(200);
-
+        kfzKennzeichen.setId("kfzKennzeichenAddField");
 
         DatePicker datum = new DatePicker();
         datum.setPromptText("Datum der Fahrt");
@@ -430,7 +428,7 @@ public class FahrtenbuchUI extends Application {
         grid.setPadding(new Insets(20, 150, 10, 10));
 
         TextField kfzKennzeichenField = new TextField(ausgewaehlteFahrt.getKfzKennzeichen());
-
+        kfzKennzeichenField.setId("kfzKennzeichenEditField");
         DatePicker datumPicker = new DatePicker(ausgewaehlteFahrt.getDatum());
         datumPicker.setConverter(new LocalDateStringConverter());
         datumPicker.getEditor().setDisable(true);
