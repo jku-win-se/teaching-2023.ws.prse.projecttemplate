@@ -19,17 +19,16 @@ jobs:
         java-version: '19'
         distribution: 'adopt'
         
-    - name: Create Directory
-      run: New-Item -ItemType Directory -Path "Documents"
+   
   
     - name: Create Directory
-      run: New-Item -ItemType Directory -Path "Documents/Fahrtenbuch 0.0.3"
+      run: New-Item -ItemType Directory -Path "C:\Users\runneradmin\Documents\Fahrtenbuch 0.0.3"
 
     - name: Create FahrtenCSV
-      run: echo "" > "Documents/Fahrtenbuch 0.0.3/fahrten.csv"
+      run: echo "" > "C:\Users\runneradmin\Documents\Fahrtenbuch 0.0.3\fahrten.csv"
 
     - name: Create KategorienCSV
-      run: echo "" > "Documents/Fahrtenbuch 0.0.3/Kategorien.csv"
+      run: echo "" > "C:\Users\runneradmin\Documents\Fahrtenbuch 0.0.3\Kategorien.csv"
     
     - name: Build with Maven
       run: mvn -B package --file pom.xml
