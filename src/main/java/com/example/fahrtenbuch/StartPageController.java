@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class StartPageController {
 
-    //Startseite
+    public Button newRideStart;
 
     @FXML
     private void handleBtnDataAction (ActionEvent event) throws IOException {
@@ -38,6 +38,26 @@ public class StartPageController {
     }
 
     @FXML
+    private void handleNewRide(ActionEvent event) throws IOException {
+        Parent newFahrt = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Index.fxml")));
+        Scene scene = new Scene(newFahrt);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void handleFahrtenbuecherPage(ActionEvent event) throws IOException {
+        Parent overviewPage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("FahrtenbucherPage.fxml")));
+        Scene scene = new Scene(overviewPage);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+
+    @FXML
     private Button btnDataAction;
 
     @FXML
@@ -54,9 +74,6 @@ public class StartPageController {
 
     @FXML
     private Button logBooks;
-
-    @FXML
-    private Button newRide;
 
     @FXML
     private Button btnOverview;

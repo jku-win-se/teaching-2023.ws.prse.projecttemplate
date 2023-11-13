@@ -39,12 +39,12 @@
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Button>
-                        <Button fx:id="btnNewRide" layoutX="-1.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #343E51;" text="Neue Fahrt" textFill="WHITE">
+                        <Button fx:id="btnNewRide" layoutX="-1.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #343E51;" text="Neue Fahrt" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Button>
-                        <Button fx:id="btnLogBook" layoutX="16.0" layoutY="62.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #343E51;" text="Fahrtenbücher" textFill="WHITE">
+                        <Button fx:id="btnLogBook" layoutX="16.0" layoutY="62.0" mnemonicParsing="false" onAction="#handleFahrtenbuecherPage" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #343E51;" text="Fahrtenbücher" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>

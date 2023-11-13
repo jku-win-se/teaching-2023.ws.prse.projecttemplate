@@ -29,12 +29,12 @@
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Button>
-                        <Button fx:id="btnNewRide" layoutX="-1.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #343E51;" text="Neue Fahrt" textFill="WHITE">
+                        <Button fx:id="btnNewRide" layoutX="-1.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #343E51;" text="Neue Fahrt" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Button>
-                        <Button fx:id="btnLogBook" layoutX="16.0" layoutY="62.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #343E51;" text="Fahrtenbücher" textFill="WHITE">
+                        <Button fx:id="btnLogBook" layoutX="16.0" layoutY="62.0" mnemonicParsing="false" onAction="#handleFahrtenbuecherPage" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #343E51;" text="Fahrtenbücher" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
@@ -62,27 +62,27 @@
                 </Text>
             </items>
         </SplitPane>
-      <SplitPane dividerPositions="0.11518324607329843" layoutX="155.0" layoutY="75.0" orientation="VERTICAL" prefHeight="163.0" prefWidth="322.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="19.0" prefWidth="320.0" style="-fx-background-color: D5D8DE;">
-               <children>
-                  <Text fill="#343e51" layoutX="6.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fahrten filtern">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Text>
-               </children>
-            </AnchorPane>
-          <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="116.0" prefWidth="321.0">
-              <TextField fx:id="tagTextField" layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="66.0" promptText="Tag" />
-              <TextField fx:id="monatTextField" layoutX="11.0" layoutY="45.0" prefHeight="25.0" prefWidth="66.0" promptText="Monat" />
-              <TextField fx:id="jahrTextField" layoutX="11.0" layoutY="78.0" prefHeight="25.0" prefWidth="66.0" promptText="Jahr" />
-              <TextField fx:id="gefahreneKmTextField" layoutX="88.0" layoutY="78.0" prefHeight="25.0" prefWidth="88.0" promptText="gefahrene km" />
-              <TextField fx:id="durchschnittlicheGeschTextField" layoutX="88.0" layoutY="13.0" prefHeight="25.0" prefWidth="218.0" promptText="durchscnittliche Geschwindigkeit" />
-              <TextField fx:id="fahrtzeitTextField" layoutX="88.0" layoutY="45.0" prefHeight="25.0" prefWidth="88.0" promptText="Fahrtzeit" />
-              <TextField fx:id="kategorieTextField" layoutX="186.0" layoutY="45.0" prefHeight="25.0" prefWidth="120.0" promptText="Kategorie (optional)" />
-          </AnchorPane>
-        </items>
-      </SplitPane>
+        <SplitPane dividerPositions="0.11518324607329843" layoutX="155.0" layoutY="75.0" orientation="VERTICAL" prefHeight="163.0" prefWidth="322.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="19.0" prefWidth="320.0" style="-fx-background-color: D5D8DE;">
+                    <children>
+                        <Text fill="#343e51" layoutX="6.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fahrten filtern">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="116.0" prefWidth="321.0">
+                    <TextField fx:id="tagTextField" layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="66.0" promptText="Tag" />
+                    <TextField fx:id="monatTextField" layoutX="11.0" layoutY="45.0" prefHeight="25.0" prefWidth="66.0" promptText="Monat" />
+                    <TextField fx:id="jahrTextField" layoutX="11.0" layoutY="78.0" prefHeight="25.0" prefWidth="66.0" promptText="Jahr" />
+                    <TextField fx:id="gefahreneKmTextField" layoutX="88.0" layoutY="78.0" prefHeight="25.0" prefWidth="88.0" promptText="gefahrene km" />
+                    <TextField fx:id="durchschnittlicheGeschTextField" layoutX="88.0" layoutY="13.0" prefHeight="25.0" prefWidth="218.0" promptText="durchscnittliche Geschwindigkeit" />
+                    <TextField fx:id="fahrtzeitTextField" layoutX="88.0" layoutY="45.0" prefHeight="25.0" prefWidth="88.0" promptText="Fahrtzeit" />
+                    <TextField fx:id="kategorieTextField" layoutX="186.0" layoutY="45.0" prefHeight="25.0" prefWidth="120.0" promptText="Kategorie (optional)" />
+                </AnchorPane>
+            </items>
+        </SplitPane>
     </children>
 </AnchorPane>

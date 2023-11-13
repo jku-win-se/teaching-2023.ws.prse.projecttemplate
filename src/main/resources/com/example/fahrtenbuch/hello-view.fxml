@@ -11,17 +11,17 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.StartPageController">
    <children>
-      <Button fx:id="newRide" layoutX="194.0" layoutY="196.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: #343E51;" text="Neue Fahrt" textFill="WHITE">
+      <Button fx:id="newRideStart" layoutX="194.0" layoutY="196.0" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: #343E51;" text="Neue Fahrt" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Button>
-   
-          <Label fx:id="welcomeText" layoutX="271.0" layoutY="144.0" text="Willkommen!">
+
+      <Label fx:id="welcomeText" layoutX="271.0" layoutY="144.0" text="Willkommen!">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="logBooks" layoutX="332.0" layoutY="196.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: #343E51;" text="Fahrtenbücher" textFill="WHITE">
+      <Button fx:id="logBooks" layoutX="332.0" layoutY="196.0" mnemonicParsing="false" onAction="#handleFahrtenbuecherPage" prefHeight="27.0" prefWidth="114.0" style="-fx-background-color: #343E51;" text="Fahrtenbücher" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Button>
@@ -30,8 +30,8 @@
             <Font name="System Bold" size="13.0" />
          </font></Button>
       <SplitPane dividerPositions="0.1912751677852349" layoutY="1.0" orientation="VERTICAL" prefHeight="500.0" prefWidth="130.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="92.0" prefWidth="295.0" style="-fx-background-color: #343E51;">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="92.0" prefWidth="295.0" style="-fx-background-color: #343E51;">
                <children>
                   <ImageView fitHeight="88.0" fitWidth="99.0" layoutX="20.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -40,24 +40,24 @@
                   </ImageView>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="75.0" style="-fx-background-color: #343E51;">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="75.0" style="-fx-background-color: #343E51;">
                <children>
                   <Button fx:id="btnStart" layoutX="-20.0" layoutY="4.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="128.0" style="-fx-background-color: #343E51;" text="Start" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnNewRide" layoutX="-1.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #343E51;" text="Neue Fahrt" textFill="WHITE">
+                  <Button fx:id="btnNewRide" layoutX="-1.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #343E51;" text="Neue Fahrt" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnLogBook" layoutX="16.0" layoutY="62.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #343E51;" text="Fahrtenbücher" textFill="WHITE">
+                  <Button fx:id="btnLogBook" layoutX="16.0" layoutY="62.0" mnemonicParsing="false" onAction="#handleFahrtenbuecherPage" prefHeight="27.0" prefWidth="112.0" style="-fx-background-color: #343E51;" text="Fahrtenbücher" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnDataAction" onAction="#handleBtnDataAction" layoutX="18.0" layoutY="89.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #343E51;" text="Import/ Export" textFill="WHITE">
+                  <Button fx:id="btnDataAction" layoutX="18.0" layoutY="89.0" mnemonicParsing="false" onAction="#handleBtnDataAction" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #343E51;" text="Import/ Export" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
@@ -69,7 +69,7 @@
                   </Button>
                </children>
             </AnchorPane>
-        </items>
+         </items>
       </SplitPane>
       <ImageView fitHeight="116.0" fitWidth="372.0" layoutX="129.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
          <image>

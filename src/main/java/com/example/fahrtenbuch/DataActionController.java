@@ -33,6 +33,26 @@ public class DataActionController {
     }
 
     @FXML
+    private void handleNewRide(ActionEvent event) throws IOException {
+        Parent newFahrt = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Index.fxml")));
+        Scene scene = new Scene(newFahrt);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void handleFahrtenbuecherPage(ActionEvent event) throws IOException {
+        Parent overviewPage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("FahrtenbucherPage.fxml")));
+        Scene scene = new Scene(overviewPage);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+
+    @FXML
     private Button btnDataAction;
 
     @FXML
