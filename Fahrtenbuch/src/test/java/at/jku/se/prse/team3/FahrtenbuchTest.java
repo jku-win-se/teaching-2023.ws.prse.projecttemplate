@@ -53,7 +53,7 @@ public class FahrtenbuchTest {
         fahrtenbuch.exportFahrt();
         fahrtenbuch = new Fahrtenbuch(); // Erstellt ein neues Fahrtenbuch
         fahrtenbuch.importFahrt(); // Importiert die Daten
-        assertEquals("Anzahl der importierten Fahrten sollte 1 sein", 1, fahrtenbuch.listeFahrten().size());
+        assertEquals("Anzahl der importierten Fahrten soll 1 sein", 1, fahrtenbuch.listeFahrten().size());
     }
 
 }
