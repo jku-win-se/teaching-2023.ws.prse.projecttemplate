@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Box;
 import javafx.stage.Modality;
@@ -123,7 +124,22 @@ public class FahrtenbuchUI extends Application {
         newEditButton.setOnAction(event -> {
             Fahrt ausgewaehlteFahrt = fahrtenTabelle.getSelectionModel().getSelectedItem();
             if (ausgewaehlteFahrt != null) {
-                bearbeiteFahrt(ausgewaehlteFahrt, primaryStage);
+                try {
+                    bearbeiteFahrt(ausgewaehlteFahrt, primaryStage);
+                }catch (DateTimeParseException d){
+                    Alert dateAlert=new Alert(Alert.AlertType.WARNING);
+                    dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM:SS..");
+                    d.printStackTrace();
+                    dateAlert.showAndWait();
+
+                }catch(NumberFormatException n){
+                    Alert numberAlert=new Alert(Alert.AlertType.WARNING);
+                    numberAlert.setContentText("Numeric entries only..");
+                    numberAlert.showAndWait();
+                    n.printStackTrace();
+
+                }
+
             } else {
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -188,6 +204,7 @@ public class FahrtenbuchUI extends Application {
 
         DatePicker datum = new DatePicker();
         datum.setPromptText("Datum der Fahrt");
+        datum.getEditor().setDisable(true);
         datum.setMaxWidth(200);
         datum.setOnAction(event -> {
             datum.getValue();
@@ -241,6 +258,7 @@ public class FahrtenbuchUI extends Application {
         kategorienBox.getChildren().addAll(kategorienInput, kategorieHinzufuegenButton, angezeigteKategorien);
 
         DatePicker future = new DatePicker();
+        future.getEditor().setDisable(true);
         future.setPromptText("Zukünftige Fahrten");
 
 
@@ -313,30 +331,59 @@ public class FahrtenbuchUI extends Application {
         speichernButton.setOnAction(event -> {
             // Sammeln der Benutzereingaben
             speichernButton.setId("saveButton");
-            String kfzText = kfzKennzeichen.getText();
-            LocalDate ausgewaehltesDatum = datum.getValue();
-            LocalTime abfahrtsZeitValue = LocalTime.parse(abfahrtsZeit.getText());
+            Boolean b=!(FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue()));
+            if (!(FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue()))&&(kfzKennzeichen.getText().isEmpty() || abfahrtsZeit.getText().isEmpty() || ankunftsZeit.getText().isEmpty()
+                    || gefahreneKilometer.getText().isEmpty() || aktiveFahrzeit.getText().isEmpty() || (fahrtstatus == null ))){
+                Alert datumOrKennZ =new Alert(Alert.AlertType.WARNING);
+                datumOrKennZ.setContentText("Pflichtdaten für Erstellung neuer Fahrt nicht eingetragen!");
+                datumOrKennZ.showAndWait();
+                return;
+            }
+            try {
+                if (kfzKennzeichen.getText().isEmpty()||futureDates.isEmpty()||abfahrtsZeit.getText().isEmpty()||fahrtstatus==null){
+                    Alert datumOrKennZ =new Alert(Alert.AlertType.WARNING);
+                    datumOrKennZ.setContentText("Pflichtdaten für Erstellung zukünftiger Fahrt nicht eingetragen!");
+                    datumOrKennZ.showAndWait();
+                    return;
+                }
+                String kfzText = kfzKennzeichen.getText();
+                LocalDate ausgewaehltesDatum = datum.getValue();
+                LocalTime abfahrtsZeitValue = LocalTime.parse(abfahrtsZeit.getText());
 
 
-            FahrtStatus ausgewaehlterStatus = (FahrtStatus) fahrtstatus.getValue();
-            List<String> category = new ArrayList<>(kategorienListe);
+                FahrtStatus ausgewaehlterStatus = (FahrtStatus) fahrtstatus.getValue();
+                List<String> category = new ArrayList<>(kategorienListe);
 
 
             // Hinzufügen der neuen Fahrt zum Fahrtenbuch und zur fahrtenListe
-            try {
+
                 if (FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue())){
-                    futureDates.add(datum.getValue());
+
+                    if(datum.getValue()!=null){
+                        futureDates.add(datum.getValue());
+                    }
+
                     fahrtenbuch.planeZukuenftigeFahrten(futureDates, kfzText, abfahrtsZeitValue, category);
                 }
                 else{
                     Double gefahreneKilometerValue = Double.parseDouble(gefahreneKilometer.getText());
                     LocalTime ankunftsZeitValue = LocalTime.parse(ankunftsZeit.getText());
                     LocalTime aktiveFahrzeitValue = LocalTime.parse(aktiveFahrzeit.getText());
+
                 fahrtenbuch.neueFahrt(kfzText, ausgewaehltesDatum, abfahrtsZeitValue, ankunftsZeitValue,
                         gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus, category);
             } }catch (IOException e) {
                 throw new RuntimeException(e);
-            }
+            } catch (DateTimeParseException d) {
+            Alert dateAlert = new Alert(Alert.AlertType.WARNING);
+            dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM:SS..");
+            dateAlert.showAndWait();
+
+        }catch(NumberFormatException n){
+            Alert numberAlert=new Alert(Alert.AlertType.WARNING);
+            numberAlert.setContentText("Numeric entries only..");
+            numberAlert.showAndWait();
+        }
 
         });
 
@@ -386,29 +433,33 @@ public class FahrtenbuchUI extends Application {
 
         DatePicker datumPicker = new DatePicker(ausgewaehlteFahrt.getDatum());
         datumPicker.setConverter(new LocalDateStringConverter());
+        datumPicker.getEditor().setDisable(true);
+
         TextField abfahrtszeitField = new TextField(ausgewaehlteFahrt.getAbfahrtszeit().toString());
         TextField aktiveFahrzeitField = new TextField(ausgewaehlteFahrt.getAktiveFahrzeit().toString());
-        aktiveFahrzeitField.setOnAction(new EventHandler<ActionEvent>() {
+        aktiveFahrzeitField.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(MouseEvent event) {
                 aktiveFahrzeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
             }
         });
 
-        abfahrtszeitField.setOnAction(new EventHandler<ActionEvent>() {
+        abfahrtszeitField.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(MouseEvent event) {
                 abfahrtszeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
             }
         });
 
         TextField ankunftszeitField = new TextField(ausgewaehlteFahrt.getAnkunftszeit().toString());
-        ankunftszeitField.setOnAction(new EventHandler<ActionEvent>() {
+
+        ankunftszeitField.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(MouseEvent mouseEvent) {
                 ankunftszeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
             }
         });
+
 
         TextField gefahreneKilometerField = new TextField(String.valueOf(ausgewaehlteFahrt.getGefahreneKilometer()));
         gefahreneKilometerField.setOnAction(new EventHandler<ActionEvent>() {
@@ -440,13 +491,35 @@ public class FahrtenbuchUI extends Application {
 
         // Ergebnis des Dialogs konvertieren, wenn der Benutzer "Speichern" klickt
         dialog.setResultConverter(dialogButton -> {
+
             if (dialogButton == speichernButtonType) {
-                ausgewaehlteFahrt.setKfzKennzeichen(kfzKennzeichenField.getText());
-                ausgewaehlteFahrt.setDatum(datumPicker.getValue());
-                ausgewaehlteFahrt.setAbfahrtszeit(LocalTime.parse(abfahrtszeitField.getText()));
-                ausgewaehlteFahrt.setAnkunftszeit(LocalTime.parse(ankunftszeitField.getText()));
-                ausgewaehlteFahrt.setGefahreneKilometer(Double.parseDouble(gefahreneKilometerField.getText()));
-                ausgewaehlteFahrt.setAktiveFahrzeit(LocalTime.parse(aktiveFahrzeitField.getText()));
+
+                    ausgewaehlteFahrt.setKfzKennzeichen(kfzKennzeichenField.getText());
+
+                    try {
+                        LocalDate temp = datumPicker.getValue();
+                        ausgewaehlteFahrt.setDatum(temp);
+                        ausgewaehlteFahrt.setAbfahrtszeit(LocalTime.parse(abfahrtszeitField.getText()));
+                        ausgewaehlteFahrt.setAnkunftszeit(LocalTime.parse(ankunftszeitField.getText()));
+                        ausgewaehlteFahrt.setGefahreneKilometer(Double.parseDouble(gefahreneKilometerField.getText()));
+                        ausgewaehlteFahrt.setAktiveFahrzeit(LocalTime.parse(aktiveFahrzeitField.getText()));
+                    } catch (DateTimeParseException d) {
+                        Alert dateAlert = new Alert(Alert.AlertType.WARNING);
+                        dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM:SS..");
+                        dateAlert.showAndWait();
+
+                    }catch(NumberFormatException n){
+                        Alert numberAlert=new Alert(Alert.AlertType.WARNING);
+                        numberAlert.setContentText("Numeric entries only..");
+                        numberAlert.showAndWait();
+
+
+                    }
+
+
+
+
+
 
 
                 // ... Aktualisieren Sie weitere Eigenschaften ...
@@ -481,14 +554,22 @@ public class FahrtenbuchUI extends Application {
         });
 
         // Dialog anzeigen und warten, bis der Benutzer ihn schließt
-        Optional<Fahrt> result = dialog.showAndWait();
 
-        result.ifPresent(fahrt -> {
-            // Aktualisierte Fahrt in der Liste und in der TableView anzeigen
-            fahrtenTabelle.refresh();
-            dialog.close();
-            // Eventuell Änderungen im Fahrtenbuch speichern oder weitere Aktionen ausführen
-        });
+
+            Optional<Fahrt> result = dialog.showAndWait();
+
+
+
+            result.ifPresent(fahrt -> {
+                // Aktualisierte Fahrt in der Liste und in der TableView anzeigen
+                fahrtenTabelle.refresh();
+                dialog.close();
+                // Eventuell Änderungen im Fahrtenbuch speichern oder weitere Aktionen ausführen
+            });
+
+
+
+
     }
 
     private void addToReoccurances(LocalDate date, Consumer<LocalDate> addFutureDate) {
