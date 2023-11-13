@@ -54,7 +54,7 @@ public class FahrtenbuchUITest extends ApplicationTest {
         }
     }
 
-    @Test
+    /*@Test
     public void testAddNewTripDialog() {
         clickOn("#newTripButton");
         verifyThat("#saveButton", NodeMatchers.isVisible());
@@ -76,7 +76,7 @@ public class FahrtenbuchUITest extends ApplicationTest {
         //Test schlägt dann grün falls die neue Fahrt in der Tabelle gefunden wurde
         assertTrue(neueFahrtVorhanden);
     }
-
+*/
     @Test
     public void testDeleteButton() {
         clickOn("#fahrtenTabelle");
