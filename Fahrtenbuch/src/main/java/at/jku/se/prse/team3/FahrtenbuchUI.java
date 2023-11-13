@@ -387,6 +387,14 @@ public class FahrtenbuchUI extends Application {
         DatePicker datumPicker = new DatePicker(ausgewaehlteFahrt.getDatum());
         datumPicker.setConverter(new LocalDateStringConverter());
         TextField abfahrtszeitField = new TextField(ausgewaehlteFahrt.getAbfahrtszeit().toString());
+        TextField aktiveFahrzeitField = new TextField(ausgewaehlteFahrt.getAktiveFahrzeit().toString());
+        aktiveFahrzeitField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                aktiveFahrzeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
+            }
+        });
+
         abfahrtszeitField.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -421,7 +429,8 @@ public class FahrtenbuchUI extends Application {
         grid.add(ankunftszeitField, 1, 3);
         grid.add(new Label("Gefahrene Kilometer:"), 0, 4);
         grid.add(gefahreneKilometerField, 1, 4);
-
+        grid.add(new Label("Aktive Fahrzeit:"), 0, 5);
+        grid.add(aktiveFahrzeitField, 1, 5);
         // GridPane zum Dialog hinzufügen
         dialog.getDialogPane().setContent(grid);
 
@@ -437,7 +446,7 @@ public class FahrtenbuchUI extends Application {
                 ausgewaehlteFahrt.setAbfahrtszeit(LocalTime.parse(abfahrtszeitField.getText()));
                 ausgewaehlteFahrt.setAnkunftszeit(LocalTime.parse(ankunftszeitField.getText()));
                 ausgewaehlteFahrt.setGefahreneKilometer(Double.parseDouble(gefahreneKilometerField.getText()));
-
+                ausgewaehlteFahrt.setAktiveFahrzeit(LocalTime.parse(aktiveFahrzeitField.getText()));
 
 
                 // ... Aktualisieren Sie weitere Eigenschaften ...
