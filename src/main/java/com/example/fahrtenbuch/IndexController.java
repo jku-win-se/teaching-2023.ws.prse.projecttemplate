@@ -46,6 +46,12 @@ public class IndexController{
 
     public List<Fahrt> fahrt = new ArrayList<>();
     public int id;
+    public ImageView startlogoimg;
+    public Button btnStart;
+    public ImageView logoIcon;
+    public ImageView newFahrtIcon;
+    public ImageView fahrtenbucherIcon;
+    public ImageView importExportIcon;
 
     public static String generateID() {
         Random random = new Random();

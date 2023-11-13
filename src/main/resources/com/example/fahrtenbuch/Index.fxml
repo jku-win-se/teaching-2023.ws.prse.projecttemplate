@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -63,6 +64,11 @@
                                 <Font size="18.0" />
                             </font>
                         </Button>
+                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="42.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/Logo.png" />
+                     </image>
+                  </ImageView>
                     </children>
                 </Pane>
                 <Pane layoutX="394.0" layoutY="108.0" prefHeight="49.0" prefWidth="779.0" style="-fx-background-color: #333E50;">
@@ -79,7 +85,7 @@
                     </font>
                 </Button>
                 <TextField fx:id="kfzTF" layoutX="407.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="KFZ-Kennzeichen" style="-fx-padding: 0px 20px;" />
-                <TextField fx:id="dutumTF" layoutX="742.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="Dutum" style="-fx-padding: 0px 20px;" />
+                <TextField fx:id="dutumTF" layoutX="742.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="Datum" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="aktiveFahTF" layoutX="407.0" layoutY="328.0" prefHeight="49.0" prefWidth="296.0" promptText="aktive Fahrzeit" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="gefahreneKmTF" layoutX="407.0" layoutY="407.0" prefHeight="49.0" prefWidth="296.0" promptText="gefahrene km" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="kategoriesTF" layoutX="407.0" layoutY="485.0" prefHeight="49.0" prefWidth="296.0" promptText="Kategorie (optional)" style="-fx-padding: 0px 20px;" />

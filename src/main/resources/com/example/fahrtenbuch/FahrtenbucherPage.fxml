@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,9 +15,9 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.FahrtenbucherController">
     <children>
-        <AnchorPane layoutX="-197.0" layoutY="-109.0" prefHeight="700.0" prefWidth="1168.0">
+        <AnchorPane layoutX="-197.0" layoutY="-109.0" prefHeight="700.0" prefWidth="900.0">
             <children>
-                <Pane layoutX="168.0" layoutY="108.0" prefHeight="597.0" prefWidth="225.0" style="-fx-background-color: #333E50;">
+                <Pane layoutX="175.0" layoutY="108.0" prefHeight="597.0" prefWidth="218.0" style="-fx-background-color: #333E50;">
                     <children>
                         <ImageView fx:id="logoIcon" fitHeight="115.0" fitWidth="131.0" layoutX="47.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
                         <Separator layoutX="3.0" layoutY="185.0" opacity="0.5" prefHeight="2.0" prefWidth="218.0" style="-fx-background-color: #333E50;" />
@@ -65,15 +66,20 @@
                                 <Font size="18.0" />
                             </font>
                         </Button>
+                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="58.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/Logo.png" />
+                     </image>
+                  </ImageView>
                     </children>
                 </Pane>
-                <Pane layoutX="394.0" layoutY="108.0" prefHeight="49.0" prefWidth="779.0" style="-fx-background-color: #333E50;">
+                <Pane layoutX="389.0" layoutY="108.0" prefHeight="49.0" prefWidth="784.0" style="-fx-background-color: #333E50;">
                     <children>
                         <Pane layoutX="8.0" layoutY="88.0" prefHeight="217.0" prefWidth="759.0" style="-fx-border-color: #CDCDCD;">
                             <children>
                                 <Pane prefHeight="33.0" prefWidth="759.0" style="-fx-background-color: #CDCDCD;">
                                     <children>
-                                        <Label layoutX="22.0" layoutY="8.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;" text="Fahrten filtern" textFill="#656464">
+                                        <Label layoutX="22.0" layoutY="8.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;" text="Fahrten filtern" textFill="#343e51">
                                             <font>
                                                 <Font size="14.0" />
                                             </font>
@@ -95,7 +101,6 @@
                             </font>
                         </Label>
                     </children></Pane>
-                <Button layoutX="1017.0" layoutY="163.0" mnemonicParsing="false" prefHeight="3.0" prefWidth="142.0" style="-fx-font-family: Tahoma; -fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5px; -fx-cursor: pointer;" text="Ubersicht  &gt;" textFill="#726161" />
                 <TableView layoutX="401.0" layoutY="473.0" prefHeight="200.0" prefWidth="759.0">
                     <columns>
                         <TableColumn prefWidth="122.0" text="KFZ-Kennzeichen" />

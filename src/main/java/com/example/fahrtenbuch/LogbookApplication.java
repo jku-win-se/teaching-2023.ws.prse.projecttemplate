@@ -11,7 +11,7 @@ public class LogbookApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(LogbookApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 915, 584);
         stage.setTitle("Fahrtenbuch");
         stage.setScene(scene);
         stage.show();
