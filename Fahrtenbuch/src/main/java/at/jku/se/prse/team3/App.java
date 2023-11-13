@@ -11,10 +11,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Hello world!
- *
- */
 public abstract class App {
     public static void main(String[] args) throws IOException, CsvValidationException, InterruptedException {
         System.out.println("  ___     _        _            _            _   ");
@@ -41,4 +37,5 @@ public abstract class App {
 
 
     public abstract void start(Stage primaryStage);
+
 }

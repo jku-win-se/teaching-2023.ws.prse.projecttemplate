@@ -40,21 +40,20 @@ public class FahrtenbuchUI extends Application {
     private Button backButton;
     private Button newTripButton;
     private TableView<Fahrt> fahrtenTabelle;
-    private Button speichernButton = new Button("\uD83D\uDCBE Fahrt speichern");;
+    private Button speichernButton = new Button("\uD83D\uDCBE Fahrt speichern");
 
     private Button newEditButton;
 
     private ObservableList<Fahrt> fahrtenListe; // Klassenvariable für die Fahrtenliste
     private ButtonType deleteButtonType = new ButtonType("Löschen", ButtonBar.ButtonData.APPLY);
-
     public FahrtenbuchUI(Fahrtenbuch fahrtenbuch) {
         this.fahrtenbuch = fahrtenbuch;
         // Initialisierung der fahrtenListe mit leeren Daten oder vorhandenen Daten aus fahrtenbuch
         this.fahrtenListe = FXCollections.observableArrayList();
-
     }
 
     public static void main(String[] args) {
+
         launch(args);
     }
 
@@ -64,10 +63,13 @@ public class FahrtenbuchUI extends Application {
         // Laden der vorhandenen Fahrten aus dem Fahrtenbuch und Initialisierung der fahrtenListe
         fahrtenListe.clear();
         fahrtenListe.addAll(fahrtenbuch.listeFahrten());
-
         // Erstellen und Konfigurieren der TableView und anderer UI-Komponenten
         fahrtenTabelle = new TableView<>(fahrtenListe);
+        fahrtenTabelle.setId("fahrtenTabelle");
         fahrtenTabelle.setItems(fahrtenListe);
+        // Weitere Konfigurationen des Buttons hier
+
+        speichernButton.setId("saveButton");
 
         TableColumn<Fahrt, String> kfz = new TableColumn<>("KFZ-Kennzeichen");
         kfz.setCellValueFactory(new PropertyValueFactory<>("kfzKennzeichen"));
@@ -103,6 +105,7 @@ public class FahrtenbuchUI extends Application {
         primaryStage.setTitle("Fahrtenbuch");
         setButton = new Button();
         setButton.setText("Settings");
+        setButton.setId("settingsButton");
 
         setButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -115,6 +118,7 @@ public class FahrtenbuchUI extends Application {
 
         newEditButton = new Button();
         newEditButton.setText("Fahrt bearbeiten");
+        newEditButton.setId("editButton");
 
         newEditButton.setOnAction(event -> {
             Fahrt ausgewaehlteFahrt = fahrtenTabelle.getSelectionModel().getSelectedItem();
@@ -132,6 +136,7 @@ public class FahrtenbuchUI extends Application {
 
         newTripButton = new Button();
         newTripButton.setText("Neue Fahrt");
+        newTripButton.setId("newTripButton");
         newTripButton.setStyle("-fx-background-colour: #00ff00");
         newTripButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -296,7 +301,6 @@ public class FahrtenbuchUI extends Application {
         scrollPane.setPrefHeight(400); // Setzen Sie eine bevorzugte Höhe
 
         Label info = new Label("    Fahrtinformartionen unten eingeben");
-
         primaryStage.setTitle("Neue Fahrt");
         StackPane layoutNewTrip = new StackPane();
         layoutNewTrip.getChildren().add(scrollPane);
@@ -308,7 +312,7 @@ public class FahrtenbuchUI extends Application {
 
         speichernButton.setOnAction(event -> {
             // Sammeln der Benutzereingaben
-
+            speichernButton.setId("saveButton");
             String kfzText = kfzKennzeichen.getText();
             LocalDate ausgewaehltesDatum = datum.getValue();
             LocalTime abfahrtsZeitValue = LocalTime.parse(abfahrtsZeit.getText());
