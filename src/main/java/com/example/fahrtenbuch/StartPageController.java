@@ -17,6 +17,8 @@ import java.util.Objects;
 
 public class StartPageController {
 
+    //Startseite
+
     @FXML
     private void handleBtnDataAction (ActionEvent event) throws IOException {
         Parent dataActionPage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("DataAction.fxml")));
