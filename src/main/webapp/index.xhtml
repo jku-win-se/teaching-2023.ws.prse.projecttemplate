@@ -18,6 +18,9 @@
                         <p:column headerText="Id" style="text-align: center; width: 3rem;">
                             <p:outputLabel value="#{fahrt.id}"/>
                         </p:column>
+                        <p:column style="text-align: center;" headerText="Status" filterBy="#{fahrt.getStatus().label}" sortBy="#{fahrt.getStatus().label}">
+                            <p:outputLabel value="#{fahrt.getStatus().label}"/>
+                        </p:column>
                         <p:column headerText="Kennzeichen" style="text-align: center;" filterBy="#{fahrt.carPlate}" sortBy="#{fahrt.carPlate}">
                             <p:cellEditor>
                                 <f:facet name="output"><p:outputLabel value="#{fahrt.carPlate}"/></f:facet>
