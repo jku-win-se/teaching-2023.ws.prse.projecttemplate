@@ -1,6 +1,7 @@
 package at.jku.se.prse.views;
 
 
+import at.jku.se.prse.enums.Wiederholung;
 import at.jku.se.prse.model.Fahrt;
 import at.jku.se.prse.model.Kategorie;
 import at.jku.se.prse.services.KategorieService;
@@ -56,8 +57,55 @@ public class AdministrationView {
 
     public void saveNewFahrt() {
         fahrtService.save(newFahrt);
+        //Issue #6
+        if(newFahrt.getNumberOfRepetitions() > 1 && newFahrt.getRepetition() != Wiederholung.NICHT_DEFINIERT) {
+            Fahrt fahrt = new Fahrt();
+            fahrt = setAdditionalFahrt(fahrt);
+            if(fahrt.getRepetition() == Wiederholung.WOECHENTLICH) repetitionWeekly(fahrt);
+            else if(fahrt.getRepetition() == Wiederholung.MONATLICH) repetitionMonthly(fahrt);
+            else if(fahrt.getRepetition() == Wiederholung.JAEHRLICH) repetitionYearly(fahrt);
+        }
         initFahrten();
     }
+
+    //Issue #6
+    public Fahrt setAdditionalFahrt(Fahrt fahrt){
+        fahrt.setCarPlate(newFahrt.getCarPlate());
+        fahrt.setDate(newFahrt.getDate());
+        fahrt.setDepTime(newFahrt.getDepTime());
+        fahrt.setArrTime(newFahrt.getArrTime());
+        fahrt.setRiddenKM(newFahrt.getRiddenKM());
+        fahrt.setTimeStood(newFahrt.getTimeStood());
+        //fahrt.setCategories(newFahrt.getCategories());
+        fahrt.setRepetition(newFahrt.getRepetition());
+        fahrt.setNumberOfRepetitions(newFahrt.getNumberOfRepetitions());
+        return fahrt;
+    }
+
+    //Issue #6
+    public void repetitionWeekly(Fahrt fahrt){
+        newFahrt = fahrt;
+        newFahrt.setDate(fahrt.getDate().plusDays(7));
+        newFahrt.setNumberOfRepetitions(fahrt.getNumberOfRepetitions() - 1);
+        saveNewFahrt();
+    }
+
+    //Issue #6
+    public void repetitionMonthly(Fahrt fahrt){                 //Monthly is equivalent to 4 weeks, because otherwise it would not be the same weekday
+        newFahrt = fahrt;
+        newFahrt.setDate(fahrt.getDate().plusWeeks(4));
+        newFahrt.setNumberOfRepetitions(fahrt.getNumberOfRepetitions() - 1);
+        saveNewFahrt();
+    }
+
+    //Issue #6
+    public void repetitionYearly(Fahrt fahrt){
+        newFahrt = fahrt;
+        newFahrt.setDate(fahrt.getDate().plusYears(1));
+        newFahrt.setNumberOfRepetitions(fahrt.getNumberOfRepetitions() - 1);
+        saveNewFahrt();
+    }
+
     public void rowEditFahrt(RowEditEvent<Fahrt> event) {
         fahrtService.save(event.getObject());
         FacesMessage msg = new FacesMessage("Edited", "Fahrt " + event.getObject().getId());
@@ -96,6 +144,7 @@ public class AdministrationView {
         }
     }
 
+    //Issue #5
     public void deleteFahrt(Fahrt fahrt) {
         fahrtService.delete(fahrt);
         initFahrten();
