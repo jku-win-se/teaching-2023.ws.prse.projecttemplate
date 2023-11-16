@@ -6,73 +6,39 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.util.Objects;
 
 public class DataActionController {
 
     @FXML
     private void returnToStartBtn(ActionEvent event) throws IOException {
-        Parent startPage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("hello-view.fxml")));
-        Scene scene = new Scene(startPage);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        sceneChange("hello-view.fxml",event);
     }
 
     @FXML
     private void handleBtnOverview(ActionEvent event) throws IOException {
-        Parent startPage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Overview.fxml")));
-        Scene scene = new Scene(startPage);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+       sceneChange("Overview.fxml",event);
     }
 
     @FXML
     private void handleNewRide(ActionEvent event) throws IOException {
-        Parent newFahrt = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Index.fxml")));
-        Scene scene = new Scene(newFahrt);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        sceneChange("Index.fxml", event);
     }
 
     @FXML
     private void handleFahrtenbuecherPage(ActionEvent event) throws IOException {
-        Parent overviewPage = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("FahrtenbucherPage.fxml")));
-        Scene scene = new Scene(overviewPage);
+        sceneChange("FahrtenbucherPage.fxml",event);
+    }
+
+    public void sceneChange(String url, ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
-
-
-
-    @FXML
-    private Button btnDataAction;
-
-    @FXML
-    private Button btnDataActionExport;
-
-    @FXML
-    private Button btnDataActionImport;
-
-    @FXML
-    private Button btnLogBook;
-
-    @FXML
-    private Button btnNewRide;
-
-    @FXML
-    private Button btnStart;
-
-    @FXML
-    private Button btnOverview;
-
 
 }
 

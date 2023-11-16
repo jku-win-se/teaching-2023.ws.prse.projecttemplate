@@ -13,81 +13,71 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="915.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.DataActionController">
 
-    <children>
-        <Button fx:id="btnDataActionExport" layoutX="402.0" layoutY="292.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="280.0" style="-fx-background-color: #343E51;" text="EXPORT DATA" textFill="WHITE">
+    <Button fx:id="btnDataActionExport" layoutX="402.0" layoutY="292.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="280.0" style="-fx-background-color: #343E51;" text="EXPORT DATA" textFill="WHITE">
+        <font>
+            <Font name="System Bold" size="20.0" />
+        </font>
+    </Button>
+    <Button fx:id="btnDataActionImport" layoutX="402.0" layoutY="198.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="280.0" style="-fx-background-color: #343E51;" text="IMPORT DATA" textFill="WHITE">
+        <font>
+            <Font name="System Bold" size="20.0" />
+        </font>
+    </Button>
+    <SplitPane layoutX="181.0" prefHeight="63.0" prefWidth="734.0" style="-fx-background-color: #343E51;">
+        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" IMPORT/ EXPORT" wrappingWidth="256.14453125">
             <font>
-                <Font name="System Bold" size="20.0" />
+                <Font name="System Bold" size="26.0" />
             </font>
-        </Button>
-        <Button fx:id="btnDataActionImport" layoutX="402.0" layoutY="198.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="280.0" style="-fx-background-color: #343E51;" text="IMPORT DATA" textFill="WHITE">
-            <font>
-                <Font name="System Bold" size="20.0" />
-            </font>
-        </Button>
-        <SplitPane layoutX="181.0" prefHeight="63.0" prefWidth="734.0" style="-fx-background-color: #343E51;">
-            <items>
-                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" IMPORT/ EXPORT" wrappingWidth="256.14453125">
+        </Text>
+    </SplitPane>
+    <Pane layoutX="-37.0" layoutY="-13.0" prefHeight="597.0" prefWidth="218.0" style="-fx-background-color: #333E50;">
+        <ImageView fx:id="logoIcon" fitHeight="115.0" fitWidth="131.0" layoutX="47.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
+        <Separator layoutX="3.0" layoutY="185.0" opacity="0.5" prefHeight="2.0" prefWidth="218.0" style="-fx-background-color: #333E50;" />
+        <HBox layoutX="47.0" layoutY="210.0" prefHeight="30.0" prefWidth="177.0">
+            <children>
+                <Button fx:id="btnStart" mnemonicParsing="false" onAction="#returnToStartBtn" prefHeight="35.0" prefWidth="66.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Start" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="26.0" />
+                        <Font size="18.0" />
                     </font>
-                </Text>
-            </items>
-        </SplitPane>
-      <Pane layoutX="-37.0" layoutY="-13.0" prefHeight="597.0" prefWidth="218.0" style="-fx-background-color: #333E50;">
-         <children>
-            <ImageView fx:id="logoIcon" fitHeight="115.0" fitWidth="131.0" layoutX="47.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
-            <Separator layoutX="3.0" layoutY="185.0" opacity="0.5" prefHeight="2.0" prefWidth="218.0" style="-fx-background-color: #333E50;" />
-            <HBox layoutX="34.0" layoutY="209.0" prefHeight="30.0" prefWidth="177.0">
-               <children>
-                  <ImageView fx:id="startlogoimg" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="btnStart" mnemonicParsing="false" onAction="#returnToStartBtn" prefHeight="35.0" prefWidth="66.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Start" textFill="WHITE">
-                     <font>
+                </Button>
+            </children>
+        </HBox>
+        <HBox layoutX="47.0" layoutY="253.0" prefHeight="30.0" prefWidth="177.0">
+            <children>
+                <Button fx:id="btnNewRide" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="35.0" prefWidth="107.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="New Fahrt" textFill="WHITE">
+                    <font>
                         <Font size="18.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox layoutX="34.0" layoutY="252.0" prefHeight="30.0" prefWidth="177.0">
-               <children>
-                  <ImageView fx:id="newFahrtIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="btnNewRide" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="35.0" prefWidth="107.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="New Fahrt" textFill="WHITE">
-                     <font>
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+        <HBox layoutX="47.0" layoutY="299.0" prefHeight="30.0" prefWidth="177.0">
+            <children>
+                <Button fx:id="btnLogBook" mnemonicParsing="false" onAction="#handleFahrtenbuecherPage" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Fahrtenbucher" textFill="WHITE">
+                    <font>
                         <Font size="18.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox layoutX="34.0" layoutY="295.0" prefHeight="30.0" prefWidth="177.0">
-               <children>
-                  <ImageView fx:id="fahrtenbucherIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="btnLogBook" mnemonicParsing="false" onAction="#handleFahrtenbuecherPage" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Fahrtenbucher" textFill="WHITE">
-                     <font>
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+        <HBox layoutX="47.0" layoutY="342.0" prefHeight="35.0" prefWidth="177.0">
+            <children>
+                <Button fx:id="btnDataAction" mnemonicParsing="false" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Import/Export" textFill="WHITE">
+                    <font>
                         <Font size="18.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox layoutX="34.0" layoutY="342.0" prefHeight="30.0" prefWidth="177.0">
-               <children>
-                  <ImageView fx:id="importExportIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="btnDataAction" mnemonicParsing="false" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Import/Export" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-            <Button fx:id="btnOverview" layoutX="29.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleBtnOverview" prefHeight="35.0" prefWidth="177.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Übersicht" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="58.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/Logo.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
-    </children>
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+        <Button fx:id="btnOverview" layoutX="7.0" layoutY="386.0" mnemonicParsing="false" onAction="#handleBtnOverview" prefHeight="35.0" prefWidth="184.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Übersicht" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="58.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@images/Logo.png" />
+            </image>
+        </ImageView>
+    </Pane>
 </AnchorPane>

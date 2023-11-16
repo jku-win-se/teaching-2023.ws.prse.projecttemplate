@@ -15,14 +15,13 @@
     <children>
         <AnchorPane layoutX="-168.0" layoutY="-109.0" prefHeight="700.0" prefWidth="1168.0">
             <children>
-                <Pane layoutX="168.0" layoutY="108.0" prefHeight="597.0" prefWidth="225.0" style="-fx-background-color: #333E50;">
+                <Pane layoutX="149.0" layoutY="109.0" prefHeight="597.0" prefWidth="225.0" style="-fx-background-color: #333E50;">
                     <children>
                         <ImageView fx:id="logoIcon" fitHeight="115.0" fitWidth="131.0" layoutX="47.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
                         <Separator layoutX="3.0" layoutY="185.0" opacity="0.5" prefHeight="1.0" prefWidth="1005.0" style="-fx-background-color: #333E50;" />
                         <HBox layoutX="34.0" layoutY="209.0" prefHeight="30.0" prefWidth="177.0">
                             <children>
-                                <ImageView fx:id="startlogoimg" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                                <Button mnemonicParsing="false" onAction="#startAction" prefHeight="35.0" prefWidth="66.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Start" textFill="WHITE">
+                                <Button fx:id="btnStart" mnemonicParsing="false" onAction="#returnToStartBtn" prefHeight="35.0" prefWidth="66.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Start" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -31,7 +30,6 @@
                         </HBox>
                         <HBox layoutX="34.0" layoutY="252.0" prefHeight="30.0" prefWidth="177.0">
                             <children>
-                                <ImageView fx:id="newFahrtIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
                                 <Button mnemonicParsing="false" onAction="#newFahrtAction" prefHeight="35.0" prefWidth="107.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="New Fahrt" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
@@ -41,8 +39,7 @@
                         </HBox>
                         <HBox layoutX="34.0" layoutY="295.0" prefHeight="30.0" prefWidth="177.0">
                             <children>
-                                <ImageView fx:id="fahrtenbucherIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                                <Button mnemonicParsing="false" onAction="#fahrtenbucherAction" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Fahrtenbucher" textFill="WHITE">
+                                <Button fx:id="btnLogBook" mnemonicParsing="false" onAction="#fahrtenbucherAction" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Fahrtenbucher" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
@@ -51,29 +48,28 @@
                         </HBox>
                         <HBox layoutX="34.0" layoutY="342.0" prefHeight="30.0" prefWidth="177.0">
                             <children>
-                                <ImageView fx:id="importExportIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                                <Button mnemonicParsing="false" onAction="#importExportAction" prefHeight="35.0" prefWidth="149.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Import/Export" textFill="WHITE">
+                                <Button fx:id="btnDataAction" mnemonicParsing="false" onAction="#handleBtnDataAction" prefHeight="35.0" prefWidth="147.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Import/Export" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
                                 </Button>
                             </children>
                         </HBox>
-                        <Button fx:id="btnOverview" layoutX="25.0" layoutY="384.0" mnemonicParsing="false" onAction="#handleBtnOverview" prefHeight="35.0" prefWidth="190.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Übersicht" textFill="WHITE">
+                        <Button fx:id="btnOverview" layoutX="-6.0" layoutY="383.0" mnemonicParsing="false" onAction="#handleBtnOverview" prefHeight="35.0" prefWidth="190.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Übersicht" textFill="WHITE">
                             <font>
                                 <Font size="18.0" />
                             </font>
                         </Button>
-                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="42.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="52.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/Logo.png" />
                      </image>
                   </ImageView>
                     </children>
                 </Pane>
-                <Pane layoutX="387.0" layoutY="108.0" prefHeight="49.0" prefWidth="786.0" style="-fx-background-color: #333E50;">
+                <Pane layoutX="372.0" layoutY="108.0" prefHeight="49.0" prefWidth="801.0" style="-fx-background-color: #333E50;">
                     <children>
-                        <Label layoutX="14.0" layoutY="8.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;" text="ZUKUNFTIGE FAHRT" textFill="WHITE">
+                        <Label layoutX="15.0" layoutY="8.0" prefHeight="33.0" prefWidth="266.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;" text="ZUKUNFTIGE FAHRT" textFill="WHITE">
                             <font>
                                 <Font size="26.0" />
                             </font>
@@ -83,7 +79,7 @@
                 <TextField fx:id="vonDatumTF" layoutX="407.0" layoutY="328.0" prefHeight="49.0" prefWidth="296.0" promptText="Von-Datum" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="bisDatumTF" layoutX="407.0" layoutY="407.0" prefHeight="49.0" prefWidth="296.0" promptText="Bis-Datum" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="kategoriesTF" layoutX="742.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="Kategorie (optional)" style="-fx-padding: 0px 20px;" />
-                <Button layoutX="406.0" layoutY="579.0" mnemonicParsing="false" onAction="#FahrtAnlegenActionBtn" prefHeight="49.0" prefWidth="296.0" style="-fx-background-color: #333E50; -fx-border-radius: 10px; -fx-cursor: pointer;" text="FAHRT ANLEGEN" textFill="WHITE">
+                <Button layoutX="406.0" layoutY="579.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="296.0" style="-fx-background-color: #333E50; -fx-border-radius: 10px; -fx-cursor: pointer;" text="FAHRT ANLEGEN" textFill="WHITE">
                     <font>
                         <Font size="16.0" />
                     </font>

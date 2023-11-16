@@ -14,107 +14,96 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.FahrtenbucherController">
-    <children>
-        <AnchorPane layoutX="-197.0" layoutY="-109.0" prefHeight="700.0" prefWidth="900.0">
-            <children>
-                <Pane layoutX="175.0" layoutY="108.0" prefHeight="597.0" prefWidth="218.0" style="-fx-background-color: #333E50;">
-                    <children>
-                        <ImageView fx:id="logoIcon" fitHeight="115.0" fitWidth="131.0" layoutX="47.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
-                        <Separator layoutX="3.0" layoutY="185.0" opacity="0.5" prefHeight="2.0" prefWidth="218.0" style="-fx-background-color: #333E50;" />
-                        <HBox layoutX="34.0" layoutY="209.0" prefHeight="30.0" prefWidth="177.0">
-                            <children>
-                                <ImageView fx:id="startlogoimg" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                                <Button fx:id="btnStart" mnemonicParsing="false" onAction="#returnToStartBtn" prefHeight="35.0" prefWidth="66.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Start" textFill="WHITE">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <HBox layoutX="34.0" layoutY="252.0" prefHeight="30.0" prefWidth="177.0">
-                            <children>
-                                <ImageView fx:id="newFahrtIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                                <Button fx:id="btnNewRide" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="35.0" prefWidth="107.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="New Fahrt" textFill="WHITE">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <HBox layoutX="34.0" layoutY="295.0" prefHeight="30.0" prefWidth="177.0">
-                            <children>
-                                <ImageView fx:id="fahrtenbucherIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                                <Button mnemonicParsing="false" onAction="#Fahrtenbucher_ACTION" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Fahrtenbucher" textFill="WHITE">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <HBox layoutX="34.0" layoutY="342.0" prefHeight="30.0" prefWidth="177.0">
-                            <children>
-                                <ImageView fx:id="importExportIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                                <Button fx:id="btnDataAction" mnemonicParsing="false" onAction="#handleBtnDataAction" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Import/Export" textFill="WHITE">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <Button fx:id="btnOverview" layoutX="29.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleBtnOverview" prefHeight="35.0" prefWidth="177.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Übersicht" textFill="WHITE">
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                        </Button>
-                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="58.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/Logo.png" />
-                     </image>
-                  </ImageView>
-                    </children>
+    <AnchorPane layoutX="-197.0" layoutY="-109.0" prefHeight="700.0" prefWidth="900.0">
+        <Pane layoutX="175.0" layoutY="108.0" prefHeight="597.0" prefWidth="218.0" style="-fx-background-color: #333E50;">
+            <ImageView fitHeight="115.0" fitWidth="131.0" layoutX="47.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
+            <Separator layoutX="3.0" layoutY="185.0" opacity="0.5" prefHeight="2.0" prefWidth="218.0" style="-fx-background-color: #333E50;" />
+            <HBox layoutX="34.0" layoutY="209.0" prefHeight="30.0" prefWidth="177.0">
+                <Button fx:id="btnStart" mnemonicParsing="false" onAction="#returnToStartBtn" prefHeight="35.0" prefWidth="66.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Start" textFill="WHITE">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            </HBox>
+            <HBox layoutX="34.0" layoutY="252.0" prefHeight="30.0" prefWidth="177.0">
+                <Button fx:id="btnNewRide" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="35.0" prefWidth="107.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="New Fahrt" textFill="WHITE">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            </HBox>
+            <HBox layoutX="34.0" layoutY="295.0" prefHeight="30.0" prefWidth="177.0">
+                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="142.0"
+                        style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;"
+                        text="Fahrtenbucher" textFill="WHITE">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Button>
+            </HBox>
+            <HBox layoutX="34.0" layoutY="342.0" prefHeight="30.0" prefWidth="177.0">
+                <Button fx:id="btnDataAction" mnemonicParsing="false" onAction="#handleBtnDataAction" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Import/Export" textFill="WHITE">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            </HBox>
+            <Button fx:id="btnOverview" layoutX="-6.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleBtnOverview" prefHeight="41.0" prefWidth="184.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Übersicht" textFill="WHITE">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="58.0" layoutY="27.0" pickOnBounds="true"
+                       preserveRatio="true">
+                <Image url="@images/Logo.png"/>
+            </ImageView>
+        </Pane>
+        <Pane layoutX="389.0" layoutY="108.0" prefHeight="49.0" prefWidth="784.0"
+              style="-fx-background-color: #333E50;">
+            <Pane layoutX="8.0" layoutY="88.0" prefHeight="217.0" prefWidth="759.0" style="-fx-border-color: #CDCDCD;">
+                <Pane prefHeight="33.0" prefWidth="759.0" style="-fx-background-color: #CDCDCD;">
+                    <Label layoutX="22.0" layoutY="8.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;"
+                           text="Fahrten filtern" textFill="#343e51">
+                        <font>
+                            <Font size="14.0"/>
+                        </font>
+                    </Label>
                 </Pane>
-                <Pane layoutX="389.0" layoutY="108.0" prefHeight="49.0" prefWidth="784.0" style="-fx-background-color: #333E50;">
-                    <children>
-                        <Pane layoutX="8.0" layoutY="88.0" prefHeight="217.0" prefWidth="759.0" style="-fx-border-color: #CDCDCD;">
-                            <children>
-                                <Pane prefHeight="33.0" prefWidth="759.0" style="-fx-background-color: #CDCDCD;">
-                                    <children>
-                                        <Label layoutX="22.0" layoutY="8.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;" text="Fahrten filtern" textFill="#343e51">
-                                            <font>
-                                                <Font size="14.0" />
-                                            </font>
-                                        </Label>
-                                    </children>
-                                </Pane>
-                                <TextField fx:id="monat" layoutX="21.0" layoutY="105.0" prefHeight="41.0" prefWidth="218.0" promptText="Monat" style="-fx-padding: 0px 20px;" />
-                                <TextField fx:id="tagTF" layoutX="21.0" layoutY="47.0" prefHeight="41.0" prefWidth="218.0" promptText="Tag" style="-fx-padding: 0px 20px;" />
-                                <TextField fx:id="durchlicheTF" layoutX="264.0" layoutY="47.0" prefHeight="41.0" prefWidth="218.0" promptText="durchschnittliche Geschwindigkeit" style="-fx-padding: 0px 20px;" />
-                                <TextField fx:id="fahrtzeitTF" layoutX="507.0" layoutY="47.0" prefHeight="41.0" prefWidth="218.0" promptText="Fahrtzeit" style="-fx-padding: 0px 20px;" />
-                                <TextField fx:id="gefahreneKmTF" layoutX="507.0" layoutY="105.0" prefHeight="41.0" prefWidth="218.0" promptText="gefahrene km" style="-fx-padding: 0px 20px;" />
-                                <TextField fx:id="kategoryTF" layoutX="265.0" layoutY="105.0" prefHeight="41.0" prefWidth="218.0" promptText="Kategorie (Optional)" style="-fx-padding: 0px 20px;" />
-                                <TextField fx:id="jahrTF" layoutX="21.0" layoutY="162.0" prefHeight="41.0" prefWidth="218.0" promptText="Jahr" style="-fx-padding: 0px 20px;" />
-                            </children>
-                        </Pane>
-                        <Label layoutX="14.0" layoutY="8.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;" text="FAHRTENBUCHER UND FAHRTEN" textFill="WHITE">
-                            <font>
-                                <Font size="26.0" />
-                            </font>
-                        </Label>
-                    </children></Pane>
-                <TableView layoutX="401.0" layoutY="473.0" prefHeight="200.0" prefWidth="759.0">
-                    <columns>
-                        <TableColumn prefWidth="122.0" text="KFZ-Kennzeichen" />
-                        <TableColumn prefWidth="122.0" text="Anfang" />
-                        <TableColumn prefWidth="108.0" text="Ende" />
-                        <TableColumn prefWidth="124.0" text="gefahrene km" />
-                        <TableColumn prefWidth="139.0" text="aktive Fahrzeit" />
-                        <TableColumn prefWidth="137.0" text="Kategorie" />
-                    </columns>
-                </TableView>
-                <Label layoutX="401.0" layoutY="445.0" style="-fx-font-size: 15px; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Alle" />
-                <Label layoutX="450.0" layoutY="445.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Absolviert" />
-                <Label layoutX="544.0" layoutY="445.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Zukunftige" />
-                <Label layoutX="643.0" layoutY="445.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-padding: 3px 10px; -fx-border-color: #CDCDCD;" text="auf Fahrt " />
-            </children></AnchorPane>
-    </children>
+                <TextField fx:id="monat" layoutX="21.0" layoutY="105.0" prefHeight="41.0" prefWidth="218.0"
+                           promptText="Monat" style="-fx-padding: 0px 20px;"/>
+                <TextField fx:id="tagTF" layoutX="21.0" layoutY="47.0" prefHeight="41.0" prefWidth="218.0"
+                           promptText="Tag" style="-fx-padding: 0px 20px;"/>
+                <TextField fx:id="durchlicheTF" layoutX="264.0" layoutY="47.0" prefHeight="41.0" prefWidth="218.0"
+                           promptText="durchschnittliche Geschwindigkeit" style="-fx-padding: 0px 20px;"/>
+                <TextField fx:id="fahrtzeitTF" layoutX="507.0" layoutY="47.0" prefHeight="41.0" prefWidth="218.0"
+                           promptText="Fahrtzeit" style="-fx-padding: 0px 20px;"/>
+                <TextField fx:id="gefahreneKmTF" layoutX="507.0" layoutY="105.0" prefHeight="41.0" prefWidth="218.0"
+                           promptText="gefahrene km" style="-fx-padding: 0px 20px;"/>
+                <TextField fx:id="kategoryTF" layoutX="265.0" layoutY="105.0" prefHeight="41.0" prefWidth="218.0"
+                           promptText="Kategorie (Optional)" style="-fx-padding: 0px 20px;"/>
+                <TextField fx:id="jahrTF" layoutX="21.0" layoutY="162.0" prefHeight="41.0" prefWidth="218.0"
+                           promptText="Jahr" style="-fx-padding: 0px 20px;"/>
+            </Pane>
+            <Label layoutX="14.0" layoutY="8.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;"
+                   text="FAHRTENBUCHER UND FAHRTEN" textFill="WHITE">
+                <font>
+                    <Font size="26.0"/>
+                </font>
+            </Label>
+        </Pane>
+        <TableView fx:id="tableLogbook" layoutX="401.0" layoutY="473.0" prefHeight="200.0" prefWidth="759.0">
+            <columns>
+                <TableColumn fx:id="kfzColumn" prefWidth="122.0" text="KFZ-Kennzeichen" />
+                <TableColumn fx:id="abfahrtColumn" prefWidth="122.0" text="Anfang" />
+                <TableColumn fx:id="ankunftColumn" prefWidth="108.0" text="Ende" />
+                <TableColumn fx:id="gefahreneKmColumn" prefWidth="124.0" text="gefahrene km" />
+                <TableColumn fx:id="aktiveFahrtColumn" prefWidth="139.0" text="aktive Fahrzeit" />
+                <TableColumn fx:id="kategorieColumn" prefWidth="137.0" text="Kategorie" />
+            </columns>
+        </TableView>
+        <Label layoutX="401.0" layoutY="445.0" style="-fx-font-size: 15px; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Alle" />
+        <Label layoutX="450.0" layoutY="445.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Absolviert" />
+        <Label layoutX="544.0" layoutY="445.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Zukunftige" />
+        <Label layoutX="643.0" layoutY="445.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-padding: 3px 10px; -fx-border-color: #CDCDCD;" text="auf Fahrt " />
+    </AnchorPane>
 </AnchorPane>

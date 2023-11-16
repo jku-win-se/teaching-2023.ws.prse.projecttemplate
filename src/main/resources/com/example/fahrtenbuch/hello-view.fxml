@@ -45,7 +45,6 @@
             <Separator layoutX="3.0" layoutY="185.0" opacity="0.5" prefHeight="2.0" prefWidth="218.0" style="-fx-background-color: #333E50;" />
             <HBox layoutX="34.0" layoutY="209.0" prefHeight="30.0" prefWidth="177.0">
                <children>
-                  <ImageView fx:id="startlogoimg" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
                   <Button fx:id="btnStart" mnemonicParsing="false" prefHeight="35.0" prefWidth="66.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Start" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
@@ -55,7 +54,6 @@
             </HBox>
             <HBox layoutX="34.0" layoutY="252.0" prefHeight="30.0" prefWidth="177.0">
                <children>
-                  <ImageView fx:id="newFahrtIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
                   <Button fx:id="btnNewRide1" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="35.0" prefWidth="107.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="New Fahrt" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
@@ -65,7 +63,6 @@
             </HBox>
             <HBox layoutX="34.0" layoutY="295.0" prefHeight="30.0" prefWidth="177.0">
                <children>
-                  <ImageView fx:id="fahrtenbucherIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
                   <Button fx:id="btnLogBook" mnemonicParsing="false" onAction="#handleFahrtenbuecherPage" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Fahrtenbucher" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
@@ -75,7 +72,6 @@
             </HBox>
             <HBox layoutX="34.0" layoutY="342.0" prefHeight="30.0" prefWidth="177.0">
                <children>
-                  <ImageView fx:id="importExportIcon" fitHeight="26.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
                   <Button fx:id="btnDataAction1" mnemonicParsing="false" onAction="#handleBtnDataAction" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Import/Export" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
@@ -83,7 +79,7 @@
                   </Button>
                </children>
             </HBox>
-            <Button fx:id="btnOverview1" layoutX="29.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleBtnOverview" prefHeight="35.0" prefWidth="177.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Übersicht" textFill="WHITE">
+            <Button fx:id="btnOverview1" layoutY="389.0" mnemonicParsing="false" onAction="#handleBtnOverview" prefHeight="35.0" prefWidth="171.0" style="-fx-background-color: #333E50; -fx-font-family: Tahoma; -fx-cursor: pointer;" text="Übersicht" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
