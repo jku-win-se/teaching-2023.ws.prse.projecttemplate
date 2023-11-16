@@ -1,6 +1,6 @@
 # Praktikum Software Engineering WS2023 - "Digital Driver's Logbook"
 
-Beschreibung
+In diesem Projekt wird ein Fahrtenbuch umgesetzt. Neue Fahrten können angelegt, bearbeitet und gelöscht werden, wobei ein jeweiliger Status beschreibt, ob Fahrten vergangen, zukünftig oder gerade durchgeführt werden. Auch eine zukünftige Planung mehrerer sich wiederholende Fahrten ist möglich. 
 
 ## Prototype
 localhost:8080/index.html
