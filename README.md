@@ -19,5 +19,4 @@ https://www.figma.com/file/uS6ZQE29Ug4cUVFpfFBYfK/Prototyp-Fahrtenbuch?type=desi
 
 ## Installation
 
-  
-Wie kann man die Applikation ausführen?
+Um die Applikation auszuführen soll zuerst das JavaFX SDK heruntegeladen (https://gluonhq.com/products/javafx/) und an einem geeignet Ort gespeichert werden. Dann öffnet man eine Entwicklungsumgebung und importiert das Projekt. Am besten führt man einen Build des Projektes durch, um sicherzugehen, dass alle Abhängigkeiten ordnungsgemäß geladen wurden. Weiters soll die Konfiguration für die JavaFX-Anwendung richtig eingestellt sein. Dafür mit einem Rechtsklick auf das Projekt "Open Module Settings" auswählen, zu "Libraries" navigieren und JavaFX SDK als externe Bibiothek hinzufügen. Im "fahrtenbuch" package befindet sich die main Klasse "LogbookApplication". Mit Klick auf die Schaltfläche "Run" wird die Applikation ausgeführt.
