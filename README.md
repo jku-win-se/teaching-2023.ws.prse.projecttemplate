@@ -9,3 +9,5 @@ localhost:8080/index.html
 - Repository mit gewünschter IDE verbinden
 - 'FahrtenbuchApp' ausführen
 - Im lokalen Browser 'localhost:8080/index.html' ausführen
+
+## UML-Klassendiagram
