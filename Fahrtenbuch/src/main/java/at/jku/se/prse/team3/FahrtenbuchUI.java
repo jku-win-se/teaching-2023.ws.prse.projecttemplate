@@ -327,63 +327,71 @@ public class FahrtenbuchUI extends Application {
         layoutNewTrip.getChildren().add(info);
 
         speichernButton.setOnAction(event -> {
-            // Sammeln der Benutzereingaben
+            // Setze die ID für den Speichern-Button
             speichernButton.setId("saveButton");
-            Boolean b=!(FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue()));
-            if (!(FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue()))&&(kfzKennzeichen.getText().isEmpty() || abfahrtsZeit.getText().isEmpty() || ankunftsZeit.getText().isEmpty()
-                    || gefahreneKilometer.getText().isEmpty() || aktiveFahrzeit.getText().isEmpty() || (fahrtstatus == null ))){
-                Alert datumOrKennZ =new Alert(Alert.AlertType.WARNING);
-                datumOrKennZ.setContentText("Pflichtdaten für Erstellung neuer Fahrt nicht eingetragen!");
-                datumOrKennZ.showAndWait();
+
+            // Extrahiere den ausgewählten Fahrtstatus
+            FahrtStatus ausgewaehlterStatus = (FahrtStatus) fahrtstatus.getValue();
+
+            // Überprüfe, ob ein Fahrtstatus ausgewählt wurde
+            if (ausgewaehlterStatus == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Bitte wählen Sie einen Fahrtstatus aus.");
+                alert.showAndWait();
                 return;
             }
-            try {
-                if (kfzKennzeichen.getText().isEmpty()||futureDates.isEmpty()||abfahrtsZeit.getText().isEmpty()||fahrtstatus==null){
-                    Alert datumOrKennZ =new Alert(Alert.AlertType.WARNING);
-                    datumOrKennZ.setContentText("Pflichtdaten für Erstellung zukünftiger Fahrt nicht eingetragen!");
-                    datumOrKennZ.showAndWait();
+
+            // Überprüfe die Eingabefelder basierend auf dem ausgewählten Fahrtstatus
+            if (ausgewaehlterStatus == FahrtStatus.ZUKUENFTIG) {
+                // Für zukünftige Fahrten müssen das KFZ-Kennzeichen, das Datum und die Liste der zukünftigen Termine vorhanden sein
+                if (kfzKennzeichen.getText().isEmpty() || datum.getValue() == null || futureDates.isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setContentText("Pflichtdaten für Erstellung zukünftiger Fahrt nicht eingetragen!");
+                    alert.showAndWait();
                     return;
                 }
-                String kfzText = kfzKennzeichen.getText();
-                LocalDate ausgewaehltesDatum = datum.getValue();
-                LocalTime abfahrtsZeitValue = LocalTime.parse(abfahrtsZeit.getText());
-
-
-                FahrtStatus ausgewaehlterStatus = (FahrtStatus) fahrtstatus.getValue();
-                List<String> category = new ArrayList<>(kategorienListe);
-
-
-            // Hinzufügen der neuen Fahrt zum Fahrtenbuch und zur fahrtenListe
-
-                if (FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue())){
-
-                    if(datum.getValue()!=null){
-                        futureDates.add(datum.getValue());
-                    }
-
-                    fahrtenbuch.planeZukuenftigeFahrten(futureDates, kfzText, abfahrtsZeitValue, category);
+                // Plane zukünftige Fahrten
+                try {
+                    fahrtenbuch.planeZukuenftigeFahrten(futureDates, kfzKennzeichen.getText(), LocalTime.parse(abfahrtsZeit.getText()), kategorienListe);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                else{
-                    Double gefahreneKilometerValue = Double.parseDouble(gefahreneKilometer.getText());
-                    LocalTime ankunftsZeitValue = LocalTime.parse(ankunftsZeit.getText());
-                    LocalTime aktiveFahrzeitValue = LocalTime.parse(aktiveFahrzeit.getText());
-
-                fahrtenbuch.neueFahrt(kfzText, ausgewaehltesDatum, abfahrtsZeitValue, ankunftsZeitValue,
-                        gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus, category);
-            } }catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (DateTimeParseException d) {
-            Alert dateAlert = new Alert(Alert.AlertType.WARNING);
-            dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM:SS..");
-            dateAlert.showAndWait();
-
-        }catch(NumberFormatException n){
-            Alert numberAlert=new Alert(Alert.AlertType.WARNING);
-            numberAlert.setContentText("Numeric entries only..");
-            numberAlert.showAndWait();
-        }
-
+            } else {
+                // Für die Status 'AUF_FAHRT' und 'ABSOLVIERT' müssen alle Felder ausgefüllt sein
+                if (kfzKennzeichen.getText().isEmpty() || datum.getValue() == null || abfahrtsZeit.getText().isEmpty() ||
+                        ankunftsZeit.getText().isEmpty() || gefahreneKilometer.getText().isEmpty() ||
+                        aktiveFahrzeit.getText().isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setContentText("Pflichtdaten für Erstellung neuer Fahrt nicht eingetragen!");
+                    alert.showAndWait();
+                    return;
+                }
+                // Speichere die neue Fahrt
+                try {
+                    fahrtenbuch.neueFahrt(
+                            kfzKennzeichen.getText(),
+                            datum.getValue(),
+                            LocalTime.parse(abfahrtsZeit.getText()),
+                            LocalTime.parse(ankunftsZeit.getText()),
+                            Double.parseDouble(gefahreneKilometer.getText()),
+                            LocalTime.parse(aktiveFahrzeit.getText()),
+                            ausgewaehlterStatus,
+                            kategorienListe
+                    );
+                } catch (IOException | NumberFormatException | DateTimeParseException e) {
+                    e.printStackTrace();
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setContentText("Ein Fehler ist aufgetreten: " + e.getMessage());
+                    errorAlert.showAndWait();
+                }
+            }
+            // Aktualisiere die Liste der Fahrten in der UI
+            fahrtenListe.clear();
+            fahrtenListe.addAll(fahrtenbuch.listeFahrten());
         });
+
+
+
 
         StackPane.setAlignment(speichernButton, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(backButton, Pos.BOTTOM_LEFT);
