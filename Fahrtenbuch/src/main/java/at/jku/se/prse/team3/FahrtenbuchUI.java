@@ -185,7 +185,7 @@ public class FahrtenbuchUI extends Application {
             }
         });*/
 
-        Scene fahrten = new Scene(root, 720, 400);
+        Scene fahrten = new Scene(root, 840, 400);
         primaryStage.setScene(fahrten);
         primaryStage.show();
     }
