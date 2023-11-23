@@ -13,3 +13,5 @@ localhost:8080/index.html
 ## UML-Klassendiagram
 
 ![image](https://github.com/jku-win-se/teaching-2023.ws.prse.braeuer.team4/assets/122016173/7b235fe3-97c6-48c2-8011-4e85c015596c)
+
+https://github.com/jku-win-se/teaching-2023.ws.prse.braeuer.team4/blob/main/docs/diagramme/Klassendiagramm.png 
