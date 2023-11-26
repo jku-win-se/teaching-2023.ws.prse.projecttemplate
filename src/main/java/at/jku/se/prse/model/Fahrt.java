@@ -46,6 +46,10 @@ public class Fahrt {
 
     @Getter
     @Setter
+    private Integer mileage;    //Tachostand
+
+    @Getter
+    @Setter
     private LocalTime timeStood = LocalTime.MIN;
 
     //Issue #6

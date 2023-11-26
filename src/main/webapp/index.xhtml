@@ -54,6 +54,12 @@
                                 <f:facet name="input"><p:inputNumber minValue="0" value="#{fahrt.riddenKM}" label="Kennzeichen" inputStyle="width: 100%;"/></f:facet>
                             </p:cellEditor>
                         </p:column>
+                        <p:column headerText="Tachostand" style="text-align: center;" filterBy="#{fahrt.mileage}" sortBy="#{fahrt.mileage}">
+                            <p:cellEditor>
+                                <f:facet name="output"><p:outputLabel value="#{fahrt.mileage}"/></f:facet>
+                                <f:facet name="input"><p:inputNumber minValue="0" value="#{fahrt.mileage}" label="Tachostand" inputStyle="width: 100%;"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
                         <p:column headerText="Stehzeit" style="text-align: center; width:11rem;">
                             <p:cellEditor>
                                 <f:facet name="output"><p:outputLabel value="#{fahrt.timeStood}"/></f:facet>
@@ -91,9 +97,9 @@
 
         <p:dialog id="creationDialog" widgetVar="creationDialog" header="Neue Fahrt" closable="true" modal="true">
             <h:form>
-                <p:panelGrid columns="2" style="width: 450px; text-align: center; vertical-align: middle;">
+                <p:panelGrid columns="2" style="width: 500px; text-align: center; vertical-align: middle; float:left; overflow-y: auto;height: 500px;">
                     <p:outputLabel value="KFZ-Kennzeichen"/>
-                    <p:inputText widgetVar="plateInp" value="#{administrationView.newFahrt.carPlate}" />
+                    <p:inputText widgetVar="plateInp" value="#{administrationView.newFahrt.carPlate}" required="true" />
                     <p:outputLabel value="Datum" />
                     <p:datePicker widgetVar="dateInp" value="#{administrationView.newFahrt.date}" />
                     <p:outputLabel value="Abfahrtszeit" />
@@ -102,6 +108,8 @@
                     <p:datePicker value="#{administrationView.newFahrt.arrTime}" timeOnly="true"/>
                     <p:outputLabel value="Gefahrene Kilometer" />
                     <p:inputNumber minValue="0" value="#{administrationView.newFahrt.riddenKM}"/>
+                    <p:outputLabel value="Tachostand" />
+                    <p:inputNumber minValue="0" value="#{administrationView.newFahrt.mileage}"/>
                     <p:outputLabel value="Stehzeit" />
                     <p:datePicker value="#{administrationView.newFahrt.timeStood}" timeOnly="true"/>
                     <p:outputLabel value="Wiederholung" />
