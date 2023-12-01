@@ -61,12 +61,6 @@ public class Fahrt{
     public void setKategorie(String kategorie) {
         this.kategorie = kategorie;
     }
-/*
-    public String getDatuem() {
-        return Datuem;
-    }
-    public void setDatuem(String datuem) {
-        Datuem = datuem;
-    }
-*/
+
+
 }

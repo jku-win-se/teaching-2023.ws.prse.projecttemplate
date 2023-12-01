@@ -1,6 +1,15 @@
 package com.example.fahrtenbuch;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
+import com.example.fahrtenbuch.business.DatabaseConnection;
+import com.example.fahrtenbuch.business.DriveFacade;
+import com.example.fahrtenbuch.entities.Drive;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,6 +45,12 @@ public class IndexController{
     public Button btnNewRide;
 
     public Button btnOverview;
+    private DriveFacade driveFacade;
+
+    public IndexController() {
+        driveFacade = new DriveFacade();
+    }
+
     @FXML
     private void Fahrtenbucher_ACTION(ActionEvent event) throws IOException {
         sceneChange("FahrtenbucherPage.fxml", event);
@@ -61,7 +76,7 @@ public class IndexController{
         sceneChange("Overview.fxml", event);
     }
 
-    private final ObservableList<Fahrt> fahrtListe = FXCollections.observableArrayList();
+    private final ObservableList<Drive> fahrtListe = FXCollections.observableArrayList();
     @FXML
     private void addFahrt(ActionEvent event){
         String kfzField = kfzTF.getText();
@@ -71,8 +86,10 @@ public class IndexController{
         String aktiveFahField = aktiveFahTF.getText();
         String kategorieField = kategoriesTF.getText();
 
-        Fahrt fahrt = new Fahrt(kfzField, aktiveFahField, abfahrtField, ankunftField, gefahreneKmField, kategorieField);
+        //Drive fahrt = new Drive(kfzField, aktiveFahField, abfahrtField, ankunftField, gefahreneKmField, kategorieField);
+        Drive fahrt = new Drive(1, Date.valueOf(LocalDate.now()), Time.valueOf(LocalTime.now()),Time.valueOf(LocalTime.now()), Integer.valueOf(aktiveFahField), Double.valueOf(gefahreneKmField));
         fahrtListe.add(fahrt);
+        driveFacade.persistDrive(fahrt);
 
         handleBtnCreateRide(event);
     }
@@ -81,7 +98,7 @@ public class IndexController{
     @FXML
     private void handleBtnCreateRide(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FahrtenbucherPage.fxml"));
-        Parent overviewPage = null;
+        Parent overviewPage;
         try {
             overviewPage = loader.load();
         } catch (IOException e) {
