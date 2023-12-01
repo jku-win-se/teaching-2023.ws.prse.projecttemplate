@@ -10,6 +10,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -23,10 +27,12 @@ import java.text.Format;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -45,6 +51,7 @@ public class FahrtenbuchUI extends Application {
 
     private Button newEditButton;
 
+    private Button statistikButton;
     private ObservableList<Fahrt> fahrtenListe; // Klassenvariable für die Fahrtenliste
     private ButtonType deleteButtonType = new ButtonType("Löschen", ButtonBar.ButtonData.APPLY);
     public FahrtenbuchUI(Fahrtenbuch fahrtenbuch) {
@@ -69,6 +76,11 @@ public class FahrtenbuchUI extends Application {
         fahrtenTabelle.setId("fahrtenTabelle");
         fahrtenTabelle.setItems(fahrtenListe);
         // Weitere Konfigurationen des Buttons hier
+        // Button für die Statistik hinzufügen
+        statistikButton = new Button("Statistik anzeigen");
+        statistikButton.setOnAction(event -> zeigeKilometerDiagramm());
+
+
 
         speichernButton.setId("saveButton");
 
@@ -163,7 +175,7 @@ public class FahrtenbuchUI extends Application {
 
         // HBox für die Buttons erstellen
         HBox leftButtonBox = new HBox(10);
-        leftButtonBox.getChildren().addAll(newTripButton,setButton,newEditButton);
+        leftButtonBox.getChildren().addAll(newTripButton,setButton,newEditButton,statistikButton);
         leftButtonBox.setAlignment(Pos.TOP_LEFT);
         leftButtonBox.setPadding(new javafx.geometry.Insets(4, 1, 10, 1));
 
@@ -569,6 +581,48 @@ public class FahrtenbuchUI extends Application {
 
 
     }
+    private void zeigeKilometerDiagramm() {
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("Kilometer Pro Monat");
+
+            // Vorbereitung der Daten für das Diagramm
+            Map<YearMonth, Double> kilometerProMonat = fahrtenbuch.berechneKilometerProMonat();
+
+            // Erstellen des Balkendiagramms
+            CategoryAxis xAxis = new CategoryAxis();
+            xAxis.setLabel("Monat");
+
+            NumberAxis yAxis = new NumberAxis();
+            yAxis.setLabel("Kilometer");
+
+            BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+            barChart.setTitle("Gefahrene Kilometer Pro Monat");
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Kilometer");
+
+            // Hinzufügen der Daten zum Diagramm
+            kilometerProMonat.forEach((ym, km) -> {
+                XYChart.Data<String, Number> data = new XYChart.Data<>(ym.toString(), km);
+                series.getData().add(data);
+            });
+            barChart.getData().add(series);
+
+            Scene scene = new Scene(barChart, 800, 600);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Fehler beim Anzeigen der Statistik");
+            errorAlert.setHeaderText("Ein Fehler ist aufgetreten");
+            errorAlert.setContentText("Es gab ein Problem beim Anzeigen der Kilometerstatistik: " + e.getMessage());
+            errorAlert.showAndWait();
+        }
+    }
+
+
 
     private void addToReoccurances(LocalDate date, Consumer<LocalDate> addFutureDate) {
         addFutureDate.accept(date);
@@ -601,4 +655,5 @@ public class FahrtenbuchUI extends Application {
         Platform.runLater(() -> layoutSettings.requestFocus());
         primaryStage.show();
     }
+
 }

@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.*;
 
 public class Fahrtenbuch {
@@ -227,6 +228,16 @@ public class Fahrtenbuch {
 
 
     }
+    // Methode um gefahrene Kilometer pro Monat zu ermitteln
+    public Map<YearMonth, Double> berechneKilometerProMonat() {
+        Map<YearMonth, Double> kilometerProMonat = new TreeMap<>();
+        for (Fahrt fahrt : fahrten) {
+            YearMonth yearMonth = YearMonth.from(fahrt.getDatum());
+            kilometerProMonat.merge(yearMonth, fahrt.getGefahreneKilometer(), Double::sum);
+        }
+        return kilometerProMonat;
+    }
+
 
 
 }

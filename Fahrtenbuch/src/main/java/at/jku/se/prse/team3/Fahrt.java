@@ -1,6 +1,7 @@
 package at.jku.se.prse.team3;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -130,5 +131,28 @@ public class Fahrt {
     public void addKategorie(String kategorie) {
         this.kategorien.add(kategorie);
     }
+
+
+    // Entfernen einer Kategorie
+    public void removeKategorie(String kategorie) {
+        this.kategorien.remove(kategorie);
+    }
+
+    // Überprüfen, ob eine Kategorie bereits zugeordnet ist
+    public boolean hasKategorie(String kategorie) {
+        return this.kategorien.contains(kategorie);
+    }
+
+    // Ersetzen der Kategorienliste
+    public void setKategorienList(List<String> neueKategorien) {
+        this.kategorien.clear();
+        this.kategorien.addAll(neueKategorien);
+    }
+
+    // Abrufen der Kategorienliste als unveränderliche Liste
+    public ObservableList<String> getUnmodifiableKategorien() {
+        return FXCollections.unmodifiableObservableList(this.kategorien.get());
+    }
+
 
 }
