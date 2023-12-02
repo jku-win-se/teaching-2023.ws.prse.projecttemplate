@@ -17,6 +17,17 @@ UML Diagramm Klassen
 ## Prototype 
 https://www.figma.com/file/uS6ZQE29Ug4cUVFpfFBYfK/Prototyp-Fahrtenbuch?type=design&node-id=118%3A644&mode=design&t=eRd3X0ueWxJAVFvE-1
 
-## Installation
-
-Um die Applikation auszuführen soll zuerst das JavaFX SDK heruntegeladen (https://gluonhq.com/products/javafx/) und an einem geeignet Ort gespeichert werden. Dann öffnet man eine Entwicklungsumgebung und importiert das Projekt. Am besten führt man einen Build des Projektes durch, um sicherzugehen, dass alle Abhängigkeiten ordnungsgemäß geladen wurden. Weiters soll die Konfiguration für die JavaFX-Anwendung richtig eingestellt sein. Dafür mit einem Rechtsklick auf das Projekt "Open Module Settings" auswählen, zu "Libraries" navigieren und JavaFX SDK als externe Bibiothek hinzufügen. Im "fahrtenbuch" package befindet sich die main Klasse "LogbookApplication". Mit Klick auf die Schaltfläche "Run" wird die Applikation ausgeführt.
+## Projektstruktur
+### MYSQL Installation
+#### Windows
+https://dev.mysql.com/doc/refman/8.2/en/windows-installation.html
+#### Mac
+https://dev.mysql.com/doc/refman/8.0/en/macos-installation.html
+### Download JDBC Connector
+https://www.youtube.com/watch?v=whhSR0wlWQY
+### Download JAVAFX SDK
+https://gluonhq.com/products/javafx/
+### Voraussetzung
+JavaFX SDK; JDBC Connector; lokaler MySQL Server
+### Installation
+Unter Project Structure -> Libraries JAVAFX SDK hinzufügen und unter Project Structure -> Modules -> Dependencies -> Add jar den Mysql JDBC Connector hinzufügen. Anschließend kann das Programm mit der Main Klasse "LogbookApplication" im "fahrtenbuch" package mit Klick auf die Schaltfläche "Run" ausgeführt werden.
