@@ -5,6 +5,10 @@ import com.example.fahrtenbuch.entities.Category_Drive;
 import com.example.fahrtenbuch.entities.Drive;
 import com.example.fahrtenbuch.entities.Vehicle;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -111,6 +115,7 @@ public class DatabaseConnection {
             System.out.println(vehicleFacade.getAllVehicles());
             System.out.println(driveFacade.getAllDrives());
             System.out.println(categoryFacade.getAllCategories());
+            exportDataToCSV();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -129,6 +134,58 @@ public class DatabaseConnection {
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void exportDataToCSV() {
+        try {
+            // export table vehicle
+            exportTableToCSV("vehicle", "vehicle.csv");
+            exportTableToCSV("category", "category.csv");
+            exportTableToCSV("drive", "drive.csv");
+            exportTableToCSV("category_drive", "category_drive.csv");
+
+            System.out.println("Daten wurden erfolgreich exportiert.");
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void exportTableToCSV(String tableName, String filePath)
+            throws SQLException, IOException {
+        String sql = "SELECT * FROM " + tableName;
+
+        try (Statement statement = conn.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql);
+             FileWriter writer = new FileWriter(filePath)) {
+
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            // header line
+            for (int i = 1; i <= columnCount; i++) {
+                writer.write(metaData.getColumnName(i));
+                if (i < columnCount) {
+                    writer.write(";");
+                }
+            }
+            writer.write("\n");
+
+            // data lines
+            while (resultSet.next()) {
+                for (int i = 1; i <= columnCount; i++) {
+                    String value = resultSet.getString(i);
+                    if (resultSet.wasNull()) {
+                        writer.write("NULL");
+                    } else {
+                        writer.write(value);
+                    }
+                    if (i < columnCount) {
+                        writer.write(";");
+                    }
+                }
+                writer.write("\n");
+            }
         }
     }
 
