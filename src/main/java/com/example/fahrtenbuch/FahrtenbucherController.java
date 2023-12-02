@@ -2,6 +2,7 @@ package com.example.fahrtenbuch;
 
 import java.io.IOException;
 
+import com.example.fahrtenbuch.entities.Drive;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,26 +12,25 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Fahrt;
 
 public class FahrtenbucherController{
 
     @FXML
-    private TableView<Fahrt> tableLogbook;
+    private TableView<Drive> tableLogbook;
     @FXML
-    private TableColumn<Fahrt, String> kfzColumn;
+    private TableColumn<Drive, String> kfzColumn;
     @FXML
-    private TableColumn<Fahrt, String> aktiveFahrtColumn;
+    private TableColumn<Drive, String> aktiveFahrtColumn;
     @FXML
-    private TableColumn<Fahrt, String> gefahreneKmColumn;
+    private TableColumn<Drive, String> gefahreneKmColumn;
     @FXML
-    private TableColumn<Fahrt, String> kategorieColumn;
+    private TableColumn<Drive, String> kategorieColumn;
     @FXML
-    private TableColumn<Fahrt, String> abfahrtColumn;
+    private TableColumn<Drive, String> abfahrtColumn;
     @FXML
-    private TableColumn<Fahrt, String> ankunftColumn;
+    private TableColumn<Drive, String> ankunftColumn;
 
     public Button btnStart;
     public Button btnDataAction;
@@ -39,15 +39,16 @@ public class FahrtenbucherController{
 
 
 
-    public void setTableLogbook(ObservableList<Fahrt> fahrtListe) {
-        kfzColumn.setCellValueFactory(new PropertyValueFactory<>("KFZ_kennzeichen"));
-        abfahrtColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAbfahrtszeit()));
-        ankunftColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAnkunftszeit()));
-        gefahreneKmColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGefahreneKM()));
-        aktiveFahrtColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getActiveFahrzeit()));
-        kategorieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKategorie()));
+    public void setTableLogbook(ObservableList<Drive> fahrtListe) {
+        kfzColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getVehicleId().toString()));
+        abfahrtColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDepartureTime().toString()));
+        ankunftColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getArrivalTime().toString()));
+        gefahreneKmColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDrivenKilometres().toString()));
+        aktiveFahrtColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getWaitingTime().toString()));
+        kategorieColumn.setCellValueFactory(cellData -> new SimpleStringProperty("test"));
 
         tableLogbook.setItems(fahrtListe);
+
     }
 
     @FXML

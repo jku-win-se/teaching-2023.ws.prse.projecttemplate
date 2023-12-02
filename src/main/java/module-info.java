@@ -2,6 +2,7 @@ module com.example.fahrtenbuch {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.base;
+    requires java.sql;
 
 
     opens model;
