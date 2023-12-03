@@ -52,6 +52,11 @@ public class Fahrt {
     @Setter
     private LocalTime timeStood = LocalTime.MIN;
 
+    //Issue #23
+    @Getter
+    @Setter
+    private Double averageSpeed;
+
     //Issue #6
     @Getter
     @Setter

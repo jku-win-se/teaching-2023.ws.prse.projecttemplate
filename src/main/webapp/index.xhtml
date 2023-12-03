@@ -60,13 +60,19 @@
                                 <f:facet name="input"><p:inputNumber minValue="0" value="#{fahrt.mileage}" label="Tachostand" inputStyle="width: 100%;"/></f:facet>
                             </p:cellEditor>
                         </p:column>
-                        <p:column headerText="Stehzeit" style="text-align: center; width:11rem;">
+                        <p:column headerText="Stehzeit" style="text-align: center; width:11rem;" filterBy="#{fahrt.timeStood}" sortBy="#{fahrt.timeStood}">
                             <p:cellEditor>
                                 <f:facet name="output"><p:outputLabel value="#{fahrt.timeStood}"/></f:facet>
                                 <f:facet name="input"><p:datePicker inputStyle="width: 100%" timeOnly="true" value="#{fahrt.timeStood}"/></f:facet>
                             </p:cellEditor>
                         </p:column>
-                        <p:column headerText="Kategorien" style="text-align: center;">
+                        <p:column headerText="Durchschnittsgeschw." style="text-align: center; width:11rem;" filterBy="#{fahrt.averageSpeed}" sortBy="#{fahrt.averageSpeed}">
+                            <p:cellEditor>
+                                <f:facet name="output"><p:outputLabel value="#{fahrt.averageSpeed}"/></f:facet>
+                                <f:facet name="input"><p:inputNumber minValue="0.0" value="#{fahrt.averageSpeed}" label="Durchschnittsgeschw" inputStyle="width: 100%;"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Kategorien" style="text-align: center;"  filterBy="#{fahrt.getCategoriesAsString()}" sortBy="#{fahrt.getCategoriesAsString()}">
                             <p:cellEditor>
                                 <f:facet name="output">
                                     <p:outputLabel value="#{fahrt.getCategoriesAsString()}" style="width: 100%"/>
@@ -119,7 +125,7 @@
                         <f:selectItem itemLabel="jährlich" itemValue="JAEHRLICH" />
                     </p:selectOneRadio>
                     <p:outputLabel value="Anzahl der Wiederholungen" />
-                    <p:inputNumber minValue="0" value="#{administrationView.newFahrt.numberOfRepetitions}"/>
+                    <p:inputNumber minValue="0" value="#{administrationView.newFahrt.numberOfRepetitions}" default="0" required="false"/>
                 </p:panelGrid>
                 <p:divider/>
                 <p:commandButton action="#{administrationView.saveNewFahrt()}" process="@form" update="@all" value="Speichern" styleClass="ui-button-plain" icon="pi pi-save" style="text-align: center"/>

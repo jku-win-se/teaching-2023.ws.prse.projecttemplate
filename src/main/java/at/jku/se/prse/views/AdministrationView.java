@@ -18,6 +18,7 @@ import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.temporal.ChronoField;
 import java.util.List;
 
 @Component
@@ -56,7 +57,15 @@ public class AdministrationView {
     }
 
     public void saveNewFahrt() {
+        //Issue #34
+        if(newFahrt.getArrTime()!=null && newFahrt.getDepTime()!=null && newFahrt.getTimeStood()!=null && newFahrt.getRiddenKM()!=null) {
+            newFahrt.setAverageSpeed(newFahrt.getRiddenKM() / aktiveFahrzeit(newFahrt));
+        }
+        else newFahrt.setAverageSpeed(0.0);
+        //End Issue #34
+
         fahrtService.save(newFahrt);
+
         //Issue #6
         if(newFahrt.getNumberOfRepetitions() > 1 && newFahrt.getRepetition() != Wiederholung.NICHT_DEFINIERT) {
             Fahrt fahrt = new Fahrt();
@@ -65,6 +74,8 @@ public class AdministrationView {
             else if(fahrt.getRepetition() == Wiederholung.MONATLICH) repetitionMonthly(fahrt);
             else if(fahrt.getRepetition() == Wiederholung.JAEHRLICH) repetitionYearly(fahrt);
         }
+        //End Issue #6
+
         initFahrten();
     }
 
@@ -76,6 +87,7 @@ public class AdministrationView {
         fahrt.setArrTime(newFahrt.getArrTime());
         fahrt.setRiddenKM(newFahrt.getRiddenKM());
         fahrt.setTimeStood(newFahrt.getTimeStood());
+        fahrt.setAverageSpeed(newFahrt.getAverageSpeed());
         //fahrt.setCategories(newFahrt.getCategories());
         fahrt.setRepetition(newFahrt.getRepetition());
         fahrt.setNumberOfRepetitions(newFahrt.getNumberOfRepetitions());
@@ -148,5 +160,17 @@ public class AdministrationView {
     public void deleteFahrt(Fahrt fahrt) {
         fahrtService.delete(fahrt);
         initFahrten();
+    }
+
+    //Issue #34
+    public double aktiveFahrzeit(Fahrt newFahrt){
+        int arrMinutes = newFahrt.getArrTime().getHour()*60 + newFahrt.getArrTime().getMinute();
+        int depMinutes = newFahrt.getDepTime().getHour()*60 + newFahrt.getDepTime().getMinute();
+        int stoodMinutes = newFahrt.getTimeStood().getHour()*60 + newFahrt.getTimeStood().getMinute();
+        double arrTime = (double) arrMinutes;
+        double depTime = (double) depMinutes;
+        double stoodTime = (double) stoodMinutes;
+        double time = (arrTime - depTime - stoodTime) / 60.0;
+        return time;
     }
 }
