@@ -18,7 +18,7 @@
             <Font name="Arial" size="20.0" />
         </font>
     </Button>
-    <Button fx:id="btnDataActionImport" layoutX="402.0" layoutY="198.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="280.0" style="-fx-background-color: #343E51;" text="IMPORT DATA" textFill="WHITE">
+    <Button fx:id="btnDataActionImport" onAction="#handleDataImport" layoutX="402.0" layoutY="198.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="280.0" style="-fx-background-color: #343E51;" text="IMPORT DATA" textFill="WHITE">
         <font>
             <Font name="Arial" size="20.0" />
         </font>
