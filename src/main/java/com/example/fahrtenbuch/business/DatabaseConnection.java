@@ -4,7 +4,9 @@ import com.example.fahrtenbuch.entities.Category;
 import com.example.fahrtenbuch.entities.Category_Drive;
 import com.example.fahrtenbuch.entities.Drive;
 import com.example.fahrtenbuch.entities.Vehicle;
+import javafx.scene.control.Alert;
 
+import java.io.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -100,10 +102,10 @@ public class DatabaseConnection {
             categoryFacade.persistCategory(new Category("Freizeit"));
 
             Category_Drive_Facade categoryDriveFacade = new Category_Drive_Facade();
-            categoryDriveFacade.persistCategoryDrive(new Category_Drive(1,1));
-            categoryDriveFacade.persistCategoryDrive(new Category_Drive(1,2));
-            categoryDriveFacade.persistCategoryDrive(new Category_Drive(2,2));
-            categoryDriveFacade.persistCategoryDrive(new Category_Drive(2,3));
+            categoryDriveFacade.persistCategoryDrive(new Category_Drive(1, 1));
+            categoryDriveFacade.persistCategoryDrive(new Category_Drive(1, 2));
+            categoryDriveFacade.persistCategoryDrive(new Category_Drive(2, 2));
+            categoryDriveFacade.persistCategoryDrive(new Category_Drive(2, 3));
 
             System.out.println(categoryDriveFacade.getDrivesByCategoryId(1));
             System.out.println(categoryDriveFacade.getDrivesByCategoryId(2));
@@ -111,6 +113,8 @@ public class DatabaseConnection {
             System.out.println(vehicleFacade.getAllVehicles());
             System.out.println(driveFacade.getAllDrives());
             System.out.println(categoryFacade.getAllCategories());
+            exportDataToCSV();
+            importDataFromCSV();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -131,5 +135,131 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
     }
+
+    public void exportDataToCSV() {
+        try {
+            // export table vehicle
+            exportTableToCSV("vehicle", "vehicle.csv");
+            exportTableToCSV("category", "category.csv");
+            exportTableToCSV("drive", "drive.csv");
+            exportTableToCSV("category_drive", "category_drive.csv");
+
+            System.out.println("Daten wurden erfolgreich exportiert.");
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void exportTableToCSV(String tableName, String filePath)
+            throws SQLException, IOException {
+        String sql = "SELECT * FROM " + tableName;
+
+        try (Statement statement = conn.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql);
+             FileWriter writer = new FileWriter(filePath)) {
+
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            // header line
+            for (int i = 1; i <= columnCount; i++) {
+                writer.write(metaData.getColumnName(i));
+                if (i < columnCount) {
+                    writer.write(";");
+                }
+            }
+            writer.write("\n");
+
+            // data lines
+            while (resultSet.next()) {
+                for (int i = 1; i <= columnCount; i++) {
+                    String value = resultSet.getString(i);
+                    if (resultSet.wasNull()) {
+                        writer.write("NULL");
+                    } else {
+                        writer.write(value);
+                    }
+                    if (i < columnCount) {
+                        writer.write(";");
+                    }
+                }
+                writer.write("\n");
+            }
+        }
+    }
+
+    public void importDataFromCSV() {
+        //sql statements for drop table
+        String deleteTableDrive = "DELETE FROM drive";
+        String deleteTableVehicle = "DELETE FROM vehicle";
+        String deleteTableCategory = "DELETE FROM category";
+        String deleteTableCategoryDrive = "DELETE FROM category_drive";
+
+        //drop existing tables
+        try {
+            statement = conn.createStatement();
+            statement.executeUpdate(deleteTableCategoryDrive);
+            statement.executeUpdate(deleteTableDrive);
+            statement.executeUpdate(deleteTableVehicle);
+            statement.executeUpdate(deleteTableCategory);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //check if files exist and read data
+        File vehicleFile = new File("vehicle.csv");
+        File categoryFile = new File("category.csv");
+        File driveFile = new File("drive.csv");
+        File categoryDriveFile = new File("category_drive.csv");
+
+        if(vehicleFile.exists() && categoryDriveFile.exists() && driveFile.exists() && categoryDriveFile.exists()) {
+            readCSV("vehicle", "vehicle.csv");
+            readCSV("category", "category.csv");
+            readCSV("drive", "drive.csv");
+            readCSV("category_drive", "category_drive.csv");
+        }
+    }
+
+    public void readCSV(String tableName, String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            boolean skipFirstLine = true;
+            while ((line = reader.readLine()) != null) {
+                if (skipFirstLine) { // skip the header line
+                    skipFirstLine = false;
+                    continue;
+                }
+                String[] data = line.split(";");
+                insertRow(tableName, data);
+            }
+            System.out.println("Daten wurden erfolgreich importiert.");
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertRow(String tableName, String[] data) throws SQLException {
+        StringBuilder query = new StringBuilder("INSERT INTO ");
+        query.append(tableName).append(" VALUES (");
+        for (int i = 0; i < data.length; i++) {
+            query.append("?");
+            if (i < data.length - 1) {
+                query.append(",");
+            }
+        }
+        query.append(")");
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query.toString())) {
+            for (int i = 0; i < data.length; i++) {
+                if (data[i].equals("NULL")) {
+                    preparedStatement.setNull(i + 1, Types.NULL);
+                } else {
+                    preparedStatement.setString(i + 1, data[i]);
+                }
+            }
+            preparedStatement.executeUpdate();
+        }
+    }
+
 
 }
