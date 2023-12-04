@@ -226,7 +226,6 @@ public class Fahrtenbuch {
 
         }
 
-
     }
     // Methode um gefahrene Kilometer pro Monat zu ermitteln
     public Map<YearMonth, Double> berechneKilometerProMonat() {
@@ -237,7 +236,45 @@ public class Fahrtenbuch {
         }
         return kilometerProMonat;
     }
+    public Map<YearMonth, Map<String, Double>> berechneKilometerProMonatUndKategorie() {
+        Map<YearMonth, Map<String, Double>> kilometerProMonatUndKategorie = new TreeMap<>();
+
+        for (Fahrt fahrt : fahrten) {
+            YearMonth yearMonth = YearMonth.from(fahrt.getDatum());
+            List<String> fahrtKategorien = fahrt.getKategorien();
+
+            fahrtKategorien.forEach(kategorie -> {
+                kilometerProMonatUndKategorie
+                        .computeIfAbsent(yearMonth, k -> new HashMap<>())
+                        .merge(kategorie, fahrt.getGefahreneKilometer(), Double::sum);
+            });
+        }
+        return kilometerProMonatUndKategorie;
+    }
+
+    public Map<Integer, Map<String, Double>> berechneKilometerProJahrUndKategorie() {
+        Map<Integer, Map<String, Double>> kilometerProJahrUndKategorie = new TreeMap<>();
+
+        for (Fahrt fahrt : fahrten) {
+            int jahr = fahrt.getDatum().getYear();
+            List<String> fahrtKategorien = fahrt.getKategorien();
+
+            fahrtKategorien.forEach(kategorie -> {
+                kilometerProJahrUndKategorie
+                        .computeIfAbsent(jahr, k -> new HashMap<>())
+                        .merge(kategorie, fahrt.getGefahreneKilometer(), Double::sum);
+            });
+        }
+        return kilometerProJahrUndKategorie;
+    }
 
 
+    public Set<String> getKategorien() {
+        Set<String> uniqueKategorien = new HashSet<>();
+        for (Fahrt fahrt : fahrten) {
+            uniqueKategorien.addAll(fahrt.getKategorien());
+        }
+        return uniqueKategorien;
+    }
 
 }

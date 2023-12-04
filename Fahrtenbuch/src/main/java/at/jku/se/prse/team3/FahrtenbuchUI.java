@@ -2,6 +2,7 @@ package at.jku.se.prse.team3;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,10 +31,7 @@ import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -50,8 +48,12 @@ public class FahrtenbuchUI extends Application {
     private Button speichernButton = new Button("\uD83D\uDCBE Fahrt speichern");
 
     private Button newEditButton;
-
     private Button statistikButton;
+    private Button erweiterteStatistikButton;
+    private Button jahresStatistikButton;
+    private MenuButton statistikMenuButton;
+    private MenuButton grafikMenuButton;
+
     private ObservableList<Fahrt> fahrtenListe; // Klassenvariable für die Fahrtenliste
     private ButtonType deleteButtonType = new ButtonType("Löschen", ButtonBar.ButtonData.APPLY);
     public FahrtenbuchUI(Fahrtenbuch fahrtenbuch) {
@@ -67,7 +69,7 @@ public class FahrtenbuchUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-    //start tabellerische Ansicht
+        //start tabellerische Ansicht
         // Laden der vorhandenen Fahrten aus dem Fahrtenbuch und Initialisierung der fahrtenListe
         fahrtenListe.clear();
         fahrtenListe.addAll(fahrtenbuch.listeFahrten());
@@ -76,13 +78,16 @@ public class FahrtenbuchUI extends Application {
         fahrtenTabelle.setId("fahrtenTabelle");
         fahrtenTabelle.setItems(fahrtenListe);
         // Weitere Konfigurationen des Buttons hier
-        // Button für die Statistik hinzufügen
-        statistikButton = new Button("Statistik anzeigen");
-        statistikButton.setOnAction(event -> zeigeKilometerDiagramm());
-
-
-
+        initializeStatistikMenuButton();
+        initializeGrafikMenuButton();
         speichernButton.setId("saveButton");
+        statistikButton = new Button("Statistik grafisch anzeigen");
+        statistikButton.setOnAction(event -> zeigeKilometerDiagramm());
+        erweiterteStatistikButton = new Button("Erweiterte Statistik anzeigen");
+        erweiterteStatistikButton.setOnAction(event -> zeigeErweiterteKilometerStatistik());
+        jahresStatistikButton = new Button("Jahresstatistik anzeigen");
+        jahresStatistikButton.setOnAction(event -> zeigeJahresKilometerStatistik());
+
 
         TableColumn<Fahrt, String> kfz = new TableColumn<>("KFZ-Kennzeichen");
         kfz.setCellValueFactory(new PropertyValueFactory<>("kfzKennzeichen"));
@@ -175,7 +180,7 @@ public class FahrtenbuchUI extends Application {
 
         // HBox für die Buttons erstellen
         HBox leftButtonBox = new HBox(10);
-        leftButtonBox.getChildren().addAll(newTripButton,setButton,newEditButton,statistikButton);
+        leftButtonBox.getChildren().addAll(newTripButton,setButton,newEditButton,statistikMenuButton,grafikMenuButton );
         leftButtonBox.setAlignment(Pos.TOP_LEFT);
         leftButtonBox.setPadding(new javafx.geometry.Insets(4, 1, 10, 1));
 
@@ -339,63 +344,71 @@ public class FahrtenbuchUI extends Application {
         layoutNewTrip.getChildren().add(info);
 
         speichernButton.setOnAction(event -> {
-            // Sammeln der Benutzereingaben
+            // Setze die ID für den Speichern-Button
             speichernButton.setId("saveButton");
-            Boolean b=!(FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue()));
-            if (!(FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue()))&&(kfzKennzeichen.getText().isEmpty() || abfahrtsZeit.getText().isEmpty() || ankunftsZeit.getText().isEmpty()
-                    || gefahreneKilometer.getText().isEmpty() || aktiveFahrzeit.getText().isEmpty() || (fahrtstatus == null ))){
-                Alert datumOrKennZ =new Alert(Alert.AlertType.WARNING);
-                datumOrKennZ.setContentText("Pflichtdaten für Erstellung neuer Fahrt nicht eingetragen!");
-                datumOrKennZ.showAndWait();
+
+            // Extrahiere den ausgewählten Fahrtstatus
+            FahrtStatus ausgewaehlterStatus = (FahrtStatus) fahrtstatus.getValue();
+
+            // Überprüfe, ob ein Fahrtstatus ausgewählt wurde
+            if (ausgewaehlterStatus == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Bitte wählen Sie einen Fahrtstatus aus.");
+                alert.showAndWait();
                 return;
             }
-            try {
-                if (kfzKennzeichen.getText().isEmpty()||futureDates.isEmpty()||abfahrtsZeit.getText().isEmpty()||fahrtstatus==null){
-                    Alert datumOrKennZ =new Alert(Alert.AlertType.WARNING);
-                    datumOrKennZ.setContentText("Pflichtdaten für Erstellung zukünftiger Fahrt nicht eingetragen!");
-                    datumOrKennZ.showAndWait();
+
+            // Überprüfe die Eingabefelder basierend auf dem ausgewählten Fahrtstatus
+            if (ausgewaehlterStatus == FahrtStatus.ZUKUENFTIG) {
+                // Für zukünftige Fahrten müssen das KFZ-Kennzeichen, das Datum und die Liste der zukünftigen Termine vorhanden sein
+                if (kfzKennzeichen.getText().isEmpty() || datum.getValue() == null || futureDates.isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setContentText("Pflichtdaten für Erstellung zukünftiger Fahrt nicht eingetragen!");
+                    alert.showAndWait();
                     return;
                 }
-                String kfzText = kfzKennzeichen.getText();
-                LocalDate ausgewaehltesDatum = datum.getValue();
-                LocalTime abfahrtsZeitValue = LocalTime.parse(abfahrtsZeit.getText());
-
-
-                FahrtStatus ausgewaehlterStatus = (FahrtStatus) fahrtstatus.getValue();
-                List<String> category = new ArrayList<>(kategorienListe);
-
-
-            // Hinzufügen der neuen Fahrt zum Fahrtenbuch und zur fahrtenListe
-
-                if (FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue())){
-
-                    if(datum.getValue()!=null){
-                        futureDates.add(datum.getValue());
-                    }
-
-                    fahrtenbuch.planeZukuenftigeFahrten(futureDates, kfzText, abfahrtsZeitValue, category);
+                // Plane zukünftige Fahrten
+                try {
+                    fahrtenbuch.planeZukuenftigeFahrten(futureDates, kfzKennzeichen.getText(), LocalTime.parse(abfahrtsZeit.getText()), kategorienListe);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                else{
-                    Double gefahreneKilometerValue = Double.parseDouble(gefahreneKilometer.getText());
-                    LocalTime ankunftsZeitValue = LocalTime.parse(ankunftsZeit.getText());
-                    LocalTime aktiveFahrzeitValue = LocalTime.parse(aktiveFahrzeit.getText());
-
-                fahrtenbuch.neueFahrt(kfzText, ausgewaehltesDatum, abfahrtsZeitValue, ankunftsZeitValue,
-                        gefahreneKilometerValue, aktiveFahrzeitValue, ausgewaehlterStatus, category);
-            } }catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (DateTimeParseException d) {
-            Alert dateAlert = new Alert(Alert.AlertType.WARNING);
-            dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM:SS..");
-            dateAlert.showAndWait();
-
-        }catch(NumberFormatException n){
-            Alert numberAlert=new Alert(Alert.AlertType.WARNING);
-            numberAlert.setContentText("Numeric entries only..");
-            numberAlert.showAndWait();
-        }
-
+            } else {
+                // Für die Status 'AUF_FAHRT' und 'ABSOLVIERT' müssen alle Felder ausgefüllt sein
+                if (kfzKennzeichen.getText().isEmpty() || datum.getValue() == null || abfahrtsZeit.getText().isEmpty() ||
+                        ankunftsZeit.getText().isEmpty() || gefahreneKilometer.getText().isEmpty() ||
+                        aktiveFahrzeit.getText().isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setContentText("Pflichtdaten für Erstellung neuer Fahrt nicht eingetragen!");
+                    alert.showAndWait();
+                    return;
+                }
+                // Speichere die neue Fahrt
+                try {
+                    fahrtenbuch.neueFahrt(
+                            kfzKennzeichen.getText(),
+                            datum.getValue(),
+                            LocalTime.parse(abfahrtsZeit.getText()),
+                            LocalTime.parse(ankunftsZeit.getText()),
+                            Double.parseDouble(gefahreneKilometer.getText()),
+                            LocalTime.parse(aktiveFahrzeit.getText()),
+                            ausgewaehlterStatus,
+                            kategorienListe
+                    );
+                } catch (IOException | NumberFormatException | DateTimeParseException e) {
+                    e.printStackTrace();
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setContentText("Ein Fehler ist aufgetreten: " + e.getMessage());
+                    errorAlert.showAndWait();
+                }
+            }
+            // Aktualisiere die Liste der Fahrten in der UI
+            fahrtenListe.clear();
+            fahrtenListe.addAll(fahrtenbuch.listeFahrten());
         });
+
+
+
 
         StackPane.setAlignment(speichernButton, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(backButton, Pos.BOTTOM_LEFT);
@@ -504,35 +517,27 @@ public class FahrtenbuchUI extends Application {
 
             if (dialogButton == speichernButtonType) {
 
-                    ausgewaehlteFahrt.setKfzKennzeichen(kfzKennzeichenField.getText());
+                ausgewaehlteFahrt.setKfzKennzeichen(kfzKennzeichenField.getText());
 
-                    try {
-                        LocalDate temp = datumPicker.getValue();
-                        ausgewaehlteFahrt.setDatum(temp);
-                        ausgewaehlteFahrt.setAbfahrtszeit(LocalTime.parse(abfahrtszeitField.getText()));
-                        ausgewaehlteFahrt.setAnkunftszeit(LocalTime.parse(ankunftszeitField.getText()));
-                        ausgewaehlteFahrt.setGefahreneKilometer(Double.parseDouble(gefahreneKilometerField.getText()));
-                        ausgewaehlteFahrt.setAktiveFahrzeit(LocalTime.parse(aktiveFahrzeitField.getText()));
-                    } catch (DateTimeParseException d) {
-                        Alert dateAlert = new Alert(Alert.AlertType.WARNING);
-                        dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM:SS..");
-                        dateAlert.showAndWait();
+                try {
+                    LocalDate temp = datumPicker.getValue();
+                    ausgewaehlteFahrt.setDatum(temp);
+                    ausgewaehlteFahrt.setAbfahrtszeit(LocalTime.parse(abfahrtszeitField.getText()));
+                    ausgewaehlteFahrt.setAnkunftszeit(LocalTime.parse(ankunftszeitField.getText()));
+                    ausgewaehlteFahrt.setGefahreneKilometer(Double.parseDouble(gefahreneKilometerField.getText()));
+                    ausgewaehlteFahrt.setAktiveFahrzeit(LocalTime.parse(aktiveFahrzeitField.getText()));
+                } catch (DateTimeParseException d) {
+                    Alert dateAlert = new Alert(Alert.AlertType.WARNING);
+                    dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM:SS..");
+                    dateAlert.showAndWait();
 
-                    }catch(NumberFormatException n){
-                        Alert numberAlert=new Alert(Alert.AlertType.WARNING);
-                        numberAlert.setContentText("Numeric entries only..");
-                        numberAlert.showAndWait();
-
-
-                    }
+                }catch(NumberFormatException n){
+                    Alert numberAlert=new Alert(Alert.AlertType.WARNING);
+                    numberAlert.setContentText("Numeric entries only..");
+                    numberAlert.showAndWait();
 
 
-
-
-
-
-
-                // ... Aktualisieren Sie weitere Eigenschaften ...
+                }
                 try {
                     fahrtenbuch.exportFahrt();
                 } catch (IOException e) {
@@ -566,63 +571,19 @@ public class FahrtenbuchUI extends Application {
         // Dialog anzeigen und warten, bis der Benutzer ihn schließt
 
 
-            Optional<Fahrt> result = dialog.showAndWait();
+        Optional<Fahrt> result = dialog.showAndWait();
 
-
-
-            result.ifPresent(fahrt -> {
-                // Aktualisierte Fahrt in der Liste und in der TableView anzeigen
-                fahrtenTabelle.refresh();
-                dialog.close();
-                // Eventuell Änderungen im Fahrtenbuch speichern oder weitere Aktionen ausführen
-            });
+        result.ifPresent(fahrt -> {
+            // Aktualisierte Fahrt in der Liste und in der TableView anzeigen
+            fahrtenTabelle.refresh();
+            dialog.close();
+            // Eventuell Änderungen im Fahrtenbuch speichern oder weitere Aktionen ausführen
+        });
 
 
 
 
     }
-    private void zeigeKilometerDiagramm() {
-        try {
-            Stage stage = new Stage();
-            stage.setTitle("Kilometer Pro Monat");
-
-            // Vorbereitung der Daten für das Diagramm
-            Map<YearMonth, Double> kilometerProMonat = fahrtenbuch.berechneKilometerProMonat();
-
-            // Erstellen des Balkendiagramms
-            CategoryAxis xAxis = new CategoryAxis();
-            xAxis.setLabel("Monat");
-
-            NumberAxis yAxis = new NumberAxis();
-            yAxis.setLabel("Kilometer");
-
-            BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
-            barChart.setTitle("Gefahrene Kilometer Pro Monat");
-
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("Kilometer");
-
-            // Hinzufügen der Daten zum Diagramm
-            kilometerProMonat.forEach((ym, km) -> {
-                XYChart.Data<String, Number> data = new XYChart.Data<>(ym.toString(), km);
-                series.getData().add(data);
-            });
-            barChart.getData().add(series);
-
-            Scene scene = new Scene(barChart, 800, 600);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setTitle("Fehler beim Anzeigen der Statistik");
-            errorAlert.setHeaderText("Ein Fehler ist aufgetreten");
-            errorAlert.setContentText("Es gab ein Problem beim Anzeigen der Kilometerstatistik: " + e.getMessage());
-            errorAlert.showAndWait();
-        }
-    }
-
-
 
     private void addToReoccurances(LocalDate date, Consumer<LocalDate> addFutureDate) {
         addFutureDate.accept(date);
@@ -655,5 +616,199 @@ public class FahrtenbuchUI extends Application {
         Platform.runLater(() -> layoutSettings.requestFocus());
         primaryStage.show();
     }
+    private void initializeStatistikMenuButton() {
+        statistikMenuButton = new MenuButton("Statistik");
+
+        MenuItem jahresStatistikItem = new MenuItem("Jahresstatistik anzeigen");
+        jahresStatistikItem.setOnAction(event -> zeigeJahresKilometerStatistik());
+
+        MenuItem erweiterteStatistikItem = new MenuItem("Erweiterte Statistik anzeigen");
+        erweiterteStatistikItem.setOnAction(event -> zeigeErweiterteKilometerStatistik());
+
+        statistikMenuButton.getItems().addAll(jahresStatistikItem, erweiterteStatistikItem);
+    }
+
+    private void initializeGrafikMenuButton() {
+        grafikMenuButton = new MenuButton("Grafische Ansicht");
+
+        MenuItem kilometerProMonatItem = new MenuItem("Kilometer pro Monat anzeigen");
+        kilometerProMonatItem.setOnAction(event -> zeigeKilometerDiagramm());
+        MenuItem kilometerProJahrItem = new MenuItem("Kilometer pro Jahr anzeigen");
+        kilometerProJahrItem.setOnAction(event -> zeigeJahresKilometerDiagramm());
+
+        grafikMenuButton.getItems().addAll(
+                kilometerProMonatItem,kilometerProJahrItem
+
+        );
+    }
+
+    void zeigeKilometerDiagramm() {
+        Stage stage = new Stage();
+        stage.setTitle("Kilometerstatistik");
+
+        // Vorbereitung der Achsen für das Diagramm
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Zeitraum");
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Kilometer");
+
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        barChart.setTitle("Gefahrene Kilometer Pro Monat und Jahr");
+
+        // Daten für das Diagramm abrufen und hinzufügen
+        Map<YearMonth, Map<String, Double>> kilometerProMonatUndKategorie = fahrtenbuch.berechneKilometerProMonatUndKategorie();
+
+        // Für jede Kategorie eine Serie hinzufügen
+        for (String kategorie : fahrtenbuch.getKategorien()) {
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName(kategorie);
+
+            for (YearMonth ym : kilometerProMonatUndKategorie.keySet()) {
+                String period = ym.getMonth().toString() + " " + ym.getYear();
+                Double km = kilometerProMonatUndKategorie.get(ym).getOrDefault(kategorie, 0.0);
+                series.getData().add(new XYChart.Data<>(period, km));
+            }
+
+            barChart.getData().add(series);
+        }
+
+        Scene scene = new Scene(barChart, 1000, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    void zeigeJahresKilometerDiagramm() {
+        Stage stage = new Stage();
+        stage.setTitle("Jahreskilometerstatistik");
+
+        // Vorbereitung der Achsen für das Diagramm
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Jahr");
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Kilometer");
+
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        barChart.setTitle("Gesamte Kilometer pro Jahr und Kategorie");
+
+        // Daten für das Diagramm abrufen
+        Map<Integer, Map<String, Double>> kilometerProJahrUndKategorie = fahrtenbuch.berechneKilometerProJahrUndKategorie();
+
+        // Für jede Kategorie eine Serie hinzufügen
+        for (String kategorie : fahrtenbuch.getKategorien()) {
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName(kategorie);
+
+            for (Map.Entry<Integer, Map<String, Double>> entry : kilometerProJahrUndKategorie.entrySet()) {
+                String year = Integer.toString(entry.getKey());
+                Double km = entry.getValue().getOrDefault(kategorie, 0.0);
+                series.getData().add(new XYChart.Data<>(year, km));
+            }
+
+            barChart.getData().add(series);
+        }
+
+        Scene scene = new Scene(barChart, 1000, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+    private TableView<Map.Entry<Integer, Map<String, Double>>> erstelleJahresKilometerTableView(Set<String> kategorien) {
+        TableView<Map.Entry<Integer, Map<String, Double>>> tableView = new TableView<>();
+
+        TableColumn<Map.Entry<Integer, Map<String, Double>>, Integer> yearColumn = new TableColumn<>("Jahr");
+        yearColumn.setCellValueFactory(cellData ->
+                new SimpleObjectProperty<>(cellData.getValue().getKey()));
+        tableView.getColumns().add(yearColumn);
+
+        // Spalte für die Gesamtkilometer pro Jahr hinzufügen
+        TableColumn<Map.Entry<Integer, Map<String, Double>>, Double> gesamtKilometerColumn = new TableColumn<>("Gesamtkilometer");
+        gesamtKilometerColumn.setCellValueFactory(cellData -> {
+            double gesamtKilometer = cellData.getValue().getValue().values().stream().mapToDouble(Double::doubleValue).sum();
+            return new SimpleObjectProperty<>(gesamtKilometer);
+        });
+        tableView.getColumns().add(gesamtKilometerColumn);
+
+        for (String kategorie : kategorien) {
+            TableColumn<Map.Entry<Integer, Map<String, Double>>, Double> categoryColumn = new TableColumn<>(kategorie);
+            categoryColumn.setCellValueFactory(cellData ->
+                    new SimpleObjectProperty<>(cellData.getValue().getValue().getOrDefault(kategorie, 0.0)));
+            tableView.getColumns().add(categoryColumn);
+        }
+
+        return tableView;
+    }
+
+
+    void zeigeErweiterteKilometerStatistik() {
+        Stage stage = new Stage();
+        stage.setTitle("Erweiterte Kilometerstatistik");
+
+        // Kategorien aus dem Fahrtenbuch holen
+        Set<String> kategorien = fahrtenbuch.getKategorien();
+
+        TableView<Map.Entry<YearMonth, Map<String, Double>>> tableView = erstelleErweiterteKilometerTableView(kategorien);
+        aktualisiereErweiterteKilometerTabelle(tableView);
+
+        Scene scene = new Scene(tableView, 800, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private TableView<Map.Entry<YearMonth, Map<String, Double>>> erstelleErweiterteKilometerTableView(Set<String> kategorien) {
+        TableView<Map.Entry<YearMonth, Map<String, Double>>> tableView = new TableView<>();
+
+        TableColumn<Map.Entry<YearMonth, Map<String, Double>>, String> monthColumn = new TableColumn<>("Monat");
+        monthColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getKey().toString()));
+        tableView.getColumns().add(monthColumn);
+
+        // Spalte für die Gesamtkilometer hinzufügen
+        TableColumn<Map.Entry<YearMonth, Map<String, Double>>, Double> gesamtKilometerColumn = new TableColumn<>("Gesamtkilometer");
+        gesamtKilometerColumn.setCellValueFactory(cellData -> {
+            double gesamtKilometer = cellData.getValue().getValue().values().stream().mapToDouble(Double::doubleValue).sum();
+            return new SimpleObjectProperty<>(gesamtKilometer);
+        });
+        tableView.getColumns().add(gesamtKilometerColumn);
+
+        for (String kategorie : kategorien) {
+            TableColumn<Map.Entry<YearMonth, Map<String, Double>>, Double> categoryColumn = new TableColumn<>(kategorie);
+            categoryColumn.setCellValueFactory(cellData ->
+                    new SimpleObjectProperty<>(cellData.getValue().getValue().getOrDefault(kategorie, 0.0)));
+            tableView.getColumns().add(categoryColumn);
+        }
+
+        return tableView;
+    }
+
+
+    private void aktualisiereErweiterteKilometerTabelle(TableView<Map.Entry<YearMonth, Map<String, Double>>> tableView) {
+        Map<YearMonth, Map<String, Double>> data = fahrtenbuch.berechneKilometerProMonatUndKategorie();
+        ObservableList<Map.Entry<YearMonth, Map<String, Double>>> tableData = FXCollections.observableArrayList(data.entrySet());
+        tableView.setItems(tableData);
+    }
+    void zeigeJahresKilometerStatistik() {
+        Set<String> kategorien = fahrtenbuch.getKategorien(); // Angenommen, diese Methode gibt die Kategorien zurück
+        Map<Integer, Map<String, Double>> data = fahrtenbuch.berechneKilometerProJahrUndKategorie();
+
+        if(data.isEmpty()) {
+            System.out.println("Keine Daten für die Jahresstatistik vorhanden.");
+        } else {
+            TableView<Map.Entry<Integer, Map<String, Double>>> tableView = erstelleJahresKilometerTableView(kategorien);
+            ObservableList<Map.Entry<Integer, Map<String, Double>>> tableData = FXCollections.observableArrayList(data.entrySet());
+            tableView.setItems(tableData); // Hier wird die TableView mit Daten gefüllt
+            tableView.refresh(); // Stellen Sie sicher, dass die TableView aktualisiert wird
+
+            Stage stage = new Stage();
+            stage.setTitle("Jahreskilometerstatistik");
+            Scene scene = new Scene(tableView, 800, 600);
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+
+
 
 }
