@@ -39,7 +39,7 @@ jobs:
       id: pmd
       with:
         version: '6.40.0'
-        sourcePath: 'src/main/java'
+        sourcePath: 'Fahrtenbuch/src/main/java/at/jku/se/prse/team3'
         rulesets: 'ruleset.xml'
 
     - name: Automatisierung bei einer Verletzung stoppen 
