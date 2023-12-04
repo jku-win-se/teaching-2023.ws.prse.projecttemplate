@@ -2,9 +2,13 @@ name: Java CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: 
+      - main
+      - release-0.2.0
+  pull_request: 
+    branches:
+      - main
+      - release-0.2.0
 
 jobs:
   build:
@@ -29,6 +33,18 @@ jobs:
 
     - name: Create KategorienCSV
       run: echo "" > "C:\Users\runneradmin\Documents\Fahrtenbuch 0.0.3\Kategorien.csv"
+
+    - name: PMD Code Check
+      uses: pmd/pmd-github-action@v1
+      id: pmd
+      with:
+        version: '6.40.0'
+        sourcePath: 'src/main/java'
+        rulesets: 'ruleset.xml'
+
+    - name: Automatisierung bei einer Verletzung stoppen 
+      if: steps.pmd.outputs.violations != 0
+      run: exit 1
     
     - name: Build with Maven
       run: mvn -B package --file pom.xml
