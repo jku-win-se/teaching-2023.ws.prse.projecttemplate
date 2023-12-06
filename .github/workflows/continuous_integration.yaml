@@ -4,10 +4,6 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: '*'
-  pull_request:
-    branches: '*'
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -23,11 +19,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Set up JDK 11 for x64 build
-      - name: Set up JDK 11 for x64
+      # Set up JDK 21 for x64 build
+      - name: Set up JDK 21 for x64
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           architecture: x64
 
@@ -42,7 +38,29 @@ jobs:
           version: '6.40.0'
           sourcePath: 'src/main/java'
           rulesets: 'ruleset.xml'
-
-      - name: Automatisierung bei einer Verletzung stoppen 
-        if: steps.pmd.outputs.violations != 0
-        run: exit 1
+        
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: 'zulu' # Alternative distribution options are available.
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=prse-team2_fahrtenbuecher
