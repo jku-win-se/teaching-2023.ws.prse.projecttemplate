@@ -34,3 +34,15 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Start to test and build the artifact
+
+      - name: PMD Code Check
+        uses: pmd/pmd-github-action@v1
+        id: pmd
+        with:
+          version: '6.40.0'
+          sourcePath: 'src/main/java'
+          rulesets: 'ruleset.xml'
+
+      - name: Automatisierung bei einer Verletzung stoppen 
+        if: steps.pmd.outputs.violations != 0
+        run: exit 1
