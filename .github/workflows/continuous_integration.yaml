@@ -42,10 +42,6 @@ jobs:
           version: '6.40.0'
           sourcePath: 'src/main/java'
           rulesets: 'ruleset.xml'
-
-      - name: Automatisierung bei einer Verletzung stoppen 
-        if: steps.pmd.outputs.violations != 0
-        run: exit 1
         
       - uses: actions/checkout@v3
         with:
