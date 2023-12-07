@@ -11,7 +11,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="584.0" prefWidth="915.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.StartPageController" stylesheets="@styles.css">
+
+<AnchorPane prefHeight="584.0" prefWidth="915.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.StartPageController">
    <children>
       <Button fx:id="newRideStart" layoutX="384.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="47.0" prefWidth="160.0" style="-fx-background-color: #343E51;" text="Neue Fahrt" textFill="WHITE">
          <font>
@@ -23,7 +24,7 @@
             <Font name="Arial" size="48.0" />
          </font>
       </Label>
-      <Button fx:id="logBooks" layoutX="599.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleFahrtenbuecherPage" prefHeight="47.0" prefWidth="160.0" style="-fx-background-color: #343E51;" text="Fahrtenbücher" textFill="WHITE">
+      <Button fx:id="logBooks" layoutX="599.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleFahrtenbucherPage" prefHeight="47.0" prefWidth="160.0" style="-fx-background-color: #343E51;" text="Fahrtenbücher" textFill="WHITE">
          <font>
             <Font name="Arial" size="13.0" />
          </font></Button>
@@ -54,7 +55,7 @@
             </HBox>
             <HBox layoutX="34.0" layoutY="252.0" prefHeight="30.0" prefWidth="177.0">
                <children>
-                  <Button fx:id="btnNewRide1" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="35.0" prefWidth="107.0" style="-fx-background-color: #333E50; -fx-font-family: Arial; -fx-cursor: pointer;" text="New Fahrt" textFill="WHITE">
+                  <Button fx:id="btnNewRide1" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="33.0" prefWidth="124.0" style="-fx-background-color: #333E50; -fx-font-family: Arial; -fx-cursor: pointer;" text="Neue Fahrt" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -63,7 +64,7 @@
             </HBox>
             <HBox layoutX="34.0" layoutY="295.0" prefHeight="30.0" prefWidth="177.0">
                <children>
-                  <Button fx:id="btnLogBook" mnemonicParsing="false" onAction="#handleFahrtenbuecherPage" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Arial; -fx-cursor: pointer;" text="Fahrtenbucher" textFill="WHITE">
+                  <Button fx:id="btnLogBook" mnemonicParsing="false" onAction="#handleFahrtenbucherPage" prefHeight="35.0" prefWidth="142.0" style="-fx-background-color: #333E50; -fx-font-family: Arial; -fx-cursor: pointer;" text="Fahrtenbucher" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>

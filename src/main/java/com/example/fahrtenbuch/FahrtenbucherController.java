@@ -3,6 +3,7 @@ package com.example.fahrtenbuch;
 import java.io.IOException;
 
 import com.example.fahrtenbuch.entities.Drive;
+import com.example.fahrtenbuch.business.DriveFacade;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,43 +38,72 @@ public class FahrtenbucherController{
     public Button btnOverview;
     public Button btnNewRide;
 
+    private DriveFacade driveFacade;
 
+    public FahrtenbucherController() {
+        driveFacade = new DriveFacade();
+    }
 
     public void setTableLogbook(ObservableList<Drive> fahrtListe) {
         kfzColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getVehicleId().toString()));
-        abfahrtColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDepartureTime().toString()));
-        ankunftColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getArrivalTime().toString()));
+        abfahrtColumn.setCellValueFactory(cellData -> new SimpleStringProperty("abfahrt")); //cellData.getValue().getDepartureTime().toString())
+        ankunftColumn.setCellValueFactory(cellData -> new SimpleStringProperty("ankunft")); //cellData.getValue().getArrivalTime().toString())
         gefahreneKmColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDrivenKilometres().toString()));
         aktiveFahrtColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getWaitingTime().toString()));
         kategorieColumn.setCellValueFactory(cellData -> new SimpleStringProperty("test"));
 
         tableLogbook.setItems(fahrtListe);
-
     }
 
     @FXML
     private void returnToStartBtn(ActionEvent event) throws IOException {
-        sceneChange("hello-view.fxml",event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     private void handleBtnDataAction (ActionEvent event) throws IOException {
-        sceneChange("DataAction.fxml",event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DataAction.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     private void handleBtnOverview(ActionEvent event) throws IOException {
-        sceneChange("Overview.fxml",event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Overview.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     private void handleNewRide(ActionEvent event) throws IOException {
-        sceneChange("Index.fxml",event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Index.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
-    public void sceneChange(String url, ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
+    @FXML
+    private void handleBtnEditDrive(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("EditDrive.fxml"));
         Parent root = loader.load();
+
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);

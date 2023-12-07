@@ -5,6 +5,8 @@ import java.sql.Time;
 
 public class Drive {
 
+    private Date vonDate;
+    private Date bisDate;
     private Integer driveId;
     private Integer vehicleId;
     private Date date;
@@ -33,6 +35,12 @@ public class Drive {
         this.status = Status.AUF_FAHRT;
     }
 
+    public Drive(int id, Date vonDate, Date bisDate) {
+        this.vehicleId = id;
+        this.vonDate = vonDate;
+        this.bisDate = bisDate;
+    }
+    
     // nach der Fahrt
     public Drive(Integer vehicleId, Date date, Time departureTime, Time arrivalTime, Integer waitingTime, Double drivenKilometres) {
         this.vehicleId = vehicleId;

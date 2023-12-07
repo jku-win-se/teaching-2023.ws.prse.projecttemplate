@@ -67,7 +67,6 @@ public class DriveFacade {
         }
         return drives;
     }
-
     public void persistDrive(Drive v) {
         //check if departure time is before arrival time
         if(v.getDepartureTime() != null && v.getArrivalTime() != null && v.getDepartureTime().after(v.getArrivalTime()))

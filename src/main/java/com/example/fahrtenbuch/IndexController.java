@@ -1,11 +1,11 @@
 package com.example.fahrtenbuch;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.fahrtenbuch.business.DatabaseConnection;
 import com.example.fahrtenbuch.business.DriveFacade;
@@ -18,11 +18,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.Fahrt;
+
 
 public class IndexController{
     @FXML
@@ -36,7 +37,7 @@ public class IndexController{
     @FXML
     public TextField gefahreneKmTF;
     @FXML
-    public TextField kategoriesTF;
+    public ComboBox<String> kategoriesTF;
     @FXML
     public TextField kfzTF;
     public Button btnStart;
@@ -45,46 +46,121 @@ public class IndexController{
     public Button btnNewRide;
 
     public Button btnOverview;
+    public AnchorPane popupPane;
+    public Button btnAddCategory;
+    public ComboBox kategoryTF;
+    public Button btnAddKfz;
+
+    private DatabaseConnection databaseConnection;
+    private Alert alert;
+
+
+    private ObservableList<Drive> fahrtListe = FXCollections.observableArrayList();
+
+    List<Drive> drives = new ArrayList<>();
     private DriveFacade driveFacade;
 
     public IndexController() {
+        databaseConnection = new DatabaseConnection();
+        databaseConnection.getConnection();
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Button-Klick");
+        alert.setHeaderText(null);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14;");
+        alert.setDialogPane(dialogPane);
+
         driveFacade = new DriveFacade();
     }
 
     @FXML
-    private void Fahrtenbucher_ACTION(ActionEvent event) throws IOException {
-        sceneChange("FahrtenbucherPage.fxml", event);
+    private void handleFahrtenbucherPage(ActionEvent event) throws IOException {
+        Drive drive = new Drive(1, Date.valueOf(LocalDate.now()), Time.valueOf(LocalTime.now()),Time.valueOf(LocalTime.now()), 3, 3.0);
+        drives = driveFacade.getAllDrives();
+        drives.add(drive);
+
+        fahrtListe = FXCollections.observableArrayList(driveFacade.getAllDrives());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FahrtenbucherPage.fxml"));
+        Parent overviewPage = loader.load();
+
+        FahrtenbucherController fahrtenbucherController = loader.getController();
+        fahrtenbucherController.setTableLogbook(fahrtListe);
+
+        Scene scene = new Scene(overviewPage);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     @FXML
     private void Zukunftige_Fahrt_Anlegen_Action(ActionEvent event) throws IOException {
-        sceneChange("Page.fxml", event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Page.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     private void returnToStartBtn(ActionEvent event) throws IOException {
-        sceneChange("hello-view.fxml", event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     private void handleBtnDataAction (ActionEvent event) throws IOException {
-        sceneChange("DataAction.fxml", event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DataAction.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
     private void handleBtnOverview(ActionEvent event) throws IOException {
-        sceneChange("Overview.fxml", event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Overview.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
-    private final ObservableList<Drive> fahrtListe = FXCollections.observableArrayList();
+
+
     @FXML
-    private void addFahrt(ActionEvent event){
+    private void handleBtnCreateRide(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FahrtenbucherPage.fxml"));
+        Parent root = loader.load();
+
+        FahrtenbucherController fahrtenbucherController = loader.getController();
+        fahrtenbucherController.setTableLogbook(fahrtListe);
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    public void addFahrt(ActionEvent event) throws IOException {
         String kfzField = kfzTF.getText();
         String abfahrtField = AbfahrtTF.getText();
         String ankunftField = ankunftTF.getText();
         String gefahreneKmField = gefahreneKmTF.getText();
         String aktiveFahField = aktiveFahTF.getText();
-        String kategorieField = kategoriesTF.getText();
+        ComboBox<String> kategorieField = kategoriesTF;
 
         //Drive fahrt = new Drive(kfzField, aktiveFahField, abfahrtField, ankunftField, gefahreneKmField, kategorieField);
         Drive fahrt = new Drive(1, Date.valueOf(LocalDate.now()), Time.valueOf(LocalTime.now()),Time.valueOf(LocalTime.now()), Integer.valueOf(aktiveFahField), Double.valueOf(gefahreneKmField));
@@ -96,33 +172,38 @@ public class IndexController{
 
 
     @FXML
-    private void handleBtnCreateRide(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FahrtenbucherPage.fxml"));
-        Parent overviewPage;
-        try {
-            overviewPage = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        FahrtenbucherController fahrtenbucherController = loader.getController();
-        fahrtenbucherController.setTableLogbook(fahrtListe);
-
-        Scene scene = new Scene(overviewPage);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+    private void handleBtnAddCategory(ActionEvent event) throws IOException {
+        popupPane.setVisible(false);
     }
 
-
-    public void sceneChange(String url, ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
+    @FXML
+    private void showAddCategoryPopup(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PopupAddCategory.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setScene(new Scene(root));
+
+        popupStage.show();
+
+        ((Node) event.getSource()).getScene().getWindow().requestFocus();
+        handleBtnAddCategory(event);
     }
 
+
+    public void showAddKfzPopup(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PopupAddKfz.fxml"));
+        Parent root = loader.load();
+
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setScene(new Scene(root));
+
+        popupStage.show();
+
+        ((Node) event.getSource()).getScene().getWindow().requestFocus();
+        handleBtnAddCategory(event);
+    }
 }
 
