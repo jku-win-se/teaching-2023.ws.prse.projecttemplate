@@ -3,7 +3,6 @@ package com.example.fahrtenbuch;
 import com.example.fahrtenbuch.business.DatabaseConnection;
 import com.example.fahrtenbuch.business.DriveFacade;
 import com.example.fahrtenbuch.entities.Drive;
-import javafx.beans.property.ListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +20,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class OverviewController {

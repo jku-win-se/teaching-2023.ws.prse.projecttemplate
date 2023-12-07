@@ -46,7 +46,6 @@ public class DataActionController {
 
         driveFacade = new DriveFacade();
     }
-
     @FXML
     private void handleDataExport() throws IOException {
         databaseConnection.exportDataToCSV();

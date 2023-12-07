@@ -44,8 +44,6 @@ public class FahrtenbucherController{
         driveFacade = new DriveFacade();
     }
 
-
-
     public void setTableLogbook(ObservableList<Drive> fahrtListe) {
         kfzColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getVehicleId().toString()));
         abfahrtColumn.setCellValueFactory(cellData -> new SimpleStringProperty("abfahrt")); //cellData.getValue().getDepartureTime().toString())

@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+
 <AnchorPane prefHeight="183.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.PopupAddCategoryController">
     <children>
         <Label layoutX="26.0" layoutY="38.0" text="Neue Kategorie hinzufügen:">

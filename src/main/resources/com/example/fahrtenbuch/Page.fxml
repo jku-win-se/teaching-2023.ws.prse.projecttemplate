@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+
 <AnchorPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.PageController">
     <children>
         <AnchorPane layoutX="-168.0" layoutY="-109.0" prefHeight="706.0" prefWidth="1140.0">

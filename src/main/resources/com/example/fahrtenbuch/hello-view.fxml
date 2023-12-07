@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+
 <AnchorPane prefHeight="584.0" prefWidth="915.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.StartPageController">
    <children>
       <Button fx:id="newRideStart" layoutX="384.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleNewRide" prefHeight="47.0" prefWidth="160.0" style="-fx-background-color: #343E51;" text="Neue Fahrt" textFill="WHITE">
