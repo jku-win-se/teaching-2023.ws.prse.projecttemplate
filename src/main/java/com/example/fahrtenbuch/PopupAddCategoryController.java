@@ -5,6 +5,7 @@ import com.example.fahrtenbuch.entities.Category;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -28,12 +29,10 @@ public class PopupAddCategoryController {
 
             categoryFacade.persistCategory(newCategory);
 
-            System.out.println("Kategorie erfolgreich hinzugefügt: " + newCategory);
-
             newCategoryTextField.clear();
         } else {
 
-            System.out.println("Kategorienamen dürfen nicht leer sein.");
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Felder dürfen nicht leer sein.", "Bitte füllen Sie alle Felder aus.");
         }
     }
 
@@ -42,5 +41,13 @@ public class PopupAddCategoryController {
 
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 }

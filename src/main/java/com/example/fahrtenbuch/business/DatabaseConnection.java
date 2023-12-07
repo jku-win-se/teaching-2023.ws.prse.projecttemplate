@@ -25,7 +25,7 @@ public class DatabaseConnection {
 
         try {
             conn = DriverManager.getConnection(jdbcURL, user, pass);
-            System.out.println("connection successfully");
+            //System.out.println("connection successfully");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -108,18 +108,18 @@ public class DatabaseConnection {
             categoryDriveFacade.persistCategoryDrive(new Category_Drive(2, 2));
             categoryDriveFacade.persistCategoryDrive(new Category_Drive(2, 3));
 
-            System.out.println(categoryDriveFacade.getDrivesByCategoryId(1));
-            System.out.println(categoryDriveFacade.getDrivesByCategoryId(2));
+            //System.out.println(categoryDriveFacade.getDrivesByCategoryId(1));
+            //System.out.println(categoryDriveFacade.getDrivesByCategoryId(2));
 
             List<Drive> drives = driveFacade.getDrivesByLicensePlate("testlicense");
 
-            for (Drive drive : drives) {
+            /*for (Drive drive : drives) {
                 System.out.println(drive);
             }
 
             System.out.println(vehicleFacade.getAllVehicles());
             System.out.println(driveFacade.getAllDrives());
-            System.out.println(categoryFacade.getAllCategories());
+            System.out.println(categoryFacade.getAllCategories());*/
             exportDataToCSV();
             importDataFromCSV();
         } catch (SQLException e) {

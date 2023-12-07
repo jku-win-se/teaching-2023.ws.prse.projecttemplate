@@ -5,6 +5,7 @@ import com.example.fahrtenbuch.entities.Vehicle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -36,17 +37,16 @@ public class PopupAddKfzController {
 
                 vehicleFacade.persistVehicle(newVehicle);
 
-                System.out.println("Fahrzeug erfolgreich hinzugefügt: " + newVehicle);
-
                 newKfzTextField.clear();
                 newOdometer.clear();
             } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Fehler", "Fehler beim Konvertieren des Kilometerstands.", "Bitte gebem Sie eine Zahl ein.");
 
-                System.out.println("Fehler beim Konvertieren des Kilometerstands.");
             }
         } else {
 
-            System.out.println("KFZ-Kennzeichen und Kilometerstand dürfen nicht leer sein.");
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Felder dürfen nicht leer sein.", "Bitte füllen Sie alle Felder aus.");
+            return;
         }
     }
 
@@ -55,6 +55,14 @@ public class PopupAddKfzController {
 
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 
 }
