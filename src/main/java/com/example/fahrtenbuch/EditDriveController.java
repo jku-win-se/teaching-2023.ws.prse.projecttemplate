@@ -3,38 +3,39 @@ package com.example.fahrtenbuch;
 import com.example.fahrtenbuch.business.DatabaseConnection;
 import com.example.fahrtenbuch.business.DriveFacade;
 import com.example.fahrtenbuch.entities.Drive;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.ListView;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
+import java.net.URL;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class DataActionController {
+public class EditDriveController{
 
     private DriveFacade driveFacade;
     private ObservableList<Drive> fahrtListe = FXCollections.observableArrayList();
     private DatabaseConnection databaseConnection;
     private Alert alert;
 
-
-
-    public DataActionController() {
+    public EditDriveController() {
         databaseConnection = new DatabaseConnection();
         databaseConnection.getConnection();
         alert = new Alert(Alert.AlertType.INFORMATION);
@@ -48,19 +49,6 @@ public class DataActionController {
     }
 
     @FXML
-    private void handleDataExport() throws IOException {
-        databaseConnection.exportDataToCSV();
-        alert.setContentText("Daten wurden exportiert");
-        alert.showAndWait();
-    }
-    @FXML
-    private void handleDataImport() throws IOException {
-        databaseConnection.importDataFromCSV();
-        alert.setContentText("Daten wurden importiert");
-        alert.showAndWait();
-    }
-
-    @FXML
     private void returnToStartBtn(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
         Parent root = loader.load();
@@ -71,9 +59,10 @@ public class DataActionController {
         stage.show();
     }
 
+
     @FXML
-    private void handleBtnOverview(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Overview.fxml"));
+    public void handleBtnDataAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DataAction.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
@@ -93,12 +82,10 @@ public class DataActionController {
         stage.show();
     }
 
-    List<Drive> drives = new ArrayList<>();
-
     @FXML
     private void handleFahrtenbucherPage(ActionEvent event) throws IOException {
         Drive drive = new Drive(1, Date.valueOf(LocalDate.now()), Time.valueOf(LocalTime.now()),Time.valueOf(LocalTime.now()), 3, 3.0);
-        drives = driveFacade.getAllDrives();
+        List<Drive> drives = driveFacade.getAllDrives();
         drives.add(drive);
 
         fahrtListe = FXCollections.observableArrayList(driveFacade.getAllDrives());
@@ -115,8 +102,16 @@ public class DataActionController {
         stage.show();
     }
 
+    @FXML
+    private void handleBtnOverview(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Overview.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
 }
-
-
-
-
