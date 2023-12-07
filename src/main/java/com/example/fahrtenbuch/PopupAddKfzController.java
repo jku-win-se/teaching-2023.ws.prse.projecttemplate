@@ -5,6 +5,7 @@ import com.example.fahrtenbuch.entities.Vehicle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -18,36 +19,50 @@ public class PopupAddKfzController {
     private VehicleFacade vehicleFacade;
 
     public PopupAddKfzController() {
-        // Hier kannst du auch eine Dependency Injection verwenden,
-        // um die VehicleFacade-Instanz zu erhalten.
+
         this.vehicleFacade = new VehicleFacade();
     }
 
     @FXML
     public void addNewKfz(ActionEvent actionEvent) {
         String licensePlate = newKfzTextField.getText();
-        double odometer = Double.parseDouble(newOdometer.getText());
+        String odometerStr = newOdometer.getText();
 
-        // Erstelle ein neues Fahrzeugobjekt
-        Vehicle newVehicle = new Vehicle();
-        newVehicle.setLicensePlate(licensePlate);
-        newVehicle.setOdometer(odometer);
+        if (!licensePlate.isEmpty() && !odometerStr.isEmpty()) {
+            try {
 
-        // Rufe persistVehicle auf, um das Fahrzeug in der Datenbank zu speichern
-        vehicleFacade.persistVehicle(newVehicle);
+                double odometer = Double.parseDouble(odometerStr);
 
-        // Optional: Aktualisiere die Anzeige oder führe andere Aktionen durch
-        // ...
+                Vehicle newVehicle = new Vehicle(licensePlate, odometer);
 
-        // Schließe das Popup
-        closePopup(actionEvent);
+                vehicleFacade.persistVehicle(newVehicle);
+
+                newKfzTextField.clear();
+                newOdometer.clear();
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Fehler", "Fehler beim Konvertieren des Kilometerstands.", "Bitte gebem Sie eine Zahl ein.");
+
+            }
+        } else {
+
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Felder dürfen nicht leer sein.", "Bitte füllen Sie alle Felder aus.");
+            return;
+        }
     }
 
     @FXML
     public void closePopup(ActionEvent actionEvent) {
-        // Schließe das Popup-Fenster
+
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+        alert.showAndWait();
     }
 
 }
