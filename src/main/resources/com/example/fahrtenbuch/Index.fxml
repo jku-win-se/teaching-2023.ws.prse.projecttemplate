@@ -96,11 +96,6 @@
             <ComboBox fx:id="kategoryTF" layoutX="769.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: gray;  -fx-border-width: 0.5; -fx-border-radius: 5; ">
                <items>
                   <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="Option 1" />
-                     <String fx:value="Option 2" />
-                     <String fx:value="Option 3" />
-                     <String fx:value="Option 4" />
-                     <String fx:value="Option 5" />
                   </FXCollections>
                </items>
             </ComboBox>

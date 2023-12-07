@@ -7,8 +7,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.fahrtenbuch.business.CategoryFacade;
 import com.example.fahrtenbuch.business.DatabaseConnection;
 import com.example.fahrtenbuch.business.DriveFacade;
+import com.example.fahrtenbuch.entities.Category;
 import com.example.fahrtenbuch.entities.Drive;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -160,7 +162,7 @@ public class IndexController{
         String ankunftField = ankunftTF.getText();
         String gefahreneKmField = gefahreneKmTF.getText();
         String aktiveFahField = aktiveFahTF.getText();
-        ComboBox<String> kategorieField = kategoriesTF;
+        ComboBox<Category> kategoryTF;
 
         //Drive fahrt = new Drive(kfzField, aktiveFahField, abfahrtField, ankunftField, gefahreneKmField, kategorieField);
         Drive fahrt = new Drive(1, Date.valueOf(LocalDate.now()), Time.valueOf(LocalTime.now()),Time.valueOf(LocalTime.now()), Integer.valueOf(aktiveFahField), Double.valueOf(gefahreneKmField));
@@ -173,7 +175,9 @@ public class IndexController{
 
     @FXML
     private void handleBtnAddCategory(ActionEvent event) throws IOException {
-        popupPane.setVisible(false);
+        CategoryFacade categoryFacade = new CategoryFacade();
+        ObservableList<Category> categories = FXCollections.observableArrayList(categoryFacade.getAllCategories());
+        kategoryTF.setItems(categories);
     }
 
     @FXML
