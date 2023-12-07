@@ -10,6 +10,7 @@ import java.io.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import static java.sql.Date.*;
 
@@ -109,6 +110,12 @@ public class DatabaseConnection {
 
             System.out.println(categoryDriveFacade.getDrivesByCategoryId(1));
             System.out.println(categoryDriveFacade.getDrivesByCategoryId(2));
+
+            List<Drive> drives = driveFacade.getDrivesByLicensePlate("testlicense");
+
+            for (Drive drive : drives) {
+                System.out.println(drive);
+            }
 
             System.out.println(vehicleFacade.getAllVehicles());
             System.out.println(driveFacade.getAllDrives());

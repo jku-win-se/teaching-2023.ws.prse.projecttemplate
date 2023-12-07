@@ -42,6 +42,34 @@ public class DriveFacade {
         return drive;
     }
 
+    public List<Drive> getDrivesByLicensePlate(String licensePlate) throws SQLException {
+        List<Drive> drives = new ArrayList<>();
+        String query = "SELECT * FROM drive " +
+                "JOIN vehicle ON drive.vehicle_id = vehicle.vehicle_id " +
+                "WHERE vehicle.license_plate = ?";
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, licensePlate);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Drive drive = new Drive();
+                drive.setDriveId(resultSet.getInt("drive_id"));
+                drive.setVehicleId(resultSet.getInt("vehicle_id"));
+                drive.setDate(resultSet.getDate("drive_date"));
+                drive.setDepartureTime(resultSet.getTime("departure_time"));
+                drive.setArrivalTime(resultSet.getTime("arrival_time"));
+                drive.setWaitingTime(resultSet.getInt("waiting_time"));
+                drive.setDrivenKilometres(resultSet.getDouble("driven_kilometres"));
+                drive.setStatus(Status.valueOf(resultSet.getString("status")));
+                drives.add(drive);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return drives;
+    }
+
     public List<Drive> getAllDrives() {
         List<Drive> drives = new ArrayList<>();
         String query = "SELECT * FROM drive";
