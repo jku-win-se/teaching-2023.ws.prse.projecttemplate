@@ -1,4 +1,4 @@
 drive_id;vehicle_id;drive_date;departure_time;arrival_time;waiting_time;driven_kilometres;status
-1;1;2023-12-07;21:08:47;21:08:47;10;100.0;ABGESCHLOSSEN
+1;1;2023-12-07;22:28:32;22:28:32;10;100.0;ABGESCHLOSSEN
 2;2;2023-12-07;NULL;NULL;0;0.0;ZUKUENFTIG
-3;2;2023-12-07;21:08:47;NULL;0;0.0;AUF_FAHRT
+3;2;2023-12-07;22:28:32;NULL;0;0.0;AUF_FAHRT
