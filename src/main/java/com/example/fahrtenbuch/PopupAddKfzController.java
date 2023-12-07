@@ -18,34 +18,41 @@ public class PopupAddKfzController {
     private VehicleFacade vehicleFacade;
 
     public PopupAddKfzController() {
-        // Hier kannst du auch eine Dependency Injection verwenden,
-        // um die VehicleFacade-Instanz zu erhalten.
+
         this.vehicleFacade = new VehicleFacade();
     }
 
     @FXML
     public void addNewKfz(ActionEvent actionEvent) {
         String licensePlate = newKfzTextField.getText();
-        double odometer = Double.parseDouble(newOdometer.getText());
+        String odometerStr = newOdometer.getText();
 
-        // Erstelle ein neues Fahrzeugobjekt
-        Vehicle newVehicle = new Vehicle();
-        newVehicle.setLicensePlate(licensePlate);
-        newVehicle.setOdometer(odometer);
+        if (!licensePlate.isEmpty() && !odometerStr.isEmpty()) {
+            try {
 
-        // Rufe persistVehicle auf, um das Fahrzeug in der Datenbank zu speichern
-        vehicleFacade.persistVehicle(newVehicle);
+                double odometer = Double.parseDouble(odometerStr);
 
-        // Optional: Aktualisiere die Anzeige oder führe andere Aktionen durch
-        // ...
+                Vehicle newVehicle = new Vehicle(licensePlate, odometer);
 
-        // Schließe das Popup
-        closePopup(actionEvent);
+                vehicleFacade.persistVehicle(newVehicle);
+
+                System.out.println("Fahrzeug erfolgreich hinzugefügt: " + newVehicle);
+
+                newKfzTextField.clear();
+                newOdometer.clear();
+            } catch (NumberFormatException e) {
+
+                System.out.println("Fehler beim Konvertieren des Kilometerstands.");
+            }
+        } else {
+
+            System.out.println("KFZ-Kennzeichen und Kilometerstand dürfen nicht leer sein.");
+        }
     }
 
     @FXML
     public void closePopup(ActionEvent actionEvent) {
-        // Schließe das Popup-Fenster
+
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
     }
