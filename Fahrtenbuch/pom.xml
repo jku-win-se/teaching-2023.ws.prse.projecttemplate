@@ -67,7 +67,7 @@
     <properties>
     <sonar.projectKey>sarakheribi_se-pr-team-3</sonar.projectKey>
   <sonar.organization>sarakheribi</sonar.organization>
-  <sonar.host.url>https://sonarcloud.io/api/project_badges/measure?project=sarakheribi_se-pr-team-3&metric=alert_status>
+  <sonar.host.url>sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     
 </project>
