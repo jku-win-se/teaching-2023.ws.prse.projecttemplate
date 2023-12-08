@@ -234,7 +234,9 @@ public class FahrtenbuchUI extends Application {
         datum.setMaxWidth(200);
         datum.setOnAction(event -> {
             datum.getValue();
+            if(datum.getValue().isBefore(LocalDate.now())){
 
+            }
         });
 
         TextField abfahrtsZeit = new TextField();
@@ -311,7 +313,7 @@ public class FahrtenbuchUI extends Application {
 
         ComboBox fahrtstatus = new ComboBox<>();
         fahrtstatus.setItems(FXCollections.observableArrayList(FahrtStatus.values()));
-        fahrtstatus.setPromptText("Fahrtstatus:");
+        fahrtstatus.setPromptText("Fahrtstatus");
 
         fahrtstatus.setOnAction(event -> {
             if (FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue())) {
@@ -326,8 +328,17 @@ public class FahrtenbuchUI extends Application {
             }
 
         });
-
-
+            fahrtstatus.setDisable(true);
+        datum.setOnAction(event -> {
+            datum.getValue();
+            if(datum.getValue().isBefore(LocalDate.now())){
+                fahrtstatus.setValue(FahrtStatus.ABSOLVIERT);
+            } else if (datum.getValue().isAfter(LocalDate.now())) {
+                fahrtstatus.setValue(FahrtStatus.ZUKUENFTIG);
+            }else {
+                fahrtstatus.setValue(FahrtStatus.AUF_FAHRT);
+            }
+        });
         //SPACER BOX
         Box box = new Box(10, 30, 720);
         box.setVisible(true);
