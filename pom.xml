@@ -59,7 +59,7 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>7.4.0</version> <!-- Ersetzen Sie RELEASE durch eine spezifische Version -->
+      <version>7.5.0</version> <!-- Aktualisierte TestNG-Version -->
       <scope>test</scope>
     </dependency>
   </dependencies>
