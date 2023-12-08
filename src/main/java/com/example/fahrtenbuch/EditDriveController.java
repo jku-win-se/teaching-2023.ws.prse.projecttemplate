@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,6 +30,18 @@ public class EditDriveController{
     private ObservableList<Drive> fahrtListe = FXCollections.observableArrayList();
     private DatabaseConnection databaseConnection;
     private Alert alert;
+
+    private Drive selectedDrive;
+    @FXML
+    private TextField AbfahrtTF;
+    @FXML
+    private TextField ankunftTF;
+    @FXML
+    private TextField gefahreneKmTF;
+    @FXML
+    private TextField aktiveFahTF;
+    @FXML
+    private TextField kfzTF;
 
     public EditDriveController() {
         databaseConnection = new DatabaseConnection();
@@ -108,5 +121,23 @@ public class EditDriveController{
         stage.show();
     }
 
+    public void setDrive(Drive drive){
+        this.selectedDrive = drive;
+        updateFields();
+    }
+
+    private void updateFields() {
+        if (selectedDrive != null) {
+            Time departureTime = selectedDrive.getDepartureTime();
+            Time arrivalTime = selectedDrive.getArrivalTime();
+            Double drivenKilometres = selectedDrive.getDrivenKilometres();
+            Integer waitingTime = selectedDrive.getWaitingTime();
+
+            AbfahrtTF.setText(departureTime != null ? departureTime.toString() : "");
+            ankunftTF.setText(arrivalTime != null ? arrivalTime.toString() : "");
+            gefahreneKmTF.setText(drivenKilometres != null ? drivenKilometres.toString() : "");
+            aktiveFahTF.setText(waitingTime != null ? waitingTime.toString() : "");
+        }
+    }
 
 }

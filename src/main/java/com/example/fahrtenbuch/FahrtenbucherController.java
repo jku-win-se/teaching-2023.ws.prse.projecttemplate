@@ -13,8 +13,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.Fahrt;
 
 public class FahrtenbucherController{
 
@@ -44,6 +44,21 @@ public class FahrtenbucherController{
         driveFacade = new DriveFacade();
     }
 
+    @FXML
+    private void handleSelectedDrive(MouseEvent event, Drive selectedDrive) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("EditDrive.fxml"));
+        Parent root = loader.load();
+
+        EditDriveController editPageController = loader.getController();
+        editPageController.setDrive(selectedDrive);
+
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
     public void setTableLogbook(ObservableList<Drive> fahrtListe) {
         kfzColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getVehicleId().toString()));
         abfahrtColumn.setCellValueFactory(cellData -> new SimpleStringProperty("abfahrt")); //cellData.getValue().getDepartureTime().toString())
@@ -53,6 +68,20 @@ public class FahrtenbucherController{
         kategorieColumn.setCellValueFactory(cellData -> new SimpleStringProperty("test"));
 
         tableLogbook.setItems(fahrtListe);
+
+        tableLogbook.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) {
+                Drive selectedDrive = tableLogbook.getSelectionModel().getSelectedItem();
+                if (selectedDrive != null) {
+                    try {
+                        handleSelectedDrive(event, selectedDrive);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
     }
 
     @FXML
