@@ -1,11 +1,15 @@
 package at.jku.se.prse.team3;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
+import javafx.beans.Observable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.FileReader;
@@ -41,7 +45,7 @@ public class Fahrtenbuch {
                           LocalTime neueAnkunftszeit, Double neueGefahreneKilometer,
                           LocalTime neueAktiveFahrzeit, FahrtStatus fahrtStatus, List<String> category) throws IOException {
         fahrten.add(new Fahrt(kfzKennzeichen,datum,abfahrtszeit,neueAnkunftszeit,neueGefahreneKilometer,neueAktiveFahrzeit,category,fahrtStatus));
-        exportFahrt();
+        //exportFahrt();
     }
     //ID3
     public void bearbeiteFahrt(String kfzKennzeichen, LocalDate datum, LocalTime abfahrtszeit,
@@ -62,6 +66,9 @@ public class Fahrtenbuch {
                 break;
             }
         }
+    }
+    public void addKategorie (String kategorie){
+        kategorien.add(kategorie);
     }
     //ID4
 
@@ -150,13 +157,14 @@ public class Fahrtenbuch {
 
             csvWriter.writeNext(data);
                 }
+        csvWriter.close();
         CSVWriter csvWriter2=new CSVWriter(new FileWriter(exportKategorien));
         for (String k:kategorien
         ) {
             String[] data = {k};
             csvWriter2.writeNext(data);
         }
-        csvWriter.close();
+
         csvWriter2.close();
 
     }
@@ -193,6 +201,7 @@ public class Fahrtenbuch {
             List<String> kategorien;
             FahrtStatus fahrtstatus;
 
+
             try (CSVReader reader = new CSVReader(new FileReader(importFahrten.toFile()))) {
 
                 while ((data = reader.readNext()) != null) {
@@ -221,6 +230,17 @@ public class Fahrtenbuch {
             } catch (NullPointerException nullPointerException) {
 
 
+            }
+
+            try (CSVReader reader2= new CSVReader(new FileReader(importKategorien.toFile()))){
+                List<String[]> allKat=reader2.readAll();
+                for (String[] d:allKat){
+                    for (String cat:d){
+                        this.kategorien.add(cat.trim());
+                    }
+                }
+            } catch (CsvException e) {
+                throw new RuntimeException(e);
             }
 
 
@@ -277,4 +297,16 @@ public class Fahrtenbuch {
         return uniqueKategorien;
     }
 
+    public ObservableList<String> getKategorien(Boolean x) {
+       ObservableList<String> uniqueKategorien = FXCollections.observableArrayList();
+
+
+
+            uniqueKategorien.addAll(kategorien);
+
+        return uniqueKategorien;
+    }
+    public void addKategories (ObservableList<String> kategorienNeu){
+        kategorien.addAll(kategorienNeu);
+    }
 }

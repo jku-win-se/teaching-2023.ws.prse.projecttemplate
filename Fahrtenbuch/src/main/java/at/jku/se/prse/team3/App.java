@@ -28,7 +28,7 @@ public abstract class App {
         fahrtenbuchUI.start(stage);
     });
 
-        fahrtenbuch.exportFahrt();
+        //fahrtenbuch.exportFahrt();
 }
 
 

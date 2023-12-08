@@ -1,5 +1,6 @@
 package at.jku.se.prse.team3;
 
+import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
@@ -53,13 +54,14 @@ public class FahrtenbuchUI extends Application {
     private Button jahresStatistikButton;
     private MenuButton statistikMenuButton;
     private MenuButton grafikMenuButton;
-
+    private ObservableList<String> kategorienListe;
     private ObservableList<Fahrt> fahrtenListe; // Klassenvariable für die Fahrtenliste
     private ButtonType deleteButtonType = new ButtonType("Löschen", ButtonBar.ButtonData.APPLY);
     public FahrtenbuchUI(Fahrtenbuch fahrtenbuch) {
         this.fahrtenbuch = fahrtenbuch;
         // Initialisierung der fahrtenListe mit leeren Daten oder vorhandenen Daten aus fahrtenbuch
         this.fahrtenListe = FXCollections.observableArrayList();
+
     }
 
     public static void main(String[] args) {
@@ -69,6 +71,7 @@ public class FahrtenbuchUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        kategorienListe = fahrtenbuch.getKategorien(true);
         //start tabellerische Ansicht
         // Laden der vorhandenen Fahrten aus dem Fahrtenbuch und Initialisierung der fahrtenListe
         fahrtenListe.clear();
@@ -205,12 +208,20 @@ public class FahrtenbuchUI extends Application {
         Scene fahrten = new Scene(root, 720, 400);
         primaryStage.setScene(fahrten);
         primaryStage.show();
+        //when closing this stage data will be saved to csv
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            try {
+                fahrtenbuch.exportFahrt();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void neueFahrt(Stage primaryStage) {
         //Liste von zukünftigen LocalDates von wiederkehrenden Fahrten
         List<LocalDate> futureDates = new ArrayList<>();
-        List<String> kategorienListe = new ArrayList<>();
+
 
         TextField kfzKennzeichen = new TextField();
         kfzKennzeichen.setPromptText("KFZ-Kennzeichen:");
@@ -246,26 +257,29 @@ public class FahrtenbuchUI extends Application {
         aktiveFahrzeit.setPromptText("Fahrzeit in HH:MM:SS");
         aktiveFahrzeit.setMaxWidth(200);
         aktiveFahrzeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
-
-// UI-Komponenten für die Kategorie
-        TextField kategorienInput = new TextField();
-        kategorienInput.setPromptText("Kategorien eingeben:");
-        kategorienInput.setMaxWidth(200);
-
         TextArea angezeigteKategorien = new TextArea();
+// UI-Komponenten für die Kategorie
+        ComboBox kategorienInput = new ComboBox();
+        kategorienInput.setPromptText("Kategorien auswählen:");
+        kategorienInput.setItems(kategorienListe);
+        kategorienInput.setMaxWidth(200);
+        kategorienInput.setOnAction(event -> {
+            String kategorie =  kategorienInput.getValue().toString();
+            if (!kategorie.isEmpty()) {
+
+                angezeigteKategorien.setVisible(true); // TextArea sichtbar machen
+                angezeigteKategorien.appendText(kategorie + "; "); // Kategorie zur TextArea hinzufügen
+
+            }
+        });
+
         angezeigteKategorien.setEditable(false);
         angezeigteKategorien.setVisible(false); // Anfangs nicht sichtbar machen
         angezeigteKategorien.setPrefHeight(50); // Höhe der TextArea anpassen
 
         Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
         kategorieHinzufuegenButton.setOnAction(event -> {
-            String kategorie = kategorienInput.getText().trim();
-            if (!kategorie.isEmpty()) {
-                addToKategories(kategorie, kategorienListe::add); // Füge die Kategorie zur Liste hinzu
-                angezeigteKategorien.setVisible(true); // TextArea sichtbar machen
-                angezeigteKategorien.appendText(kategorie + "; "); // Kategorie zur TextArea hinzufügen
-                kategorienInput.clear(); // Eingabefeld leeren
-            }
+
         });
 
 // Füge die Kategorien-Komponenten zur Benutzeroberfläche hinzu
@@ -301,6 +315,7 @@ public class FahrtenbuchUI extends Application {
         ComboBox fahrtstatus = new ComboBox<>();
         fahrtstatus.setItems(FXCollections.observableArrayList(FahrtStatus.values()));
         fahrtstatus.setPromptText("Fahrtstatus:");
+
         fahrtstatus.setOnAction(event -> {
             if (FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue())) {
 
@@ -418,6 +433,14 @@ public class FahrtenbuchUI extends Application {
 
         primaryStage.setScene(neueFahrt);
         primaryStage.show();
+        //when closing this stage data will be saved to csv
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            try {
+                fahrtenbuch.exportFahrt();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
     }
@@ -580,7 +603,14 @@ public class FahrtenbuchUI extends Application {
             // Eventuell Änderungen im Fahrtenbuch speichern oder weitere Aktionen ausführen
         });
 
-
+//when closing this stage data will be saved to csv
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            try {
+                fahrtenbuch.exportFahrt();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
     }
@@ -594,6 +624,7 @@ public class FahrtenbuchUI extends Application {
     }
 
     private void switchToSettings(Stage primaryStage) {
+        ObservableList<String> addedCategories=FXCollections.observableArrayList();
         backButton = new Button();
         backButton.setText("<- Zurück");
         backButton.setOnAction(actionEvent -> start(primaryStage));
@@ -603,18 +634,75 @@ public class FahrtenbuchUI extends Application {
         enterSavePath.setMaxWidth(200);
         Label Pfad = new Label("Speicherpfad: ");
 
-        primaryStage.setTitle("Einstellungen");
-        StackPane layoutSettings = new StackPane();
-        layoutSettings.getChildren().addAll(enterSavePath, backButton, Pfad);
-        layoutSettings.setAlignment(backButton, Pos.BOTTOM_LEFT);
-        layoutSettings.setAlignment(enterSavePath, Pos.CENTER);
-        layoutSettings.setAlignment(Pfad, Pos.CENTER_LEFT);
-        layoutSettings.requestFocus();
+        TextField kategorienInput = new TextField();
+        kategorienInput.setPromptText("Kategorien eingeben:");
+        kategorienInput.setMaxWidth(200);
+        kategorienListe.clear();
+        kategorienListe.addAll(fahrtenbuch.getKategorien(true));
 
-        Scene einstellungen = new Scene(layoutSettings, 720, 400);
+
+
+        ListView angezeigteKategorien = new ListView ();
+        angezeigteKategorien.setItems(kategorienListe);
+        angezeigteKategorien.setEditable(false);
+         // Anfangs nicht sichtbar machen
+        angezeigteKategorien.setPrefHeight(50); // Höhe der TextArea anpassen
+
+        Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
+        kategorieHinzufuegenButton.setOnAction(event -> {
+            String kategorie = kategorienInput.getText().trim();
+            if (!kategorie.isEmpty()) {
+                addToKategories(kategorie, kategorienListe::add); // Füge die Kategorie zur Liste hinzu
+                addToKategories(kategorie, addedCategories::add);
+                angezeigteKategorien.setVisible(true); // TextArea sichtbar machen
+                angezeigteKategorien.refresh();// Kategorie zur TextArea hinzufügen
+                kategorienInput.clear(); // Eingabefeld leeren
+
+                fahrtenbuch.addKategories(addedCategories);
+
+            }
+        });
+        VBox kategorieInp =new VBox();
+        kategorieInp.getChildren().addAll(kategorienInput,kategorieHinzufuegenButton);
+
+
+
+
+
+
+        primaryStage.setTitle("Einstellungen");
+        GridPane gridSettings=new GridPane();
+
+        gridSettings.getChildren().addAll(enterSavePath, backButton, Pfad,angezeigteKategorien,kategorieInp);
+
+        gridSettings.setAlignment(Pos.CENTER);
+        GridPane.setConstraints(backButton,0,5);
+        GridPane.setConstraints(Pfad,0,1);
+        GridPane.setConstraints(enterSavePath,1,1);
+        GridPane.setConstraints(angezeigteKategorien,1,2);
+
+        GridPane.setConstraints(kategorieInp,0,2);
+        gridSettings.setGridLinesVisible(false);
+
+
+        gridSettings.requestFocus();
+
+
+
+
+
+        Scene einstellungen = new Scene(gridSettings, 720, 400);
         primaryStage.setScene(einstellungen);
-        Platform.runLater(() -> layoutSettings.requestFocus());
+        Platform.runLater(() -> gridSettings.requestFocus());
         primaryStage.show();
+        //when closing this stage data will be saved to csv
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            try {
+                fahrtenbuch.exportFahrt();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
     private void initializeStatistikMenuButton() {
         statistikMenuButton = new MenuButton("Statistik");
