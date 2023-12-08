@@ -121,27 +121,27 @@ public class DriveFacade {
         }
     }
 
-    /*public void persistRecurringDrive(Integer vehicleId, Date startDate, Date endDate, int weeklyInterval) {
-        String query = "INSERT INTO drive (vehicle_id, drive_date, status) VALUES (?, ?, ?)";
+    public void persistRecurringDrive(Integer vehicleId, Date startDate, Date endDate, int interval) {
+        if (vehicleId == null || startDate == null || endDate == null || interval <= 0) {
+            return;
+        }
 
         try {
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            persistDrive(new Drive(vehicleId, startDate));
 
-            Date currentDate = startDate;
-            while (!currentDate.after(endDate)) {
-                preparedStatement.setInt(1, vehicleId);
-                preparedStatement.setDate(2, currentDate);
-                preparedStatement.setString(3, Status.ZUKUENFTIG.toString());
-                preparedStatement.addBatch();
+            LocalDate currentDate = startDate.toLocalDate();
+            LocalDate endLocalDate = endDate.toLocalDate();
 
-                long millis = currentDate.getTime() + (weeklyInterval * 7 * 24 * 60 * 60 * 1000);
+            while (currentDate.isBefore(endLocalDate)) {
+                currentDate = currentDate.plusDays(interval);
+                if (currentDate.isBefore(endLocalDate) || currentDate.isEqual(endLocalDate)) {
+                    persistDrive(new Drive(vehicleId, Date.valueOf(currentDate)));
+                }
             }
-
-            preparedStatement.executeBatch();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     public void deleteDriveById(Integer id) {
         String query = "DELETE FROM drive WHERE drive_id = ?";

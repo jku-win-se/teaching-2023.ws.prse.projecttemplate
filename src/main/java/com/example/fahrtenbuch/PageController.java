@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.example.fahrtenbuch.business.DatabaseConnection;
 import com.example.fahrtenbuch.business.DriveFacade;
+import com.example.fahrtenbuch.business.VehicleFacade;
 import com.example.fahrtenbuch.entities.Drive;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,27 +19,29 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class PageController{
     @FXML
     public TextField kfzTF;
     @FXML
-    public TextField AbfahrtTF;
+    public TextField vonDatumTF;
+
     @FXML
-    public TextField aktiveFahTF;
+    public TextField bisDatumTF;
     @FXML
-    public TextField ankunftTF;
-    @FXML
-    public TextField dutumTF;
-    @FXML
-    public TextField gefahreneKmTF;
-    @FXML
-    public ComboBox<String> kategoriesTF;
+    public ComboBox<String> repeatDrive;
+
+    public Button btnStart;
+    public ImageView logoIcon;
+    public Button btnNewRide;
+
+    public Button btnOverview;
+
+    public Button btnCreateDrive;
+
 
     private DatabaseConnection databaseConnection;
     private Alert alert;
@@ -46,6 +49,8 @@ public class PageController{
 
     List<Drive> drives = new ArrayList<>();
     private DriveFacade driveFacade;
+
+    private VehicleFacade vehicleFacade;
 
     public PageController() {
         databaseConnection = new DatabaseConnection();
@@ -58,6 +63,7 @@ public class PageController{
         alert.setDialogPane(dialogPane);
 
         driveFacade = new DriveFacade();
+        vehicleFacade =new VehicleFacade();
     }
 
 
@@ -128,10 +134,10 @@ public class PageController{
         stage.show();
     }
 
-    /*
+
     @FXML
     private void handleBtnCreateDrive(ActionEvent event) throws IOException {
-    TODO
+
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FahrtenbucherPage.fxml"));
         Parent root = loader.load();
@@ -145,14 +151,67 @@ public class PageController{
         stage.show();
     }
 
-    @FXML //bei BtnCreadeDrive-> onAction="#addDrive"
+    @FXML
     public void addDrive(ActionEvent event) throws IOException {
-    TODO
 
-        Drive fahrt = new Drive(1, Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now()));
-        fahrtListe.add(fahrt);
-        driveFacade.persistDrive(fahrt);
+        String licensePlate = kfzTF.getText();
+        String startDateString = vonDatumTF.getText();
+        String endDateString = bisDatumTF.getText();
+
+        if (licensePlate.isEmpty() || startDateString.isEmpty() || endDateString.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Bitte füllen Sie alle Felder aus.");
+            return;
+        }
+
+        try {
+            Date startDate = Date.valueOf(startDateString);
+            Date endDate = Date.valueOf(endDateString);
+
+            if (startDate.after(endDate)) {
+                showAlert(Alert.AlertType.ERROR, "Fehler", "Das Startdatum darf nicht größer als das Enddatum sein.");
+                return;
+            }
+
+            Integer vehicleId = vehicleFacade.getVehicleIdByLicensePlate(licensePlate);
+
+            if (vehicleId == null) {
+                showAlert(Alert.AlertType.ERROR, "Fehler", "Das Fahrzeug mit dem Kennzeichen existiert nicht.");
+                return;
+            }
+
+            int interval = 0;
+            String selectedInterval = repeatDrive.getValue();
+            switch (selectedInterval) {
+                case "täglich":
+                    interval = 1;
+                    break;
+                case "wöchentlich":
+                    interval = 7;
+                    break;
+                case "alle 2 Wochen":
+                    interval = 14;
+                    break;
+                default:
+                    showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültiges Intervall ausgewählt.");
+                    return;
+            }
+
+            driveFacade.persistRecurringDrive(vehicleId, startDate, endDate, interval);
+
+            showAlert(Alert.AlertType.INFORMATION, "Erfolg", "Wiederholende Fahrten wurden erfolgreich angelegt.");
+
+
+        } catch (IllegalArgumentException e) {
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültiges Datumsformat.");
+        }
 
         handleBtnCreateDrive(event);
-    }*/
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String headerText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.showAndWait();
+    }
 }

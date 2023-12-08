@@ -40,6 +40,7 @@ public class IndexController{
     public TextField gefahreneKmTF;
     @FXML
     public TextField kfzTF;
+
     public Button btnStart;
     public ImageView logoIcon;
     public Button btnCreateRide;
@@ -161,27 +162,24 @@ public class IndexController{
         String gefahreneKmField = gefahreneKmTF.getText();
         String aktiveFahField = aktiveFahTF.getText();
 
-        // Überprüfen, ob das Kennzeichen nicht leer ist
         if (licensePlate.isEmpty() || datumTF.getText().isEmpty()) {
-            // Zeige eine Fehlermeldung an, wenn Felder leer sind
+
             showAlert(Alert.AlertType.ERROR, "Fehler", "Bitte füllen Sie Fahrzeug und Datum aus.");
             return;
         }
 
-        // Fahrzeug-ID basierend auf dem Kennzeichen abrufen
         VehicleFacade vehicleFacade = new VehicleFacade();
         Vehicle vehicle = vehicleFacade.getVehicleByLicensePlate(licensePlate);
         if (vehicle == null) {
-            // Zeige eine Fehlermeldung an, wenn das Fahrzeug nicht gefunden wurde
+
             showAlert(Alert.AlertType.ERROR, "Fehler", "Fahrzeug mit Kennzeichen " + licensePlate + " nicht gefunden.");
             return;
         }
         Integer vehicleId = vehicleFacade.getVehicleIdByLicensePlate(licensePlate);
 
-        // Erstellen Sie ein Drive-Objekt basierend auf den ausgefüllten Feldern
         Drive fahrt;
         if (!abfahrtField.isEmpty() && !ankunftField.isEmpty() && !gefahreneKmField.isEmpty() && !aktiveFahField.isEmpty()) {
-            // Wenn alle Felder ausgefüllt sind
+
             fahrt = new Drive(
                     vehicleId,
                     Date.valueOf(datumTF.getText()),
@@ -191,7 +189,7 @@ public class IndexController{
                     Double.parseDouble(gefahreneKmField)
             );
         } else if (!abfahrtField.isEmpty() && !ankunftField.isEmpty() && !gefahreneKmField.isEmpty()) {
-            // Wenn nur abfahrtField, ankunftField und gefahreneKmField ausgefüllt sind
+
             fahrt = new Drive(
                     vehicleId,
                     Date.valueOf(datumTF.getText()),
@@ -201,7 +199,6 @@ public class IndexController{
                     Double.parseDouble(gefahreneKmField)
             );
         } else if (!datumTF.getText().isEmpty()) {
-            // Wenn nur kfzField und date ausgefüllt sind
             fahrt = new Drive(
                     vehicleId,
                     Date.valueOf(datumTF.getText())
@@ -221,28 +218,24 @@ public class IndexController{
                 return;
             }
 
-            // Zeige eine Fehlermeldung an, wenn nicht genügend Felder ausgefüllt sind
             showAlert(Alert.AlertType.ERROR, "Fehler", "Bitte füllen Sie die erforderlichen Felder aus.");
             return;
         }
 
-        // Persistieren Sie die Fahrt
+
         driveFacade.persistDrive(fahrt);
 
         CategoryFacade categoryFacade = new CategoryFacade();
 
         Category selectedCategory = categoryFacade.getCategoryByName(kategoriesTF.getValue());
 
-        // Wenn eine Kategorie ausgewählt wurde, verknüpfen Sie sie
+
         if (selectedCategory != null) {
             Category_Drive_Facade categoryDriveFacade = new Category_Drive_Facade();
             Category_Drive categoryDrive = new Category_Drive(selectedCategory.getCategory_id(), fahrt.getDriveId());
             categoryDriveFacade.persistCategoryDrive(categoryDrive);
         }
 
-
-
-        // Aktualisieren Sie die Anzeige oder führen Sie die gewünschte Aktion aus
         handleBtnCreateRide(event);
     }
 
