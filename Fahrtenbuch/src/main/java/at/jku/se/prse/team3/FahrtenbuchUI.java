@@ -277,14 +277,11 @@ public class FahrtenbuchUI extends Application {
         angezeigteKategorien.setVisible(false); // Anfangs nicht sichtbar machen
         angezeigteKategorien.setPrefHeight(50); // Höhe der TextArea anpassen
 
-        Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
-        kategorieHinzufuegenButton.setOnAction(event -> {
 
-        });
 
 // Füge die Kategorien-Komponenten zur Benutzeroberfläche hinzu
         VBox kategorienBox = new VBox(10);
-        kategorienBox.getChildren().addAll(kategorienInput, kategorieHinzufuegenButton, angezeigteKategorien);
+        kategorienBox.getChildren().addAll(kategorienInput, angezeigteKategorien);
 
         DatePicker future = new DatePicker();
         future.getEditor().setDisable(true);
