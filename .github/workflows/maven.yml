@@ -33,7 +33,13 @@ jobs:
 
     - name: Create KategorienCSV
       run: echo "" > "C:\Users\runneradmin\Documents\Fahrtenbuch 0.0.3\Kategorien.csv"
+    
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
 
+    - name: Run unit tests
+      run: mvn test
+      
     - name: PMD Code Check
       uses: pmd/pmd-github-action@v1
       id: pmd
@@ -45,10 +51,3 @@ jobs:
     - name: Automatisierung bei einer Verletzung stoppen 
       if: steps.pmd.outputs.violations != 0
       run: exit 1
-    
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-
-    - name: Run unit tests
-      run: mvn test
-      
