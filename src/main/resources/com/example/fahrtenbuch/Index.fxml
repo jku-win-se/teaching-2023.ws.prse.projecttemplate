@@ -93,14 +93,9 @@
                         <Font size="16.0" />
                     </font>
                 </Button>
-            <ComboBox fx:id="kategoryTF" layoutX="769.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: gray;  -fx-border-width: 0.5; -fx-border-radius: 5; ">
+            <ComboBox fx:id="kategoriesTF" layoutX="769.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: gray;  -fx-border-width: 0.5; -fx-border-radius: 5; ">
                <items>
                   <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="Option 1" />
-                     <String fx:value="Option 2" />
-                     <String fx:value="Option 3" />
-                     <String fx:value="Option 4" />
-                     <String fx:value="Option 5" />
                   </FXCollections>
                </items>
             </ComboBox>
@@ -109,7 +104,7 @@
                      <Font name="Arial Rounded MT Bold" size="12.0" />
                  </font>
              </Button>
-                <TextField fx:id="dutumTF" layoutX="407.0" layoutY="487.0" prefHeight="49.0" prefWidth="296.0" promptText="Datum" style="-fx-padding: 0px 20px;" />
+                <TextField fx:id="datumTF" layoutX="407.0" layoutY="487.0" prefHeight="49.0" prefWidth="296.0" promptText="Datum" style="-fx-padding: 0px 20px;" />
             <Button fx:id="btnAddKfz" layoutX="703.0" layoutY="225.0" mnemonicParsing="false" onAction="#showAddKfzPopup" prefHeight="49.0" prefWidth="44.0" text="+">
                <font>
                   <Font name="Arial Rounded MT Bold" size="12.0" />

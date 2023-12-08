@@ -36,6 +36,27 @@ public class CategoryFacade {
         return category;
     }
 
+    public Category getCategoryByName(String categoryName) {
+        Category category = null;
+        String query = "SELECT * FROM category WHERE category_name = ?";
+
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, categoryName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                category = new Category();
+                category.setCategory_id(resultSet.getInt("category_id"));
+                category.setName(resultSet.getString("category_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return category;
+    }
+
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
         String query = "SELECT * FROM category";

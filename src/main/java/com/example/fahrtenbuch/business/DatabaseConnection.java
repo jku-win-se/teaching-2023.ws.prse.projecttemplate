@@ -151,7 +151,7 @@ public class DatabaseConnection {
             exportTableToCSV("drive", "drive.csv");
             exportTableToCSV("category_drive", "category_drive.csv");
 
-            System.out.println("Daten wurden erfolgreich exportiert.");
+            //System.out.println("Daten wurden erfolgreich exportiert.");
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -239,7 +239,7 @@ public class DatabaseConnection {
                 String[] data = line.split(";");
                 insertRow(tableName, data);
             }
-            System.out.println("Daten wurden erfolgreich importiert.");
+            //System.out.println("Daten wurden erfolgreich importiert.");
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
