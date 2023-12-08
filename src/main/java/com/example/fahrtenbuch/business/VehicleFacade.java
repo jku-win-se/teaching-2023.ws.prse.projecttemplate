@@ -83,4 +83,45 @@ public class VehicleFacade {
             e.printStackTrace();
         }
     }
+
+    public Vehicle getVehicleByLicensePlate(String licensePlate) {
+        Vehicle vehicle = null;
+        String query = "SELECT * FROM vehicle WHERE license_plate = ?";
+
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, licensePlate);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                vehicle = new Vehicle();
+                vehicle.setVehicleId(resultSet.getInt("vehicle_id"));
+                vehicle.setLicensePlate(resultSet.getString("license_plate"));
+                vehicle.setOdometer(resultSet.getDouble("odometer"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return vehicle;
+    }
+
+    public Integer getVehicleIdByLicensePlate(String licensePlate) {
+        Integer vehicleId = null;
+        String query = "SELECT vehicle_id FROM vehicle WHERE license_plate = ?";
+
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, licensePlate);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                vehicleId = resultSet.getInt("vehicle_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return vehicleId;
+    }
 }

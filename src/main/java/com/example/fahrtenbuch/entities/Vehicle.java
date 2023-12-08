@@ -14,6 +14,10 @@ public class Vehicle {
         
     }
 
+    public Integer getVehicleId() {
+        return vehicleId;
+    }
+
     public String getLicensePlate() {
         return licensePlate;
     }

@@ -7,11 +7,11 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.fahrtenbuch.business.CategoryFacade;
-import com.example.fahrtenbuch.business.DatabaseConnection;
-import com.example.fahrtenbuch.business.DriveFacade;
+import com.example.fahrtenbuch.business.*;
 import com.example.fahrtenbuch.entities.Category;
+import com.example.fahrtenbuch.entities.Category_Drive;
 import com.example.fahrtenbuch.entities.Drive;
+import com.example.fahrtenbuch.entities.Vehicle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,11 +35,9 @@ public class IndexController{
     @FXML
     public TextField ankunftTF;
     @FXML
-    public TextField dutumTF;
+    public TextField datumTF;
     @FXML
     public TextField gefahreneKmTF;
-    @FXML
-    public ComboBox<String> kategoriesTF;
     @FXML
     public TextField kfzTF;
     public Button btnStart;
@@ -50,7 +48,7 @@ public class IndexController{
     public Button btnOverview;
     public AnchorPane popupPane;
     public Button btnAddCategory;
-    public ComboBox kategoryTF;
+    public ComboBox<String> kategoriesTF;
     public Button btnAddKfz;
 
     private DatabaseConnection databaseConnection;
@@ -157,18 +155,94 @@ public class IndexController{
     }
     @FXML
     public void addFahrt(ActionEvent event) throws IOException {
-        String kfzField = kfzTF.getText();
+        String licensePlate = kfzTF.getText();
         String abfahrtField = AbfahrtTF.getText();
         String ankunftField = ankunftTF.getText();
         String gefahreneKmField = gefahreneKmTF.getText();
         String aktiveFahField = aktiveFahTF.getText();
-        ComboBox<Category> kategoryTF;
 
-        //Drive fahrt = new Drive(kfzField, aktiveFahField, abfahrtField, ankunftField, gefahreneKmField, kategorieField);
-        Drive fahrt = new Drive(1, Date.valueOf(LocalDate.now()), Time.valueOf(LocalTime.now()),Time.valueOf(LocalTime.now()), Integer.valueOf(aktiveFahField), Double.valueOf(gefahreneKmField));
-        fahrtListe.add(fahrt);
+        // Überprüfen, ob das Kennzeichen nicht leer ist
+        if (licensePlate.isEmpty() || datumTF.getText().isEmpty()) {
+            // Zeige eine Fehlermeldung an, wenn Felder leer sind
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Bitte füllen Sie Fahrzeug und Datum aus.");
+            return;
+        }
+
+        // Fahrzeug-ID basierend auf dem Kennzeichen abrufen
+        VehicleFacade vehicleFacade = new VehicleFacade();
+        Vehicle vehicle = vehicleFacade.getVehicleByLicensePlate(licensePlate);
+        if (vehicle == null) {
+            // Zeige eine Fehlermeldung an, wenn das Fahrzeug nicht gefunden wurde
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Fahrzeug mit Kennzeichen " + licensePlate + " nicht gefunden.");
+            return;
+        }
+        Integer vehicleId = vehicleFacade.getVehicleIdByLicensePlate(licensePlate);
+
+        // Erstellen Sie ein Drive-Objekt basierend auf den ausgefüllten Feldern
+        Drive fahrt;
+        if (!abfahrtField.isEmpty() && !ankunftField.isEmpty() && !gefahreneKmField.isEmpty() && !aktiveFahField.isEmpty()) {
+            // Wenn alle Felder ausgefüllt sind
+            fahrt = new Drive(
+                    vehicleId,
+                    Date.valueOf(datumTF.getText()),
+                    Time.valueOf(abfahrtField),
+                    Time.valueOf(ankunftField),
+                    Integer.parseInt(aktiveFahField),
+                    Double.parseDouble(gefahreneKmField)
+            );
+        } else if (!abfahrtField.isEmpty() && !ankunftField.isEmpty() && !gefahreneKmField.isEmpty()) {
+            // Wenn nur abfahrtField, ankunftField und gefahreneKmField ausgefüllt sind
+            fahrt = new Drive(
+                    vehicleId,
+                    Date.valueOf(datumTF.getText()),
+                    Time.valueOf(abfahrtField),
+                    Time.valueOf(ankunftField),
+                    Integer.parseInt(aktiveFahField),
+                    Double.parseDouble(gefahreneKmField)
+            );
+        } else if (!datumTF.getText().isEmpty()) {
+            // Wenn nur kfzField und date ausgefüllt sind
+            fahrt = new Drive(
+                    vehicleId,
+                    Date.valueOf(datumTF.getText())
+            );
+        } else {
+
+            String datumText = datumTF.getText();
+            if (datumText.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Fehler", "Bitte geben Sie ein Datum ein.");
+                return;
+            }
+
+            try {
+                Date.valueOf(datumText);
+            } catch (IllegalArgumentException e) {
+                showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültiges Datumsformat. Verwenden Sie das Format 'yyyy-MM-dd'.");
+                return;
+            }
+
+            // Zeige eine Fehlermeldung an, wenn nicht genügend Felder ausgefüllt sind
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Bitte füllen Sie die erforderlichen Felder aus.");
+            return;
+        }
+
+        // Persistieren Sie die Fahrt
         driveFacade.persistDrive(fahrt);
 
+        CategoryFacade categoryFacade = new CategoryFacade();
+
+        Category selectedCategory = categoryFacade.getCategoryByName(kategoriesTF.getValue());
+
+        // Wenn eine Kategorie ausgewählt wurde, verknüpfen Sie sie
+        if (selectedCategory != null) {
+            Category_Drive_Facade categoryDriveFacade = new Category_Drive_Facade();
+            Category_Drive categoryDrive = new Category_Drive(selectedCategory.getCategory_id(), fahrt.getDriveId());
+            categoryDriveFacade.persistCategoryDrive(categoryDrive);
+        }
+
+
+
+        // Aktualisieren Sie die Anzeige oder führen Sie die gewünschte Aktion aus
         handleBtnCreateRide(event);
     }
 
@@ -177,7 +251,14 @@ public class IndexController{
     private void handleBtnAddCategory(ActionEvent event) throws IOException {
         CategoryFacade categoryFacade = new CategoryFacade();
         ObservableList<Category> categories = FXCollections.observableArrayList(categoryFacade.getAllCategories());
-        kategoryTF.setItems(categories);
+
+        // Konvertiere ObservableList<Category> in ObservableList<String>
+        ObservableList<String> categoryNames = FXCollections.observableArrayList();
+        for (Category category : categories) {
+            categoryNames.add(category.toString()); // Hier können Sie die Methode wählen, die den Anzeigenamen der Kategorie zurückgibt
+        }
+
+        kategoriesTF.setItems(categoryNames);
     }
 
     @FXML
@@ -208,6 +289,13 @@ public class IndexController{
 
         ((Node) event.getSource()).getScene().getWindow().requestFocus();
         handleBtnAddCategory(event);
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String headerText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.showAndWait();
     }
 }
 
