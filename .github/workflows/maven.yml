@@ -22,9 +22,7 @@ jobs:
       with:
         java-version: '19'
         distribution: 'adopt'
-        
-   
-  
+
     - name: Create Directory
       run: New-Item -ItemType Directory -Path "C:\Users\runneradmin\Documents\Fahrtenbuch 0.0.3"
 
@@ -36,7 +34,6 @@ jobs:
 
     - name: PMD Code Check
       uses: pmd/pmd-github-action@v1
-      id: pmd
       with:
         version: '6.40.0'
         sourcePath: 'Fahrtenbuch/src/main/java/at/jku/se/prse/team3'
@@ -51,5 +48,24 @@ jobs:
 
     - name: Run unit tests
       run: mvn test
-      
 
+    # SonarCloud Schritte
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build and analyze with SonarCloud
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=sarakheribi_se-pr-team-3
