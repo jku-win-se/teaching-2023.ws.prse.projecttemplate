@@ -37,5 +37,18 @@ public class DriveFacadeTest {
             assertTrue(false);
         }
     }
+
+    @Test
+    void testPersistRecurringDrive() {
+        String licensePlate = "ABC123";
+        Date startDate = Date.valueOf("2023-01-01");
+        Date endDate = Date.valueOf("2023-01-10");
+        int interval = 2;
+
+        boolean result = driveFacade.persistRecurringDrive(licensePlate, startDate, endDate, interval);
+
+        assertTrue(result, "persistRecurringDrive sollte true zurückgeben");
+
+    }
 }
 

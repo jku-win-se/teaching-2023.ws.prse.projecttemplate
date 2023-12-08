@@ -82,7 +82,7 @@
                 <TextField fx:id="kfzTF" layoutX="407.0" layoutY="201.0" prefHeight="60.0" prefWidth="296.0" promptText="KFZ-Kennzeichen" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="vonDatumTF" layoutX="407.0" layoutY="328.0" prefHeight="49.0" prefWidth="296.0" promptText="Von-Datum" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="bisDatumTF" layoutX="407.0" layoutY="407.0" prefHeight="49.0" prefWidth="296.0" promptText="Bis-Datum" style="-fx-padding: 0px 20px;" />
-                <Button fx:id="btnCreateDrive" layoutX="406.0" layoutY="579.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="296.0" style="-fx-background-color: #333E50; -fx-border-radius: 10px; -fx-cursor: pointer;" text="FAHRT ANLEGEN" textFill="WHITE">
+                <Button fx:id="btnCreateDrive" layoutX="406.0" layoutY="579.0" mnemonicParsing="false" onAction="#addDrive" prefHeight="49.0" prefWidth="296.0" style="-fx-background-color: #333E50; -fx-border-radius: 10px; -fx-cursor: pointer;" text="FAHRT ANLEGEN" textFill="WHITE">
                     <font>
                         <Font size="16.0" />
                     </font>
@@ -90,9 +90,9 @@
             <ComboBox fx:id="repeatDrive" layoutX="786.0" layoutY="201.0" prefHeight="60.0" prefWidth="296.0" promptText="Wiederholungen" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: gray;  -fx-border-width: 0.5; -fx-border-radius: 5; ">
                <items>
                   <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="täglich" />
                      <String fx:value="wöchentlich" />
-                     <String fx:value="monatlich" />
-                     <String fx:value="jährlich" />
+                     <String fx:value="alle 2 Wochen" />
                   </FXCollections>
                </items>
             </ComboBox>
