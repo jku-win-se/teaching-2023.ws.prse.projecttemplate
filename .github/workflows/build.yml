@@ -1,10 +1,14 @@
 name: SonarCloud
 on:
   push:
+    branches: 
+      - main
+      - release-0.2.0
+  pull_request: 
     branches:
-      - master
-  pull_request:
-    types: [opened, synchronize, reopened]
+      - main
+      - release-0.2.0
+
 jobs:
   build:
     name: Build and analyze
