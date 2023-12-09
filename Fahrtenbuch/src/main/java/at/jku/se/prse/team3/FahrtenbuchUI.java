@@ -94,7 +94,7 @@ public class FahrtenbuchUI extends Application {
         jahresStatistikButton = new Button("Jahresstatistik anzeigen");
         jahresStatistikButton.setOnAction(event -> zeigeJahresKilometerStatistik());
         filterButton = new Button("Filtern");
-        filterButton.setOnAction(event -> oeffneFilter(primaryStage));
+        filterButton.setOnAction(event -> oeffneFilter(fahrtenTabelle));
 
 
         TableColumn<Fahrt, String> kfz = new TableColumn<>("KFZ-Kennzeichen");
@@ -887,49 +887,56 @@ public class FahrtenbuchUI extends Application {
         }
     }
 
-    void oeffneFilter(Stage primaryStage) {
+    void oeffneFilter(TableView fahrtenTabelle) {
+        // Dialogfenster für die Filterung erstellen
+        Dialog<Boolean> dialog = new Dialog<>();
+        dialog.setTitle("Fahrt filtern");
 
-        Button filterButton = new Button("filtern");
-        backButton = new Button();
-        backButton.setText("<- Zurück");
-        backButton.setOnAction(actionEvent -> start(primaryStage));
+        ButtonType filterButtonType = new ButtonType("Filtern", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(filterButtonType, ButtonType.CANCEL);
 
         DatePicker datum = new DatePicker();
         datum.setPromptText("Datum der Fahrt");
         datum.getEditor().setDisable(true);
         datum.setMaxWidth(200);
 
-        //SPACER BOX
-        Box box = new Box(10, 30, 720);
-        box.setVisible(true);
+        // Ergebnis des Dialogs konvertieren, wenn der Benutzer "Filtern" klickt
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == filterButtonType) {
+                try {
+                    LocalDate date = datum.getValue();
+                    fahrtenListe.clear();
+                    fahrtenListe.addAll(fahrtenbuch.filterByDate(date));
+                    fahrtenTabelle.setItems(this.fahrtenListe);
+                } catch (DateTimeParseException d) {
+                    Alert dateAlert = new Alert(Alert.AlertType.WARNING);
+                    dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM:SS..");
+                    dateAlert.showAndWait();
+                }
+                return true;
+            }
+            return false;
+        });
 
         VBox fahrtTextinputboxen = new VBox(1);
-        fahrtTextinputboxen.getChildren().addAll(box, datum
+        fahrtTextinputboxen.getChildren().addAll(datum
         );
 
         ScrollPane scrollPane = new ScrollPane(fahrtTextinputboxen);
         scrollPane.setFitToWidth(true); // Passt die Breite der ScrollPane an die Breite der VBox an
         scrollPane.setPrefHeight(400); // Setzen Sie eine bevorzugte Höhe
 
-        primaryStage.setTitle("Filtern");
         StackPane layoutFilter = new StackPane();
         layoutFilter.getChildren().add(scrollPane);
-        layoutFilter.getChildren().add(backButton);
 
-        layoutFilter.getChildren().add(filterButton);
-
-        StackPane.setAlignment(filterButton, Pos.BOTTOM_RIGHT);
-        StackPane.setAlignment(backButton, Pos.BOTTOM_LEFT);
-        Scene Filtern = new Scene(layoutFilter, 720, 400);
-
-        primaryStage.setScene(Filtern);
-        primaryStage.show();
-        //when closing this stage data will be saved to csv
-        primaryStage.setOnCloseRequest(windowEvent -> {
-
+        dialog.getDialogPane().setContent(layoutFilter);
+        Optional<Boolean> result = dialog.showAndWait();
+        result.ifPresent(filter -> {
+            // Aktualisierte Fahrt in der Liste und in der TableView anzeigen
+            fahrtenTabelle.refresh();
+            dialog.close();
         });
     }
-
 }
 
 

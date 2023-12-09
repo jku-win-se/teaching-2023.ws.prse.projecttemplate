@@ -3,18 +3,10 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
-import javafx.beans.Observable;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -24,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Fahrtenbuch {
 
@@ -380,4 +373,16 @@ public class Fahrtenbuch {
     public void addKategories (Collection kategorienNeu){
         kategorien.addAll(kategorienNeu);
     }
+
+   public List<Fahrt> filterByDate(LocalDate date){
+        if(date == null){
+            return this.fahrten;
+        }
+       List<Fahrt> gefilterteFahrten = fahrten.stream().filter(f->
+               f.getDatum().getYear() == date.getYear() &&
+                       f.getDatum().getMonth() == date.getMonth() &&
+                       f.getDatum().getDayOfMonth() == date.getDayOfMonth()
+       ).collect(Collectors.toList());
+       return gefilterteFahrten;
+   }
 }
