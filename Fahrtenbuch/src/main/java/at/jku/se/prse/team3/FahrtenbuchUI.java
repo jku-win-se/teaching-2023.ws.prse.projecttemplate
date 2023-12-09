@@ -1,17 +1,13 @@
 package at.jku.se.prse.team3;
 
-
-import javafx.animation.FadeTransition;
-
+import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
-
-
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,37 +18,30 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-
 import javafx.scene.shape.Box;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.util.Duration;
 import javafx.util.converter.*;
 
-
 import java.io.IOException;
-import java.nio.file.Path;
-
+import java.text.Format;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
-
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-
-
+import static javafx.application.Application.launch;
 
 public class FahrtenbuchUI extends Application {
-    private Image logo;
-    private Image logoFull;
 
+    private String path;
     private Fahrtenbuch fahrtenbuch;
     private Button setButton;
     private Button backButton;
@@ -61,6 +50,7 @@ public class FahrtenbuchUI extends Application {
     private Button speichernButton = new Button("\uD83D\uDCBE Fahrt speichern");
 
     private Button newEditButton;
+    private Button filterButton;
     private Button statistikButton;
     private Button erweiterteStatistikButton;
     private Button jahresStatistikButton;
@@ -70,10 +60,6 @@ public class FahrtenbuchUI extends Application {
     private ObservableList<Fahrt> fahrtenListe; // Klassenvariable für die Fahrtenliste
     private ButtonType deleteButtonType = new ButtonType("Löschen", ButtonBar.ButtonData.APPLY);
 
-    /**
-     * Konstruktor
-     * @param fahrtenbuch sets the Fahrtenbuch Object the UI is working on
-     */
     public FahrtenbuchUI(Fahrtenbuch fahrtenbuch) {
         this.fahrtenbuch = fahrtenbuch;
         // Initialisierung der fahrtenListe mit leeren Daten oder vorhandenen Daten aus fahrtenbuch
@@ -86,97 +72,8 @@ public class FahrtenbuchUI extends Application {
         launch(args);
     }
 
-    /**
-     * This is the startup window of our Fahrtenbuch
-     * @param primaryStage JavaFX Stage
-     * @throws InterruptedException
-     */
     @Override
-    public void start(Stage primaryStage) throws InterruptedException {
-        StackPane root = new StackPane();
-
-
-
-        String currentDirectory = System.getProperty("user.dir");
-        Path imagePath = Path.of(currentDirectory, "Fahrtenbuch", "src", "main", "java", "at", "jku", "se", "prse", "team3", "logo.png");
-        String imageFileP = imagePath.toString();
-
-        logo = new Image(imageFileP);
-
-
-        ImageView logoView = new ImageView(logo);
-        /*logoView.setOnMousePressed(event -> {
-            primaryStage.hide();
-            overview(primaryStage);
-        });
-*/
-
-
-        logoView.setOpacity(0);
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        ProgressBar lol = new ProgressBar();
-        lol.setStyle("-fx-accent: black;");
-        lol.setMaxWidth(logo.getWidth());
-        root.getChildren().addAll(logoView,lol);
-        StackPane.setAlignment(lol,Pos.BOTTOM_CENTER);
-
-        // Create animation
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2), logoView);
-        fadeTransition.setToValue(1);
-        fadeTransition.play();
-
-
-        Scene scene = new Scene(root, 600, 400);
-
-        primaryStage.setScene(scene);
-
-        primaryStage.setWidth(logo.getWidth());
-        primaryStage.setHeight(logo.getHeight());
-
-
-        primaryStage.show();
-        //basically useless Task can be removed if wished for controls the progress of loading bar
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                for (int i = 0; i < 100; i++) {
-                    updateProgress(i + 1, 100);
-                    Thread.sleep(15);
-                    if (i==99)Thread.sleep(1000);
-                }
-                Platform.runLater(() ->
-                {
-                    primaryStage.hide();
-                    overview(primaryStage);
-                });
-
-                return null;
-            }
-        };
-
-        lol.progressProperty().bind(task.progressProperty());
-
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
-
-
-
-
-    }
-
-    /**
-     * Fahrtentabelle, Buttons, Logo etc.. Überblick
-     * @param primaryStage
-     */
-    public void overview(Stage primaryStage){
-        String currentDirectory = System.getProperty("user.dir");
-        Path logoPath = Path.of(currentDirectory, "Fahrtenbuch", "src", "main", "java", "at", "jku", "se", "prse", "team3", "logoFull.png");
-
-        logoFull=new Image(logoPath.toUri().toString());
-
-        primaryStage= new Stage(StageStyle.DECORATED);
-        primaryStage.getIcons().add(logoFull);
+    public void start(Stage primaryStage) {
         kategorienListe = fahrtenbuch.getKategorien(true);
         //start tabellerische Ansicht
         // Laden der vorhandenen Fahrten aus dem Fahrtenbuch und Initialisierung der fahrtenListe
@@ -196,6 +93,8 @@ public class FahrtenbuchUI extends Application {
         erweiterteStatistikButton.setOnAction(event -> zeigeErweiterteKilometerStatistik());
         jahresStatistikButton = new Button("Jahresstatistik anzeigen");
         jahresStatistikButton.setOnAction(event -> zeigeJahresKilometerStatistik());
+        filterButton = new Button("Filtern");
+        filterButton.setOnAction(event -> oeffneFilter(primaryStage));
 
 
         TableColumn<Fahrt, String> kfz = new TableColumn<>("KFZ-Kennzeichen");
@@ -210,7 +109,7 @@ public class FahrtenbuchUI extends Application {
         TableColumn<Fahrt, LocalTime> ank = new TableColumn<>("Ankunftszeit");
         ank.setCellValueFactory(new PropertyValueFactory<>("ankunftszeit"));
 
-        TableColumn<Fahrt, Double> gefKM = new TableColumn<>("gef. Kilometer");
+        TableColumn<Fahrt, Double> gefKM = new TableColumn<>("gefahrene Kilometer");
         gefKM.setCellValueFactory(new PropertyValueFactory<>("gefahreneKilometer"));
 
         TableColumn<Fahrt, LocalTime> aktivFZ = new TableColumn<>("aktive Fahrzeit");
@@ -222,7 +121,7 @@ public class FahrtenbuchUI extends Application {
         TableColumn<Fahrt, String> kateg = new TableColumn<>("Kategorien");
         kateg.setCellValueFactory(cellData -> {
             List<String> categories = cellData.getValue().getKategorien();
-            String catToString = String.join(", ", categories);
+            String catToString = categories.stream().collect(Collectors.joining(", "));
             return new SimpleStringProperty(catToString);
         });
 
@@ -234,10 +133,12 @@ public class FahrtenbuchUI extends Application {
         setButton.setText("Settings");
         setButton.setId("settingsButton");
 
-        Stage finalPrimaryStage = primaryStage;
-        setButton.setOnAction(actionEvent -> {
-            switchToSettings(finalPrimaryStage);
-
+        setButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                switchToSettings(primaryStage);
+                System.out.println("Testbutton");
+            }
         });
         StackPane layoutFahrten = new StackPane();
 
@@ -245,20 +146,19 @@ public class FahrtenbuchUI extends Application {
         newEditButton.setText("Fahrt bearbeiten");
         newEditButton.setId("editButton");
 
-        Stage finalPrimaryStage1 = primaryStage;
         newEditButton.setOnAction(event -> {
             Fahrt ausgewaehlteFahrt = fahrtenTabelle.getSelectionModel().getSelectedItem();
             if (ausgewaehlteFahrt != null) {
                 try {
-                    bearbeiteFahrt(ausgewaehlteFahrt, finalPrimaryStage1);
-                }catch (DateTimeParseException d){
-                    Alert dateAlert=new Alert(Alert.AlertType.WARNING);
-                    dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM..");
+                    bearbeiteFahrt(ausgewaehlteFahrt, primaryStage);
+                } catch (DateTimeParseException d) {
+                    Alert dateAlert = new Alert(Alert.AlertType.WARNING);
+                    dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM:SS..");
                     d.printStackTrace();
                     dateAlert.showAndWait();
 
-                }catch(NumberFormatException n){
-                    Alert numberAlert=new Alert(Alert.AlertType.WARNING);
+                } catch (NumberFormatException n) {
+                    Alert numberAlert = new Alert(Alert.AlertType.WARNING);
                     numberAlert.setContentText("Numeric entries only..");
                     numberAlert.showAndWait();
                     n.printStackTrace();
@@ -279,15 +179,18 @@ public class FahrtenbuchUI extends Application {
         newTripButton.setText("Neue Fahrt");
         newTripButton.setId("newTripButton");
         newTripButton.setStyle("-fx-background-colour: #00ff00");
-        Stage finalPrimaryStage2 = primaryStage;
-        newTripButton.setOnAction(actionEvent -> neueFahrt(finalPrimaryStage2));
+        newTripButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                neueFahrt(primaryStage);
+            }
+        });
 
         // HBox für die Buttons erstellen
         HBox leftButtonBox = new HBox(10);
-        leftButtonBox.getChildren().addAll(newTripButton,setButton,newEditButton,statistikMenuButton,grafikMenuButton );
+        leftButtonBox.getChildren().addAll(newTripButton, setButton, newEditButton, statistikMenuButton, grafikMenuButton, filterButton);
         leftButtonBox.setAlignment(Pos.TOP_LEFT);
         leftButtonBox.setPadding(new javafx.geometry.Insets(4, 1, 10, 1));
-
 
 
         // Menü und Buttons im VBox platzieren
@@ -307,14 +210,7 @@ public class FahrtenbuchUI extends Application {
         });*/
 
         Scene fahrten = new Scene(root, 720, 400);
-
         primaryStage.setScene(fahrten);
-
-
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), root);
-        fadeTransition.setFromValue(0);
-        fadeTransition.setToValue(1);
-        fadeTransition.play();
         primaryStage.show();
         //when closing this stage data will be saved to csv
         primaryStage.setOnCloseRequest(windowEvent -> {
@@ -326,10 +222,6 @@ public class FahrtenbuchUI extends Application {
         });
     }
 
-    /**
-     * Screen zum anlegen einer neuen Fahrt
-     * @param primaryStage
-     */
     private void neueFahrt(Stage primaryStage) {
         //Liste von zukünftigen LocalDates von wiederkehrenden Fahrten
         List<LocalDate> futureDates = new ArrayList<>();
@@ -350,15 +242,15 @@ public class FahrtenbuchUI extends Application {
         });
 
         TextField abfahrtsZeit = new TextField();
-        abfahrtsZeit.setPromptText("Abfahrtszeit im Format HH:MM");
+        abfahrtsZeit.setPromptText("Abfahrtszeit im Format HH:MM:SS");
         abfahrtsZeit.setMaxWidth(200);
-        abfahrtsZeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter("HH:mm")));
+        abfahrtsZeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
 
 
         TextField ankunftsZeit = new TextField();
-        ankunftsZeit.setPromptText("Ankunftszeit im Format HH:MM");
+        ankunftsZeit.setPromptText("Ankunftszeit im Format HH:MM:SS");
         ankunftsZeit.setMaxWidth(200);
-        ankunftsZeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter("HH:mm")));
+        ankunftsZeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
 
         TextField gefahreneKilometer = new TextField();
         gefahreneKilometer.setPromptText("gefahrene Kilometer");
@@ -366,17 +258,17 @@ public class FahrtenbuchUI extends Application {
         gefahreneKilometer.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
 
         TextField aktiveFahrzeit = new TextField();
-        aktiveFahrzeit.setPromptText("Fahrzeit in HH:MM");
+        aktiveFahrzeit.setPromptText("Fahrzeit in HH:MM:SS");
         aktiveFahrzeit.setMaxWidth(200);
-        aktiveFahrzeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter("HH:mm")));
+        aktiveFahrzeit.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
         TextArea angezeigteKategorien = new TextArea();
 // UI-Komponenten für die Kategorie
-        ComboBox kategorienInput = new ComboBox(kategorienListe);
+        ComboBox kategorienInput = new ComboBox();
         kategorienInput.setPromptText("Kategorien auswählen:");
-
+        kategorienInput.setItems(kategorienListe);
         kategorienInput.setMaxWidth(200);
         kategorienInput.setOnAction(event -> {
-            String kategorie =  kategorienInput.getValue().toString();
+            String kategorie = kategorienInput.getValue().toString();
             if (!kategorie.isEmpty()) {
                 additionalCategories.add(kategorie);
                 angezeigteKategorien.setVisible(true); // TextArea sichtbar machen
@@ -388,7 +280,6 @@ public class FahrtenbuchUI extends Application {
         angezeigteKategorien.setEditable(false);
         angezeigteKategorien.setVisible(false); // Anfangs nicht sichtbar machen
         angezeigteKategorien.setPrefHeight(50); // Höhe der TextArea anpassen
-
 
 
 // Füge die Kategorien-Komponenten zur Benutzeroberfläche hinzu
@@ -423,32 +314,21 @@ public class FahrtenbuchUI extends Application {
 
         ComboBox fahrtstatus = new ComboBox<>();
         fahrtstatus.setItems(FXCollections.observableArrayList(FahrtStatus.values()));
-        fahrtstatus.setPromptText("Fahrtstatus");
+        fahrtstatus.setPromptText("Fahrtstatus:");
 
         fahrtstatus.setOnAction(event -> {
             if (FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue())) {
 
                 futureDatesBox.setVisible(true);
-            }
-            else if (FahrtStatus.ABSOLVIERT.equals(fahrtstatus.getValue())){
+            } else if (FahrtStatus.ABSOLVIERT.equals(fahrtstatus.getValue())) {
                 futureDatesBox.setVisible(false);
-            }
-            else if (FahrtStatus.AUF_FAHRT.equals(fahrtstatus.getValue())){
+            } else if (FahrtStatus.AUF_FAHRT.equals(fahrtstatus.getValue())) {
                 futureDatesBox.setVisible(false);
             }
 
         });
-            fahrtstatus.setDisable(true);
-        datum.setOnAction(event -> {
-            datum.getValue();
-            if(datum.getValue().isBefore(LocalDate.now())){
-                fahrtstatus.setValue(FahrtStatus.ABSOLVIERT);
-            } else if (datum.getValue().isAfter(LocalDate.now())) {
-                fahrtstatus.setValue(FahrtStatus.ZUKUENFTIG);
-            }else {
-                fahrtstatus.setValue(FahrtStatus.AUF_FAHRT);
-            }
-        });
+
+
         //SPACER BOX
         Box box = new Box(10, 30, 720);
         box.setVisible(true);
@@ -461,10 +341,7 @@ public class FahrtenbuchUI extends Application {
 
         backButton = new Button();
         backButton.setText("<- Zurück");
-        backButton.setOnAction(actionEvent -> {
-                    overview(primaryStage);
-                    primaryStage.hide();
-        });
+        backButton.setOnAction(actionEvent -> start(primaryStage));
         ScrollPane scrollPane = new ScrollPane(fahrtTextinputboxen);
         scrollPane.setFitToWidth(true); // Passt die Breite der ScrollPane an die Breite der VBox an
         scrollPane.setPrefHeight(400); // Setzen Sie eine bevorzugte Höhe
@@ -474,10 +351,7 @@ public class FahrtenbuchUI extends Application {
         StackPane layoutNewTrip = new StackPane();
         layoutNewTrip.getChildren().add(scrollPane);
         backButton = new Button("<- Zurück");
-        backButton.setOnAction(event -> {
-            overview(primaryStage);
-            primaryStage.hide();
-        });
+        backButton.setOnAction(event -> start(primaryStage));
         layoutNewTrip.getChildren().add(backButton);
         layoutNewTrip.getChildren().add(speichernButton);
         layoutNewTrip.getChildren().add(info);
@@ -547,8 +421,6 @@ public class FahrtenbuchUI extends Application {
         });
 
 
-
-
         StackPane.setAlignment(speichernButton, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(backButton, Pos.BOTTOM_LEFT);
         StackPane.setAlignment(info, Pos.TOP_LEFT);
@@ -569,12 +441,7 @@ public class FahrtenbuchUI extends Application {
 
     }
 
-    /**
-     * Diese Methode wird aufgerufen, wenn ein Benutzer einen Eintrag zum Bearbeiten auswählt.
-     * @param ausgewaehlteFahrt ausgewaehlte Fahrt aus der Fahrtentabelle
-     * @param primaryStage
-     */
-
+    // Diese Methode wird aufgerufen, wenn ein Benutzer einen Eintrag zum Bearbeiten auswählt.
     private void bearbeiteFahrt(Fahrt ausgewaehlteFahrt, Stage primaryStage) {
         // Prüfen, ob eine Fahrt ausgewählt wurde
         if (ausgewaehlteFahrt == null) {
@@ -612,17 +479,38 @@ public class FahrtenbuchUI extends Application {
 
         TextField abfahrtszeitField = new TextField(ausgewaehlteFahrt.getAbfahrtszeit().toString());
         TextField aktiveFahrzeitField = new TextField(ausgewaehlteFahrt.getAktiveFahrzeit().toString());
-        aktiveFahrzeitField.setOnMouseClicked(event -> aktiveFahrzeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter("HH:mm"))));
+        aktiveFahrzeitField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                aktiveFahrzeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
+            }
+        });
 
-        abfahrtszeitField.setOnMouseClicked(event -> abfahrtszeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter("HH:mm"))));
+        abfahrtszeitField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                abfahrtszeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
+            }
+        });
 
         TextField ankunftszeitField = new TextField(ausgewaehlteFahrt.getAnkunftszeit().toString());
 
-        ankunftszeitField.setOnMouseClicked(mouseEvent -> ankunftszeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter("HH:mm"))));
+        ankunftszeitField.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                ankunftszeitField.setTextFormatter(new TextFormatter<>(new TimeStringConverter()));
+            }
+        });
 
 
         TextField gefahreneKilometerField = new TextField(String.valueOf(ausgewaehlteFahrt.getGefahreneKilometer()));
-        gefahreneKilometerField.setOnAction(event -> gefahreneKilometerField.setTextFormatter(new TextFormatter<>(new NumberStringConverter())));
+        gefahreneKilometerField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                gefahreneKilometerField.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+
+            }
+        });
 
         grid.add(new Label("KFZ-Kennzeichen:"), 0, 0);
         grid.add(kfzKennzeichenField, 1, 0);
@@ -640,7 +528,7 @@ public class FahrtenbuchUI extends Application {
         dialog.getDialogPane().setContent(grid);
 
         // Request focus auf das erste Eingabefeld
-        Platform.runLater(kfzKennzeichenField::requestFocus);
+        Platform.runLater(() -> kfzKennzeichenField.requestFocus());
 
 
         // Ergebnis des Dialogs konvertieren, wenn der Benutzer "Speichern" klickt
@@ -659,11 +547,11 @@ public class FahrtenbuchUI extends Application {
                     ausgewaehlteFahrt.setAktiveFahrzeit(LocalTime.parse(aktiveFahrzeitField.getText()));
                 } catch (DateTimeParseException d) {
                     Alert dateAlert = new Alert(Alert.AlertType.WARNING);
-                    dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM..");
+                    dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM:SS..");
                     dateAlert.showAndWait();
 
-                }catch(NumberFormatException n){
-                    Alert numberAlert=new Alert(Alert.AlertType.WARNING);
+                } catch (NumberFormatException n) {
+                    Alert numberAlert = new Alert(Alert.AlertType.WARNING);
                     numberAlert.setContentText("Numeric entries only..");
                     numberAlert.showAndWait();
 
@@ -731,18 +619,11 @@ public class FahrtenbuchUI extends Application {
         addKategorie.accept(kate);
     }
 
-    /**
-     * Settings Screen including Category Management
-     * @param primaryStage
-     */
     private void switchToSettings(Stage primaryStage) {
-        ObservableList<String> addedCategories=FXCollections.observableArrayList();
+        ObservableList<String> addedCategories = FXCollections.observableArrayList();
         backButton = new Button();
         backButton.setText("<- Zurück");
-        backButton.setOnAction(actionEvent -> {
-            overview(primaryStage);
-            primaryStage.hide();
-        });
+        backButton.setOnAction(actionEvent -> start(primaryStage));
         TextField enterSavePath = new TextField();
         enterSavePath.setText("Hier eingeben:");
         enterSavePath.setStyle("-fx-text-fill: grey;");
@@ -756,11 +637,10 @@ public class FahrtenbuchUI extends Application {
         kategorienListe.addAll(fahrtenbuch.getKategorien(true));
 
 
-
-        ListView angezeigteKategorien = new ListView ();
+        ListView angezeigteKategorien = new ListView();
         angezeigteKategorien.setItems(kategorienListe);
         angezeigteKategorien.setEditable(false);
-         // Anfangs nicht sichtbar machen
+        // Anfangs nicht sichtbar machen
         angezeigteKategorien.setPrefHeight(50); // Höhe der TextArea anpassen
 
         Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
@@ -777,38 +657,31 @@ public class FahrtenbuchUI extends Application {
 
             }
         });
-        VBox kategorieInp =new VBox();
-        kategorieInp.getChildren().addAll(kategorienInput,kategorieHinzufuegenButton);
-
-
-
-
+        VBox kategorieInp = new VBox();
+        kategorieInp.getChildren().addAll(kategorienInput, kategorieHinzufuegenButton);
 
 
         primaryStage.setTitle("Einstellungen");
-        GridPane gridSettings=new GridPane();
+        GridPane gridSettings = new GridPane();
 
-        gridSettings.getChildren().addAll(enterSavePath, backButton, Pfad,angezeigteKategorien,kategorieInp);
+        gridSettings.getChildren().addAll(enterSavePath, backButton, Pfad, angezeigteKategorien, kategorieInp);
 
         gridSettings.setAlignment(Pos.CENTER);
-        GridPane.setConstraints(backButton,0,5);
-        GridPane.setConstraints(Pfad,0,1);
-        GridPane.setConstraints(enterSavePath,1,1);
-        GridPane.setConstraints(angezeigteKategorien,1,2);
+        GridPane.setConstraints(backButton, 0, 5);
+        GridPane.setConstraints(Pfad, 0, 1);
+        GridPane.setConstraints(enterSavePath, 1, 1);
+        GridPane.setConstraints(angezeigteKategorien, 1, 2);
 
-        GridPane.setConstraints(kategorieInp,0,2);
+        GridPane.setConstraints(kategorieInp, 0, 2);
         gridSettings.setGridLinesVisible(false);
 
 
         gridSettings.requestFocus();
 
 
-
-
-
         Scene einstellungen = new Scene(gridSettings, 720, 400);
         primaryStage.setScene(einstellungen);
-        Platform.runLater(gridSettings::requestFocus);
+        Platform.runLater(() -> gridSettings.requestFocus());
         primaryStage.show();
         //when closing this stage data will be saved to csv
         primaryStage.setOnCloseRequest(windowEvent -> {
@@ -841,7 +714,7 @@ public class FahrtenbuchUI extends Application {
         kilometerProJahrItem.setOnAction(event -> zeigeJahresKilometerDiagramm());
 
         grafikMenuButton.getItems().addAll(
-                kilometerProMonatItem,kilometerProJahrItem
+                kilometerProMonatItem, kilometerProJahrItem
 
         );
     }
@@ -993,11 +866,12 @@ public class FahrtenbuchUI extends Application {
         ObservableList<Map.Entry<YearMonth, Map<String, Double>>> tableData = FXCollections.observableArrayList(data.entrySet());
         tableView.setItems(tableData);
     }
+
     void zeigeJahresKilometerStatistik() {
         Set<String> kategorien = fahrtenbuch.getKategorien(); // Angenommen, diese Methode gibt die Kategorien zurück
         Map<Integer, Map<String, Double>> data = fahrtenbuch.berechneKilometerProJahrUndKategorie();
 
-        if(data.isEmpty()) {
+        if (data.isEmpty()) {
             System.out.println("Keine Daten für die Jahresstatistik vorhanden.");
         } else {
             TableView<Map.Entry<Integer, Map<String, Double>>> tableView = erstelleJahresKilometerTableView(kategorien);
@@ -1013,6 +887,52 @@ public class FahrtenbuchUI extends Application {
         }
     }
 
+    void oeffneFilter(Stage primaryStage) {
 
+        Button filterButton = new Button("filtern");
+        backButton = new Button();
+        backButton.setText("<- Zurück");
+        backButton.setOnAction(actionEvent -> start(primaryStage));
+
+        DatePicker datum = new DatePicker();
+        datum.setPromptText("Datum der Fahrt");
+        datum.getEditor().setDisable(true);
+        datum.setMaxWidth(200);
+
+        //SPACER BOX
+        Box box = new Box(10, 30, 720);
+        box.setVisible(true);
+
+        VBox fahrtTextinputboxen = new VBox(1);
+        fahrtTextinputboxen.getChildren().addAll(box, datum
+        );
+
+        ScrollPane scrollPane = new ScrollPane(fahrtTextinputboxen);
+        scrollPane.setFitToWidth(true); // Passt die Breite der ScrollPane an die Breite der VBox an
+        scrollPane.setPrefHeight(400); // Setzen Sie eine bevorzugte Höhe
+
+        primaryStage.setTitle("Filtern");
+        StackPane layoutFilter = new StackPane();
+        layoutFilter.getChildren().add(scrollPane);
+        layoutFilter.getChildren().add(backButton);
+
+        layoutFilter.getChildren().add(filterButton);
+
+        StackPane.setAlignment(filterButton, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(backButton, Pos.BOTTOM_LEFT);
+        Scene Filtern = new Scene(layoutFilter, 720, 400);
+
+        primaryStage.setScene(Filtern);
+        primaryStage.show();
+        //when closing this stage data will be saved to csv
+        primaryStage.setOnCloseRequest(windowEvent -> {
+
+        });
+    }
 
 }
+
+
+
+
+
