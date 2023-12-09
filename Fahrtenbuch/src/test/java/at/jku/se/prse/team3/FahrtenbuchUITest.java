@@ -41,7 +41,8 @@ public class FahrtenbuchUITest extends ApplicationTest {
             System.out.println("FahrtenbuchUITest: Konnte keine neue Fahrten zum Testen eintragen:" + e);
         }
         app = new FahrtenbuchUI(fahrtenbuch);
-        app.overview(stage);
+        //app.overview(stage);
+        app.start(stage);
     }
 
 
