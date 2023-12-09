@@ -30,24 +30,54 @@ public class Fahrtenbuch {
     private List<String> kategorien;
     private List<Fahrt> fahrten;
 
+    /**
+     * Filled Constructor
+     * @param kategorien List of available Categories
+     * @param fahrten List of available Driving records
+     */
     public Fahrtenbuch(List<String> kategorien, List<Fahrt> fahrten) {
         this.kategorien = new ArrayList<>(kategorien);
         this.fahrten = new ArrayList<>(fahrten);
     }
 
+    /**
+     * empty Constructor in Case first start
+     */
     public Fahrtenbuch() {
     kategorien=new ArrayList<>();
     fahrten=new ArrayList<>();
     }
 
-    //ID1
+    /**
+     * Method to crete a new Fahrt Issue #1
+     * @param kfzKennzeichen kfzKennzeichen
+     * @param datum datum
+     * @param abfahrtszeit abfahrtszeit
+     * @param neueAnkunftszeit neueAnkunftszeit
+     * @param neueGefahreneKilometer neueGefahreneKilometer
+     * @param neueAktiveFahrzeit neueAktiveFahrzeit
+     * @param fahrtStatus fahrtStatus
+     * @param category category
+     * @throws IOException
+     */
+
     public void neueFahrt(String kfzKennzeichen, LocalDate datum, LocalTime abfahrtszeit,
                           LocalTime neueAnkunftszeit, Double neueGefahreneKilometer,
                           LocalTime neueAktiveFahrzeit, FahrtStatus fahrtStatus, List<String> category) throws IOException {
         fahrten.add(new Fahrt(kfzKennzeichen,datum,abfahrtszeit,neueAnkunftszeit,neueGefahreneKilometer,neueAktiveFahrzeit,category,fahrtStatus));
-        //exportFahrt();
+
     }
-    //ID3
+
+
+    /**
+     * Bearbeitungsvorgang einer Fahrt Issue #3
+     * @param kfzKennzeichen
+     * @param datum
+     * @param abfahrtszeit
+     * @param neueAnkunftszeit
+     * @param neueGefahreneKilometer
+     * @param neueAktiveFahrzeit
+     */
     public void bearbeiteFahrt(String kfzKennzeichen, LocalDate datum, LocalTime abfahrtszeit,
                                LocalTime neueAnkunftszeit, Double neueGefahreneKilometer,
                                LocalTime neueAktiveFahrzeit) {
@@ -67,10 +97,21 @@ public class Fahrtenbuch {
             }
         }
     }
+
+    /**
+     * Hilffunktion zum Hionzufügen einer Kategorie
+     * @param kategorie
+     */
     public void addKategorie (String kategorie){
         kategorien.add(kategorie);
     }
-    //ID4
+
+    /**
+     * Fahrt löschen
+     * @param kfzKennzeichen
+     * @param datum
+     * @param abfahrtszeit
+     */
 
     public void loescheFahrten(String kfzKennzeichen, LocalDate datum, LocalTime abfahrtszeit) {
         fahrten.removeIf(fahrt ->
@@ -80,7 +121,14 @@ public class Fahrtenbuch {
 
     }
 
-    //ID5
+    /**
+     * Issue #5 wiederkehrende Fahrten
+     * @param reoccurances
+     * @param kfzKennzeichen
+     * @param abfahrtszeit
+     * @param fahrtKategorie
+     * @throws IOException
+     */
     public void planeZukuenftigeFahrten(List<LocalDate> reoccurances,
                                         String      kfzKennzeichen,
                                         LocalTime   abfahrtszeit,
@@ -108,8 +156,10 @@ public class Fahrtenbuch {
 
     }
 
-
-    //ID2
+    /**
+     * returns all entered Fahrten
+     * @return
+     */
     public List<Fahrt> listeFahrten(){
 
 
@@ -128,12 +178,19 @@ public class Fahrtenbuch {
                 .thenComparing(Fahrt::getAbfahrtszeit));
     }
 
-    //ID6
+    /**
+     * Issue #6 getter für Fahrtstatus
+     * @param fahrt
+     * @return
+     */
     public FahrtStatus getFahrtstatus(Fahrt fahrt){
         return fahrt.getFahrtstatus();
     }
 
-    //ID8
+    /**
+     * Issue #8 Export einer Fahrt
+     * @throws IOException
+     */
     public void exportFahrt() throws IOException {
         //export Fahrten&Kategorien as CSV.
         Path path= Paths.get(System.getProperty("user.home")+ File.separator + "Documents"+File.separator+"Fahrtenbuch 0.0.3");
@@ -169,7 +226,11 @@ public class Fahrtenbuch {
 
     }
 
-
+    /**
+     * Import der Userdaten
+     * @throws IOException
+     * @throws CsvValidationException
+     */
     public void importFahrt() throws IOException, CsvValidationException {
         //export Fahrten&Kategorien as CSV.
 
@@ -297,6 +358,11 @@ public class Fahrtenbuch {
         return uniqueKategorien;
     }
 
+    /**
+     * same Functionality as getKategorien() but with a Boolean param to enable it
+     * @param x can be true or false; enables this method to return ObservableList instead
+     * @return returns Observable list of all Categories
+     */
     public ObservableList<String> getKategorien(Boolean x) {
        ObservableList<String> uniqueKategorien = FXCollections.observableArrayList();
 
@@ -306,7 +372,12 @@ public class Fahrtenbuch {
 
         return uniqueKategorien;
     }
-    public void addKategories (ObservableList<String> kategorienNeu){
+
+    /**
+     * adds any collection of Categories as for example an Observable list to Kategorien Liste in logic class
+     * @param kategorienNeu collection of categories
+     */
+    public void addKategories (Collection kategorienNeu){
         kategorien.addAll(kategorienNeu);
     }
 }

@@ -69,6 +69,11 @@ public class FahrtenbuchUI extends Application {
     private ObservableList<String> kategorienListe;
     private ObservableList<Fahrt> fahrtenListe; // Klassenvariable für die Fahrtenliste
     private ButtonType deleteButtonType = new ButtonType("Löschen", ButtonBar.ButtonData.APPLY);
+
+    /**
+     * Konstruktor
+     * @param fahrtenbuch sets the Fahrtenbuch Object the UI is working on
+     */
     public FahrtenbuchUI(Fahrtenbuch fahrtenbuch) {
         this.fahrtenbuch = fahrtenbuch;
         // Initialisierung der fahrtenListe mit leeren Daten oder vorhandenen Daten aus fahrtenbuch
@@ -81,6 +86,11 @@ public class FahrtenbuchUI extends Application {
         launch(args);
     }
 
+    /**
+     * This is the startup window of our Fahrtenbuch
+     * @param primaryStage JavaFX Stage
+     * @throws InterruptedException
+     */
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
         StackPane root = new StackPane();
@@ -125,12 +135,13 @@ public class FahrtenbuchUI extends Application {
 
 
         primaryStage.show();
+        //basically useless Task can be removed if wished for controls the progress of loading bar
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 for (int i = 0; i < 100; i++) {
                     updateProgress(i + 1, 100);
-                    Thread.sleep(15); // Simulate a delay (you can replace this with your actual task)
+                    Thread.sleep(15);
                     if (i==99)Thread.sleep(1000);
                 }
                 Platform.runLater(() ->
@@ -154,6 +165,10 @@ public class FahrtenbuchUI extends Application {
 
     }
 
+    /**
+     * Fahrtentabelle, Buttons, Logo etc.. Überblick
+     * @param primaryStage
+     */
     public void overview(Stage primaryStage){
         String currentDirectory = System.getProperty("user.dir");
         Path logoPath = Path.of(currentDirectory, "Fahrtenbuch", "src", "main", "java", "at", "jku", "se", "prse", "team3", "logoFull.png");
@@ -222,7 +237,7 @@ public class FahrtenbuchUI extends Application {
         Stage finalPrimaryStage = primaryStage;
         setButton.setOnAction(actionEvent -> {
             switchToSettings(finalPrimaryStage);
-            System.out.println("Testbutton");
+
         });
         StackPane layoutFahrten = new StackPane();
 
@@ -310,6 +325,11 @@ public class FahrtenbuchUI extends Application {
             }
         });
     }
+
+    /**
+     * Screen zum anlegen einer neuen Fahrt
+     * @param primaryStage
+     */
     private void neueFahrt(Stage primaryStage) {
         //Liste von zukünftigen LocalDates von wiederkehrenden Fahrten
         List<LocalDate> futureDates = new ArrayList<>();
@@ -549,7 +569,12 @@ public class FahrtenbuchUI extends Application {
 
     }
 
-    // Diese Methode wird aufgerufen, wenn ein Benutzer einen Eintrag zum Bearbeiten auswählt.
+    /**
+     * Diese Methode wird aufgerufen, wenn ein Benutzer einen Eintrag zum Bearbeiten auswählt.
+     * @param ausgewaehlteFahrt ausgewaehlte Fahrt aus der Fahrtentabelle
+     * @param primaryStage
+     */
+
     private void bearbeiteFahrt(Fahrt ausgewaehlteFahrt, Stage primaryStage) {
         // Prüfen, ob eine Fahrt ausgewählt wurde
         if (ausgewaehlteFahrt == null) {
@@ -706,6 +731,10 @@ public class FahrtenbuchUI extends Application {
         addKategorie.accept(kate);
     }
 
+    /**
+     * Settings Screen including Category Management
+     * @param primaryStage
+     */
     private void switchToSettings(Stage primaryStage) {
         ObservableList<String> addedCategories=FXCollections.observableArrayList();
         backButton = new Button();
@@ -790,6 +819,7 @@ public class FahrtenbuchUI extends Application {
             }
         });
     }
+
     private void initializeStatistikMenuButton() {
         statistikMenuButton = new MenuButton("Statistik");
 
