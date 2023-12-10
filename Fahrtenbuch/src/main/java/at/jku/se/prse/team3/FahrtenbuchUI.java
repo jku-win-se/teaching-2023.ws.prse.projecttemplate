@@ -5,8 +5,10 @@ import javafx.animation.FadeTransition;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableDoubleValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -219,6 +221,19 @@ public class FahrtenbuchUI extends Application {
         TableColumn<Fahrt, FahrtStatus> status = new TableColumn<>("Fahrtstatus");
         status.setCellValueFactory(new PropertyValueFactory<>("fahrtstatus"));
 
+        TableColumn<Fahrt,Double> avgSpeed= new TableColumn<>(("Ø Geschwindigkeit" ));
+
+        avgSpeed.setCellValueFactory(fahrtDoubleCellDataFeatures -> {
+            Fahrt fahrt=fahrtDoubleCellDataFeatures.getValue();
+            Double gefKM1= gefKM.getCellObservableValue(fahrt).getValue();
+
+            LocalTime fahrzeit= aktivFZ.getCellObservableValue(fahrt).getValue();
+            Double fZ= (fahrzeit.getHour() * 60 + fahrzeit.getMinute()) / 60.00;
+            SimpleDoubleProperty rValue=new SimpleDoubleProperty(gefKM1/fZ);
+            if (rValue.getValue().isNaN()) rValue=new SimpleDoubleProperty(0.00);
+            return rValue.asObject() ;
+        });
+
         TableColumn<Fahrt, String> kateg = new TableColumn<>("Kategorien");
         kateg.setCellValueFactory(cellData -> {
             List<String> categories = cellData.getValue().getKategorien();
@@ -226,7 +241,7 @@ public class FahrtenbuchUI extends Application {
             return new SimpleStringProperty(catToString);
         });
 
-        fahrtenTabelle.getColumns().addAll(kfz, date, abf, ank, gefKM, aktivFZ, status, kateg);
+        fahrtenTabelle.getColumns().addAll(kfz, date, abf, ank, gefKM, aktivFZ, status, kateg,avgSpeed);
 
         //ende tabellarische ansicht
         primaryStage.setTitle("Fahrtenbuch");
