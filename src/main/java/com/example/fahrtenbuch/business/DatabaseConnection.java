@@ -4,15 +4,12 @@ import com.example.fahrtenbuch.entities.Category;
 import com.example.fahrtenbuch.entities.Category_Drive;
 import com.example.fahrtenbuch.entities.Drive;
 import com.example.fahrtenbuch.entities.Vehicle;
-import javafx.scene.control.Alert;
 
 import java.io.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
-import static java.sql.Date.*;
 
 public class DatabaseConnection {
     public Connection conn;
@@ -102,7 +99,7 @@ public class DatabaseConnection {
             categoryFacade.persistCategory(new Category("Reparatur"));
             categoryFacade.persistCategory(new Category("Freizeit"));
 
-            Category_Drive_Facade categoryDriveFacade = new Category_Drive_Facade();
+            CategoryDriveFacade categoryDriveFacade = new CategoryDriveFacade();
             categoryDriveFacade.persistCategoryDrive(new Category_Drive(1, 1));
             categoryDriveFacade.persistCategoryDrive(new Category_Drive(1, 2));
             categoryDriveFacade.persistCategoryDrive(new Category_Drive(2, 2));

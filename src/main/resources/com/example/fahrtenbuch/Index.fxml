@@ -78,7 +78,7 @@
                             </font>
                         </Label>
                     </children></Pane>
-                <Button layoutX="917.0" layoutY="168.0" mnemonicParsing="false" onAction="#Zukunftige_Fahrt_Anlegen_Action" prefHeight="35.0" prefWidth="242.0" style="-fx-font-family: Arial; -fx-background-color: white; -fx-border-radius: 5px; -fx-cursor: pointer;" text="Wiederholende Fahrt anlegen -&gt;" textFill="#726161">
+                <Button layoutX="917.0" layoutY="168.0" mnemonicParsing="false" onAction="#createFutureDrive" prefHeight="35.0" prefWidth="242.0" style="-fx-font-family: Arial; -fx-background-color: white; -fx-border-radius: 5px; -fx-cursor: pointer;" text="Wiederholende Fahrt anlegen -&gt;" textFill="#726161">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -86,7 +86,7 @@
                 <TextField fx:id="kfzTF" layoutX="407.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="KFZ-Kennzeichen" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="aktiveFahTF" layoutX="407.0" layoutY="328.0" prefHeight="49.0" prefWidth="296.0" promptText="Stehzeit" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="gefahreneKmTF" layoutX="407.0" layoutY="407.0" prefHeight="49.0" prefWidth="296.0" promptText="gefahrene km" style="-fx-padding: 0px 20px;" />
-                <TextField fx:id="AbfahrtTF" layoutX="770.0" layoutY="328.0" prefHeight="49.0" prefWidth="177.0" promptText="Abfahrtszeit" style="-fx-padding: 0px 20px;" />
+                <TextField fx:id="abfahrtTF" layoutX="770.0" layoutY="328.0" prefHeight="49.0" prefWidth="177.0" promptText="Abfahrtszeit" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="ankunftTF" layoutX="770.0" layoutY="407.0" prefHeight="49.0" prefWidth="177.0" promptText="Ankunftszeit" style="-fx-padding: 0px 20px;" />
                 <Button fx:id="btnCreateRide" layoutX="406.0" layoutY="579.0" mnemonicParsing="false" onAction="#addFahrt" prefHeight="49.0" prefWidth="296.0" style="-fx-background-color: #333E50; -fx-border-radius: 10px; -fx-cursor: pointer;" text="FAHRT ANLEGEN" textFill="WHITE">
                     <font>
