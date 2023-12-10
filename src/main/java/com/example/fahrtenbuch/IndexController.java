@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.example.fahrtenbuch.business.*;
 import com.example.fahrtenbuch.entities.Category;
-import com.example.fahrtenbuch.entities.Category_Drive;
+import com.example.fahrtenbuch.entities.CategoryDrive;
 import com.example.fahrtenbuch.entities.Drive;
 import com.example.fahrtenbuch.entities.Vehicle;
 import javafx.collections.FXCollections;
@@ -252,7 +252,7 @@ public class IndexController{
 
         if (selectedCategory != null) {
             CategoryDriveFacade categoryDriveFacade = new CategoryDriveFacade();
-            Category_Drive categoryDrive = new Category_Drive(selectedCategory.getCategory_id(), driveFacade.getLastDriveId());
+            CategoryDrive categoryDrive = new CategoryDrive(selectedCategory.getCategoryId(), driveFacade.getLastDriveId());
             categoryDriveFacade.persistCategoryDrive(categoryDrive);
         }
 

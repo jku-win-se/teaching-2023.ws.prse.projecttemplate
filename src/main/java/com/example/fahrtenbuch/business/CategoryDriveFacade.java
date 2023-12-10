@@ -1,6 +1,6 @@
 package com.example.fahrtenbuch.business;
 
-import com.example.fahrtenbuch.entities.Category_Drive;
+import com.example.fahrtenbuch.entities.CategoryDrive;
 import com.example.fahrtenbuch.entities.Drive;
 
 import java.sql.Connection;
@@ -39,18 +39,18 @@ public class CategoryDriveFacade {
         return drives;
     }
 
-    public void persistCategoryDrive(Category_Drive cd) {
+    public void persistCategoryDrive(CategoryDrive cd) {
         String query = "INSERT INTO category_drive (category_id, drive_id) VALUES (?, ?)";
 
         try {
-            Integer driveId = cd.getDrive_id();
+            Integer driveId = cd.getDriveId();
             if (driveId == null) {
                 throw new IllegalArgumentException("drive_id darf nicht null sein.");
             }
 
             PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setInt(1, cd.getCategory_id());
-            preparedStatement.setInt(2, cd.getDrive_id());
+            preparedStatement.setInt(1, cd.getCategoryId());
+            preparedStatement.setInt(2, cd.getDriveId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
