@@ -43,6 +43,11 @@ public class Category_Drive_Facade {
         String query = "INSERT INTO category_drive (category_id, drive_id) VALUES (?, ?)";
 
         try {
+            Integer driveId = cd.getDrive_id();
+            if (driveId == null) {
+                throw new IllegalArgumentException("drive_id darf nicht null sein.");
+            }
+
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setInt(1, cd.getCategory_id());
             preparedStatement.setInt(2, cd.getDrive_id());

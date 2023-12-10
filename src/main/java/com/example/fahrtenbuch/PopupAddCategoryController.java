@@ -9,6 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.util.function.Consumer;
+
 public class PopupAddCategoryController {
 
     @FXML
@@ -16,9 +18,12 @@ public class PopupAddCategoryController {
 
     private CategoryFacade categoryFacade;
 
+
     public PopupAddCategoryController() {
         categoryFacade = new CategoryFacade();
     }
+
+
 
     public void addNewCategory(ActionEvent actionEvent) {
         String categoryName = newCategoryTextField.getText();
@@ -41,6 +46,7 @@ public class PopupAddCategoryController {
 
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
+
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {

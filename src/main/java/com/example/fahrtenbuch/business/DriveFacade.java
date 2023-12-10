@@ -154,4 +154,21 @@ public class DriveFacade {
             e.printStackTrace();
         }
     }
+
+    public Integer getLastDriveId() {
+        Integer lastDriveId = null;
+        String query = "SELECT drive_id FROM drive ORDER BY drive_id DESC LIMIT 1";
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                lastDriveId = resultSet.getInt("drive_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lastDriveId;
+    }
 }
