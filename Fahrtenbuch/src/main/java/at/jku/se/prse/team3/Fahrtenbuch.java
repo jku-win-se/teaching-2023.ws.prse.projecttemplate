@@ -405,4 +405,52 @@ public class Fahrtenbuch {
                 date.getYear() && f.getDatum().getMonth() ==date.getMonth() && f.getDatum().getDayOfMonth() == date.getDayOfMonth()).collect(Collectors.toList());
         return gefilterteFahrten;
     }
+
+
+    /**
+     * Compares average speed with given speed comparison variable. Clears table and adds only Trips that are under or
+     * equal to the comparison variable.
+     * @param avg comparison variable for average speed
+     * @return list of trips under the avg speed
+     */
+    public List<Fahrt> filterByAvgVUnder(double avg){
+        if (avg<0.00){
+            return this.fahrten;
+        }
+        List<Fahrt> gefilterteFahrten = new ArrayList<>();
+
+        for(Fahrt fahrt: fahrten){
+            double gefahreneKilometer = fahrt.getGefahreneKilometer();
+            LocalTime aktiveFahrzeit = fahrt.getAktiveFahrzeit();
+            double time = aktiveFahrzeit.getHour() + (aktiveFahrzeit.getMinute()/60.0);
+            double instanceAvg = gefahreneKilometer/time;
+            if(instanceAvg<=avg){
+                gefilterteFahrten.add(fahrt);
+            }
+        }
+        return gefilterteFahrten;
+    }
+    /**
+     * Compares average speed with given speed comparison variable. Clears table and adds only Trips that are over or
+     * equal to the comparison variable.
+     * @param avg comparison variable for average speed
+     * @return list of trips over the avg speed
+     */
+    public List<Fahrt> filterByAvgVOver(double avg){
+        if (avg<0.00){
+            return this.fahrten;
+        }
+        List<Fahrt> gefilterteFahrten = new ArrayList<>();
+
+        for(Fahrt fahrt: fahrten){
+            double gefahreneKilometer = fahrt.getGefahreneKilometer();
+            LocalTime aktiveFahrzeit = fahrt.getAktiveFahrzeit();
+            double time = aktiveFahrzeit.getHour() + (aktiveFahrzeit.getMinute()/60.0);
+            double instanceAvg = gefahreneKilometer/time;
+            if(instanceAvg>=avg){
+                gefilterteFahrten.add(fahrt);
+            }
+        }
+        return gefilterteFahrten;
+    }
 }
