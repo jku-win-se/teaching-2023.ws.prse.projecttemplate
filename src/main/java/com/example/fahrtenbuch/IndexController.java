@@ -1,6 +1,7 @@
 package com.example.fahrtenbuch;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -49,8 +50,11 @@ public class IndexController{
     public Button btnOverview;
     public AnchorPane popupPane;
     public Button btnAddCategory;
-    public ComboBox<String> kategoriesTF;
     public Button btnAddKfz;
+    @FXML
+    public ComboBox<String> kategoriesTF;
+
+    private CategoryFacade categoryFacade;
 
     private DatabaseConnection databaseConnection;
     private Alert alert;
@@ -61,7 +65,7 @@ public class IndexController{
     List<Drive> drives = new ArrayList<>();
     private DriveFacade driveFacade;
 
-    public IndexController() {
+    public IndexController() throws IOException {
         databaseConnection = new DatabaseConnection();
         databaseConnection.getConnection();
         alert = new Alert(Alert.AlertType.INFORMATION);
@@ -72,6 +76,26 @@ public class IndexController{
         alert.setDialogPane(dialogPane);
 
         driveFacade = new DriveFacade();
+        categoryFacade = new CategoryFacade();
+    }
+
+    @FXML
+    private void initialize() {
+        initializeCategoryDropdown();
+    }
+
+
+    private void initializeCategoryDropdown() {
+        CategoryFacade categoryFacade = new CategoryFacade();
+        ObservableList<Category> categories = FXCollections.observableArrayList(categoryFacade.getAllCategories());
+
+        // Konvertiere ObservableList<Category> in ObservableList<String>
+        ObservableList<String> categoryNames = FXCollections.observableArrayList();
+        for (Category category : categories) {
+            categoryNames.add(category.toString());
+        }
+
+        kategoriesTF.setItems(categoryNames);
     }
 
     @FXML
@@ -183,20 +207,18 @@ public class IndexController{
             fahrt = new Drive(
                     vehicleId,
                     Date.valueOf(datumTF.getText()),
-                    Time.valueOf(abfahrtField),
-                    Time.valueOf(ankunftField),
+                    Time.valueOf(validateAndParseTime(abfahrtField).toLocalTime()),
+                    Time.valueOf(validateAndParseTime(ankunftField).toLocalTime()),
                     Integer.parseInt(aktiveFahField),
                     Double.parseDouble(gefahreneKmField)
             );
-        } else if (!abfahrtField.isEmpty() && !ankunftField.isEmpty() && !gefahreneKmField.isEmpty()) {
+        } else if (!abfahrtField.isEmpty()) {
 
             fahrt = new Drive(
                     vehicleId,
                     Date.valueOf(datumTF.getText()),
-                    Time.valueOf(abfahrtField),
-                    Time.valueOf(ankunftField),
-                    Integer.parseInt(aktiveFahField),
-                    Double.parseDouble(gefahreneKmField)
+                    Time.valueOf(validateAndParseTime(abfahrtField).toLocalTime())
+
             );
         } else if (!datumTF.getText().isEmpty()) {
             fahrt = new Drive(
@@ -223,33 +245,35 @@ public class IndexController{
         }
 
 
-        driveFacade.persistDrive(fahrt);
-
         CategoryFacade categoryFacade = new CategoryFacade();
 
         Category selectedCategory = categoryFacade.getCategoryByName(kategoriesTF.getValue());
 
+        driveFacade.persistDrive(fahrt);
 
         if (selectedCategory != null) {
             Category_Drive_Facade categoryDriveFacade = new Category_Drive_Facade();
-            Category_Drive categoryDrive = new Category_Drive(selectedCategory.getCategory_id(), fahrt.getDriveId());
+            Category_Drive categoryDrive = new Category_Drive(selectedCategory.getCategory_id(), driveFacade.getLastDriveId());
             categoryDriveFacade.persistCategoryDrive(categoryDrive);
         }
 
         handleBtnCreateRide(event);
-    }
 
+    }
 
     @FXML
     private void handleBtnAddCategory(ActionEvent event) throws IOException {
+
         CategoryFacade categoryFacade = new CategoryFacade();
         ObservableList<Category> categories = FXCollections.observableArrayList(categoryFacade.getAllCategories());
 
         // Konvertiere ObservableList<Category> in ObservableList<String>
         ObservableList<String> categoryNames = FXCollections.observableArrayList();
         for (Category category : categories) {
-            categoryNames.add(category.toString()); // Hier können Sie die Methode wählen, die den Anzeigenamen der Kategorie zurückgibt
+            categoryNames.add(category.toString());
         }
+
+        initializeCategoryDropdown();
 
         kategoriesTF.setItems(categoryNames);
     }
@@ -289,6 +313,15 @@ public class IndexController{
         alert.setTitle(title);
         alert.setHeaderText(headerText);
         alert.showAndWait();
+    }
+
+    private Time validateAndParseTime(String timeString) {
+        try {
+            return Time.valueOf(timeString);
+        } catch (IllegalArgumentException e) {
+            showAlert(Alert.AlertType.ERROR, "Fehler", "Ungültiges Zeitformat. Verwenden Sie das Format 'hh:mm:ss'.");
+            throw e; // Re-throw the exception to stop further processing
+        }
     }
 }
 
