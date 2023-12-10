@@ -333,7 +333,7 @@ public class FahrtenbuchUI extends Application {
     private void neueFahrt(Stage primaryStage) {
         //Liste von zukünftigen LocalDates von wiederkehrenden Fahrten
         List<LocalDate> futureDates = new ArrayList<>();
-
+        List<String> additionalCategories=new ArrayList<>();
 
         TextField kfzKennzeichen = new TextField();
         kfzKennzeichen.setPromptText("KFZ-Kennzeichen:");
@@ -378,7 +378,7 @@ public class FahrtenbuchUI extends Application {
         kategorienInput.setOnAction(event -> {
             String kategorie =  kategorienInput.getValue().toString();
             if (!kategorie.isEmpty()) {
-
+                additionalCategories.add(kategorie);
                 angezeigteKategorien.setVisible(true); // TextArea sichtbar machen
                 angezeigteKategorien.appendText(kategorie + "; "); // Kategorie zur TextArea hinzufügen
 
@@ -508,7 +508,7 @@ public class FahrtenbuchUI extends Application {
                 }
                 // Plane zukünftige Fahrten
                 try {
-                    fahrtenbuch.planeZukuenftigeFahrten(futureDates, kfzKennzeichen.getText(), LocalTime.parse(abfahrtsZeit.getText()), kategorienListe);
+                    fahrtenbuch.planeZukuenftigeFahrten(futureDates, kfzKennzeichen.getText(), LocalTime.parse(abfahrtsZeit.getText()), additionalCategories);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -532,7 +532,7 @@ public class FahrtenbuchUI extends Application {
                             Double.parseDouble(gefahreneKilometer.getText()),
                             LocalTime.parse(aktiveFahrzeit.getText()),
                             ausgewaehlterStatus,
-                            kategorienListe
+                            additionalCategories
                     );
                 } catch (IOException | NumberFormatException | DateTimeParseException e) {
                     e.printStackTrace();
