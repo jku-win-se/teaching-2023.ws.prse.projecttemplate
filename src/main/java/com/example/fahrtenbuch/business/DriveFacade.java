@@ -99,7 +99,7 @@ public class DriveFacade {
         //check if departure time is before arrival time
         if(v.getDepartureTime() != null && v.getArrivalTime() != null && v.getDepartureTime().after(v.getArrivalTime()))
             try {
-                throw new Exception();
+                throw new InvalidDriveException("Abfahrtszeit muss vor Ankunftszeit sein");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -170,5 +170,11 @@ public class DriveFacade {
         }
 
         return lastDriveId;
+    }
+
+    class InvalidDriveException extends Exception {
+        public InvalidDriveException(String message) {
+            super(message);
+        }
     }
 }
