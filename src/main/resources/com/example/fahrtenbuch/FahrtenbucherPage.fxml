@@ -16,7 +16,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.FahrtenbucherController">
     <AnchorPane layoutX="-197.0" layoutY="-109.0" prefHeight="700.0" prefWidth="900.0">
         <Pane layoutX="175.0" layoutY="108.0" prefHeight="597.0" prefWidth="218.0" style="-fx-background-color: #333E50;">
@@ -106,7 +105,6 @@
             </items>
          </ComboBox>
          </Pane>
-      <Button fx:id="btnEditDrive" layoutX="1052.0" layoutY="395.0" mnemonicParsing="false" onAction="#handleBtnEditDrive" prefHeight="23.0" prefWidth="109.0" text="Fahrt bearbeiten" />
-      <Button fx:id="btnShowDrive" layoutX="935.0" layoutY="395.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="109.0" text="Fahrt anzeigen" />
+      <Button fx:id="btnShowDrive" layoutX="1052.0" layoutY="395.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="109.0" text="Fahrt anzeigen" />
     </AnchorPane>
 </AnchorPane>
