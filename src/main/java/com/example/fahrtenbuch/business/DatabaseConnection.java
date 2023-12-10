@@ -1,7 +1,7 @@
 package com.example.fahrtenbuch.business;
 
 import com.example.fahrtenbuch.entities.Category;
-import com.example.fahrtenbuch.entities.Category_Drive;
+import com.example.fahrtenbuch.entities.CategoryDrive;
 import com.example.fahrtenbuch.entities.Drive;
 import com.example.fahrtenbuch.entities.Vehicle;
 
@@ -100,10 +100,10 @@ public class DatabaseConnection {
             categoryFacade.persistCategory(new Category("Freizeit"));
 
             CategoryDriveFacade categoryDriveFacade = new CategoryDriveFacade();
-            categoryDriveFacade.persistCategoryDrive(new Category_Drive(1, 1));
-            categoryDriveFacade.persistCategoryDrive(new Category_Drive(1, 2));
-            categoryDriveFacade.persistCategoryDrive(new Category_Drive(2, 2));
-            categoryDriveFacade.persistCategoryDrive(new Category_Drive(2, 3));
+            categoryDriveFacade.persistCategoryDrive(new CategoryDrive(1, 1));
+            categoryDriveFacade.persistCategoryDrive(new CategoryDrive(1, 2));
+            categoryDriveFacade.persistCategoryDrive(new CategoryDrive(2, 2));
+            categoryDriveFacade.persistCategoryDrive(new CategoryDrive(2, 3));
 
             //System.out.println(categoryDriveFacade.getDrivesByCategoryId(1));
             //System.out.println(categoryDriveFacade.getDrivesByCategoryId(2));
