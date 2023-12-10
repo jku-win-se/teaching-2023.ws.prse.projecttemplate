@@ -34,6 +34,6 @@ public class Vehicle {
         this.odometer = odometer;
     }
 
-    public void setVehicleId(Integer vehicle_id) {
+    public void setVehicleId(Integer vehicleId) {
     }
 }
