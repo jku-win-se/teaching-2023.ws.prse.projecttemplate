@@ -47,12 +47,11 @@ import java.util.*;
 import java.util.function.Consumer;
 
 
-
-
 public class FahrtenbuchUI extends Application {
     private Image logo;
     private Image logoFull;
 
+    private Button filterButton;
     private Fahrtenbuch fahrtenbuch;
     private Button setButton;
     private Button backButton;
@@ -72,6 +71,7 @@ public class FahrtenbuchUI extends Application {
 
     /**
      * Konstruktor
+     *
      * @param fahrtenbuch sets the Fahrtenbuch Object the UI is working on
      */
     public FahrtenbuchUI(Fahrtenbuch fahrtenbuch) {
@@ -88,13 +88,13 @@ public class FahrtenbuchUI extends Application {
 
     /**
      * This is the startup window of our Fahrtenbuch
+     *
      * @param primaryStage JavaFX Stage
      * @throws InterruptedException
      */
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
         StackPane root = new StackPane();
-
 
 
         String currentDirectory = System.getProperty("user.dir");
@@ -117,8 +117,8 @@ public class FahrtenbuchUI extends Application {
         ProgressBar lol = new ProgressBar();
         lol.setStyle("-fx-accent: black;");
         lol.setMaxWidth(logo.getWidth());
-        root.getChildren().addAll(logoView,lol);
-        StackPane.setAlignment(lol,Pos.BOTTOM_CENTER);
+        root.getChildren().addAll(logoView, lol);
+        StackPane.setAlignment(lol, Pos.BOTTOM_CENTER);
 
         // Create animation
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2), logoView);
@@ -142,7 +142,7 @@ public class FahrtenbuchUI extends Application {
                 for (int i = 0; i < 100; i++) {
                     updateProgress(i + 1, 100);
                     Thread.sleep(15);
-                    if (i==99)Thread.sleep(1000);
+                    if (i == 99) Thread.sleep(1000);
                 }
                 Platform.runLater(() ->
                 {
@@ -161,21 +161,20 @@ public class FahrtenbuchUI extends Application {
         thread.start();
 
 
-
-
     }
 
     /**
      * Fahrtentabelle, Buttons, Logo etc.. Überblick
+     *
      * @param primaryStage
      */
-    public void overview(Stage primaryStage){
+    public void overview(Stage primaryStage) {
         String currentDirectory = System.getProperty("user.dir");
         Path logoPath = Path.of(currentDirectory, "Fahrtenbuch", "src", "main", "java", "at", "jku", "se", "prse", "team3", "logoFull.png");
 
-        logoFull=new Image(logoPath.toUri().toString());
+        logoFull = new Image(logoPath.toUri().toString());
 
-        primaryStage= new Stage(StageStyle.DECORATED);
+        primaryStage = new Stage(StageStyle.DECORATED);
         primaryStage.getIcons().add(logoFull);
         kategorienListe = fahrtenbuch.getKategorien(true);
         //start tabellerische Ansicht
@@ -196,7 +195,8 @@ public class FahrtenbuchUI extends Application {
         erweiterteStatistikButton.setOnAction(event -> zeigeErweiterteKilometerStatistik());
         jahresStatistikButton = new Button("Jahresstatistik anzeigen");
         jahresStatistikButton.setOnAction(event -> zeigeJahresKilometerStatistik());
-
+        filterButton = new Button("Filtern");
+        filterButton.setOnAction(event -> oeffneFilter(fahrtenTabelle));
 
         TableColumn<Fahrt, String> kfz = new TableColumn<>("KFZ-Kennzeichen");
         kfz.setCellValueFactory(new PropertyValueFactory<>("kfzKennzeichen"));
@@ -251,14 +251,14 @@ public class FahrtenbuchUI extends Application {
             if (ausgewaehlteFahrt != null) {
                 try {
                     bearbeiteFahrt(ausgewaehlteFahrt, finalPrimaryStage1);
-                }catch (DateTimeParseException d){
-                    Alert dateAlert=new Alert(Alert.AlertType.WARNING);
+                } catch (DateTimeParseException d) {
+                    Alert dateAlert = new Alert(Alert.AlertType.WARNING);
                     dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM..");
                     d.printStackTrace();
                     dateAlert.showAndWait();
 
-                }catch(NumberFormatException n){
-                    Alert numberAlert=new Alert(Alert.AlertType.WARNING);
+                } catch (NumberFormatException n) {
+                    Alert numberAlert = new Alert(Alert.AlertType.WARNING);
                     numberAlert.setContentText("Numeric entries only..");
                     numberAlert.showAndWait();
                     n.printStackTrace();
@@ -284,10 +284,9 @@ public class FahrtenbuchUI extends Application {
 
         // HBox für die Buttons erstellen
         HBox leftButtonBox = new HBox(10);
-        leftButtonBox.getChildren().addAll(newTripButton,setButton,newEditButton,statistikMenuButton,grafikMenuButton );
+        leftButtonBox.getChildren().addAll(newTripButton, setButton, newEditButton, statistikMenuButton, grafikMenuButton,filterButton);
         leftButtonBox.setAlignment(Pos.TOP_LEFT);
         leftButtonBox.setPadding(new javafx.geometry.Insets(4, 1, 10, 1));
-
 
 
         // Menü und Buttons im VBox platzieren
@@ -328,12 +327,13 @@ public class FahrtenbuchUI extends Application {
 
     /**
      * Screen zum anlegen einer neuen Fahrt
+     *
      * @param primaryStage
      */
     private void neueFahrt(Stage primaryStage) {
         //Liste von zukünftigen LocalDates von wiederkehrenden Fahrten
         List<LocalDate> futureDates = new ArrayList<>();
-        List<String> additionalCategories=new ArrayList<>();
+        List<String> additionalCategories = new ArrayList<>();
 
         TextField kfzKennzeichen = new TextField();
         kfzKennzeichen.setPromptText("KFZ-Kennzeichen:");
@@ -376,7 +376,7 @@ public class FahrtenbuchUI extends Application {
 
         kategorienInput.setMaxWidth(200);
         kategorienInput.setOnAction(event -> {
-            String kategorie =  kategorienInput.getValue().toString();
+            String kategorie = kategorienInput.getValue().toString();
             if (!kategorie.isEmpty()) {
                 additionalCategories.add(kategorie);
                 angezeigteKategorien.setVisible(true); // TextArea sichtbar machen
@@ -388,7 +388,6 @@ public class FahrtenbuchUI extends Application {
         angezeigteKategorien.setEditable(false);
         angezeigteKategorien.setVisible(false); // Anfangs nicht sichtbar machen
         angezeigteKategorien.setPrefHeight(50); // Höhe der TextArea anpassen
-
 
 
 // Füge die Kategorien-Komponenten zur Benutzeroberfläche hinzu
@@ -429,23 +428,22 @@ public class FahrtenbuchUI extends Application {
             if (FahrtStatus.ZUKUENFTIG.equals(fahrtstatus.getValue())) {
 
                 futureDatesBox.setVisible(true);
-            }
-            else if (FahrtStatus.ABSOLVIERT.equals(fahrtstatus.getValue())){
+            } else if (FahrtStatus.ABSOLVIERT.equals(fahrtstatus.getValue())) {
                 futureDatesBox.setVisible(false);
-            }
-            else if (FahrtStatus.AUF_FAHRT.equals(fahrtstatus.getValue())){
+            } else if (FahrtStatus.AUF_FAHRT.equals(fahrtstatus.getValue())) {
                 futureDatesBox.setVisible(false);
             }
 
         });
-            fahrtstatus.setDisable(true);
+        fahrtstatus.setDisable(true);
         datum.setOnAction(event -> {
             datum.getValue();
-            if(datum.getValue().isBefore(LocalDate.now())){
+            if (datum.getValue().isBefore(LocalDate.now())) {
                 fahrtstatus.setValue(FahrtStatus.ABSOLVIERT);
             } else if (datum.getValue().isAfter(LocalDate.now())) {
                 fahrtstatus.setValue(FahrtStatus.ZUKUENFTIG);
-            }else {
+                addToReoccurances(datum.getValue(), futureDates::add);
+            } else {
                 fahrtstatus.setValue(FahrtStatus.AUF_FAHRT);
             }
         });
@@ -462,8 +460,8 @@ public class FahrtenbuchUI extends Application {
         backButton = new Button();
         backButton.setText("<- Zurück");
         backButton.setOnAction(actionEvent -> {
-                    overview(primaryStage);
-                    primaryStage.hide();
+            overview(primaryStage);
+            primaryStage.hide();
         });
         ScrollPane scrollPane = new ScrollPane(fahrtTextinputboxen);
         scrollPane.setFitToWidth(true); // Passt die Breite der ScrollPane an die Breite der VBox an
@@ -500,7 +498,7 @@ public class FahrtenbuchUI extends Application {
             // Überprüfe die Eingabefelder basierend auf dem ausgewählten Fahrtstatus
             if (ausgewaehlterStatus == FahrtStatus.ZUKUENFTIG) {
                 // Für zukünftige Fahrten müssen das KFZ-Kennzeichen, das Datum und die Liste der zukünftigen Termine vorhanden sein
-                if (kfzKennzeichen.getText().isEmpty() || datum.getValue() == null || futureDates.isEmpty()) {
+                if (kfzKennzeichen.getText().isEmpty() || futureDates.isEmpty()) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setContentText("Pflichtdaten für Erstellung zukünftiger Fahrt nicht eingetragen!");
                     alert.showAndWait();
@@ -547,8 +545,6 @@ public class FahrtenbuchUI extends Application {
         });
 
 
-
-
         StackPane.setAlignment(speichernButton, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(backButton, Pos.BOTTOM_LEFT);
         StackPane.setAlignment(info, Pos.TOP_LEFT);
@@ -571,6 +567,7 @@ public class FahrtenbuchUI extends Application {
 
     /**
      * Diese Methode wird aufgerufen, wenn ein Benutzer einen Eintrag zum Bearbeiten auswählt.
+     *
      * @param ausgewaehlteFahrt ausgewaehlte Fahrt aus der Fahrtentabelle
      * @param primaryStage
      */
@@ -662,8 +659,8 @@ public class FahrtenbuchUI extends Application {
                     dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM..");
                     dateAlert.showAndWait();
 
-                }catch(NumberFormatException n){
-                    Alert numberAlert=new Alert(Alert.AlertType.WARNING);
+                } catch (NumberFormatException n) {
+                    Alert numberAlert = new Alert(Alert.AlertType.WARNING);
                     numberAlert.setContentText("Numeric entries only..");
                     numberAlert.showAndWait();
 
@@ -733,10 +730,11 @@ public class FahrtenbuchUI extends Application {
 
     /**
      * Settings Screen including Category Management
+     *
      * @param primaryStage
      */
     private void switchToSettings(Stage primaryStage) {
-        ObservableList<String> addedCategories=FXCollections.observableArrayList();
+        ObservableList<String> addedCategories = FXCollections.observableArrayList();
         backButton = new Button();
         backButton.setText("<- Zurück");
         backButton.setOnAction(actionEvent -> {
@@ -756,11 +754,10 @@ public class FahrtenbuchUI extends Application {
         kategorienListe.addAll(fahrtenbuch.getKategorien(true));
 
 
-
-        ListView angezeigteKategorien = new ListView ();
+        ListView angezeigteKategorien = new ListView();
         angezeigteKategorien.setItems(kategorienListe);
         angezeigteKategorien.setEditable(false);
-         // Anfangs nicht sichtbar machen
+        // Anfangs nicht sichtbar machen
         angezeigteKategorien.setPrefHeight(50); // Höhe der TextArea anpassen
 
         Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
@@ -777,33 +774,26 @@ public class FahrtenbuchUI extends Application {
 
             }
         });
-        VBox kategorieInp =new VBox();
-        kategorieInp.getChildren().addAll(kategorienInput,kategorieHinzufuegenButton);
-
-
-
-
+        VBox kategorieInp = new VBox();
+        kategorieInp.getChildren().addAll(kategorienInput, kategorieHinzufuegenButton);
 
 
         primaryStage.setTitle("Einstellungen");
-        GridPane gridSettings=new GridPane();
+        GridPane gridSettings = new GridPane();
 
-        gridSettings.getChildren().addAll(enterSavePath, backButton, Pfad,angezeigteKategorien,kategorieInp);
+        gridSettings.getChildren().addAll(enterSavePath, backButton, Pfad, angezeigteKategorien, kategorieInp);
 
         gridSettings.setAlignment(Pos.CENTER);
-        GridPane.setConstraints(backButton,0,5);
-        GridPane.setConstraints(Pfad,0,1);
-        GridPane.setConstraints(enterSavePath,1,1);
-        GridPane.setConstraints(angezeigteKategorien,1,2);
+        GridPane.setConstraints(backButton, 0, 5);
+        GridPane.setConstraints(Pfad, 0, 1);
+        GridPane.setConstraints(enterSavePath, 1, 1);
+        GridPane.setConstraints(angezeigteKategorien, 1, 2);
 
-        GridPane.setConstraints(kategorieInp,0,2);
+        GridPane.setConstraints(kategorieInp, 0, 2);
         gridSettings.setGridLinesVisible(false);
 
 
         gridSettings.requestFocus();
-
-
-
 
 
         Scene einstellungen = new Scene(gridSettings, 720, 400);
@@ -841,7 +831,7 @@ public class FahrtenbuchUI extends Application {
         kilometerProJahrItem.setOnAction(event -> zeigeJahresKilometerDiagramm());
 
         grafikMenuButton.getItems().addAll(
-                kilometerProMonatItem,kilometerProJahrItem
+                kilometerProMonatItem, kilometerProJahrItem
 
         );
     }
@@ -993,11 +983,12 @@ public class FahrtenbuchUI extends Application {
         ObservableList<Map.Entry<YearMonth, Map<String, Double>>> tableData = FXCollections.observableArrayList(data.entrySet());
         tableView.setItems(tableData);
     }
+
     void zeigeJahresKilometerStatistik() {
         Set<String> kategorien = fahrtenbuch.getKategorien(); // Angenommen, diese Methode gibt die Kategorien zurück
         Map<Integer, Map<String, Double>> data = fahrtenbuch.berechneKilometerProJahrUndKategorie();
 
-        if(data.isEmpty()) {
+        if (data.isEmpty()) {
             System.out.println("Keine Daten für die Jahresstatistik vorhanden.");
         } else {
             TableView<Map.Entry<Integer, Map<String, Double>>> tableView = erstelleJahresKilometerTableView(kategorien);
@@ -1013,6 +1004,43 @@ public class FahrtenbuchUI extends Application {
         }
     }
 
+    void oeffneFilter(TableView fahrtenTabelle) {
+        // Dialogfenster für die Filterung erstellen
+        Dialog<Boolean> dialog = new Dialog<>();
+        dialog.setTitle("Fahrt filtern");
+        ButtonType filterButtonType = new ButtonType("Filtern", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(filterButtonType, ButtonType.CANCEL);
+        DatePicker datum = new DatePicker();
+        datum.setPromptText("Datum der Fahrt");
+        datum.getEditor().setDisable(true);
+        datum.setMaxWidth(200);
+        // Ergebnis des Dialogs konvertieren, wenn der Benutzer "Filtern" klickt
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == filterButtonType) {
+                try {
+                    LocalDate date = datum.getValue();
+                    fahrtenListe.clear();
+                    fahrtenListe.addAll(fahrtenbuch.filterByDate(date));
+                    fahrtenTabelle.setItems(this.fahrtenListe);
+                } catch (DateTimeParseException d) {
+                    Alert dateAlert = new Alert(Alert.AlertType.WARNING);
+                    dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM..");
+                    dateAlert.showAndWait();
+                }
+                return true;
+            }
+            return false;
+        });
+        VBox fahrtTextinputboxen = new VBox(1);
+        fahrtTextinputboxen.getChildren().addAll(datum);
+        ScrollPane scrollPane = new ScrollPane(fahrtTextinputboxen);
+        scrollPane.setFitToWidth(true); // Passt die Breite der ScrollPane an die Breite der VBox an
+        scrollPane.setPrefHeight(400); // Setzen Sie eine bevorzugte Höhe
+        StackPane layoutFilter = new StackPane();
+        layoutFilter.getChildren().add(scrollPane);
+        dialog.getDialogPane().setContent(layoutFilter);
+        Optional<Boolean> result = dialog.showAndWait();
+        result.ifPresent(filter -> { // Aktualisierte Fahrt in der Liste und in der TableView anzeigen
+            fahrtenTabelle.refresh(); dialog.close(); }); }
 
-
-}
+        }
