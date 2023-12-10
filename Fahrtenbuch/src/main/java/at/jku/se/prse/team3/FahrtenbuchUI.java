@@ -26,6 +26,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelBuffer;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
@@ -38,6 +40,7 @@ import javafx.util.converter.*;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 
 import java.time.LocalDate;
@@ -98,12 +101,13 @@ public class FahrtenbuchUI extends Application {
     public void start(Stage primaryStage) throws InterruptedException {
         StackPane root = new StackPane();
 
+        InputStream imageStream = getClass().getResourceAsStream("/logo.png");
 
-        String currentDirectory = System.getProperty("user.dir");
-        Path imagePath = Path.of(currentDirectory, "Fahrtenbuch", "src", "main", "java", "at", "jku", "se", "prse", "team3", "logo.png");
-        String imageFileP = imagePath.toString();
-
-        logo = new Image(imageFileP);
+        if (imageStream!=null) {
+            logo = new Image(imageStream);
+        } else {
+            logo=new WritableImage(100,100);
+        }
 
 
         ImageView logoView = new ImageView(logo);
@@ -171,10 +175,13 @@ public class FahrtenbuchUI extends Application {
      * @param primaryStage
      */
     public void overview(Stage primaryStage) {
-        String currentDirectory = System.getProperty("user.dir");
-        Path logoPath = Path.of(currentDirectory, "Fahrtenbuch", "src", "main", "java", "at", "jku", "se", "prse", "team3", "logoFull.png");
 
-        logoFull = new Image(logoPath.toUri().toString());
+
+        InputStream logoPath=getClass().getResourceAsStream("/logoFull.png");
+        if (logoPath!=null)logoFull = new Image(logoPath);
+        else {
+            logo=new WritableImage(100,100);
+        }
 
         primaryStage = new Stage(StageStyle.DECORATED);
         primaryStage.getIcons().add(logoFull);
