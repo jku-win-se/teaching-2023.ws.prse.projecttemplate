@@ -25,7 +25,11 @@ public abstract class App {
     {
         FahrtenbuchUI fahrtenbuchUI = new FahrtenbuchUI(fahrtenbuch);
         Stage stage = new Stage();
-        fahrtenbuchUI.start(stage);
+        try {
+            fahrtenbuchUI.start(stage);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     });
 
         //fahrtenbuch.exportFahrt();
