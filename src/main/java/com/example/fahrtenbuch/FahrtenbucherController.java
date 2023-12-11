@@ -22,7 +22,6 @@ import java.net.URL;
 import java.sql.Time;
 import java.util.List;
 import java.util.ResourceBundle;
-import com.example.fahrtenbuch.entities.*;
 
 
 public class FahrtenbucherController implements Initializable{
@@ -107,7 +106,7 @@ public class FahrtenbucherController implements Initializable{
         kfzColumn.setCellValueFactory(cellData -> {
 
             int vid = cellData.getValue().getVehicleId();
-            String lp = driveFacade.getLicense_plateByDriveId(vid);
+            String lp = driveFacade.getLicensePlateByDriveId(vid);
 
             //return new SimpleStringProperty(cellData.getValue().getVehicleId().toString());
             return new SimpleStringProperty(""+lp);

@@ -182,7 +182,7 @@ public class DriveFacade {
      *
      * */
 
-    public String getLicense_plateByDriveId(int dID) {
+    public String getLicensePlateByDriveId(int dID) {
         String query = "SELECT * FROM `vehicle` WHERE vehicle_id=?";
         String str="";
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
@@ -191,7 +191,7 @@ public class DriveFacade {
                 while (resultSet.next()) {
 
                     str = resultSet.getString("license_plate");
-                    System.out.println("license plate"+str);
+                    //System.out.println("license plate"+str);
                 }
             }
         } catch (SQLException e) {

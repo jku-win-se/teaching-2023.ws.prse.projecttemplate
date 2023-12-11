@@ -11,7 +11,6 @@ import static org.junit.Assert.fail;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -90,7 +89,7 @@ public class DriveFacadeTest {
     
     @Test
     public void testGetLicensePlateByDriveId() {
-        String licensePlate = driveFacade.getLicense_plateByDriveId(1);
+        String licensePlate = driveFacade.getLicensePlateByDriveId(1);
         assertNotNull(licensePlate);
     }
  
