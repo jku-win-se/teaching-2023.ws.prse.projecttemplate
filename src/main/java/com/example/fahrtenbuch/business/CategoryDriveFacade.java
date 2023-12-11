@@ -15,10 +15,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category_Drive_Facade {
+public class CategoryDriveFacade {
     private Connection conn;
 
-    public Category_Drive_Facade() {
+    public CategoryDriveFacade() {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         this.conn = databaseConnection.getConnection();
     }

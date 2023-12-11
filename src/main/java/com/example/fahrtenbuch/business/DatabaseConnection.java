@@ -32,9 +32,9 @@ public class DatabaseConnection {
         Connection con = db.getConnection();
 
         if(con!=null) {
-            System.out.println("Successfull");
+          //  System.out.println("Successfull");
         }else {
-            System.out.println("connection failed");
+           // System.out.println("connection failed");
         }
 
     }
@@ -108,7 +108,7 @@ public class DatabaseConnection {
             categoryFacade.persistCategory(new Category("Reparatur"));
             categoryFacade.persistCategory(new Category("Freizeit"));
 
-            Category_Drive_Facade categoryDriveFacade = new Category_Drive_Facade();
+            CategoryDriveFacade categoryDriveFacade = new CategoryDriveFacade();
             categoryDriveFacade.persistCategoryDrive(new Category_Drive(1, 1));
             categoryDriveFacade.persistCategoryDrive(new Category_Drive(1, 2));
             categoryDriveFacade.persistCategoryDrive(new Category_Drive(2, 2));

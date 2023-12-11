@@ -117,7 +117,7 @@ public class IndexController{
     }
 
     @FXML
-    private void Zukunftige_Fahrt_Anlegen_Action(ActionEvent event) throws IOException {
+    private void createFutureDrive(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Page.fxml"));
         Parent root = loader.load();
 
@@ -256,7 +256,7 @@ public class IndexController{
         driveFacade.persistDrive(fahrt);
 
         if (selectedCategory != null) {
-            Category_Drive_Facade categoryDriveFacade = new Category_Drive_Facade();
+            CategoryDriveFacade categoryDriveFacade = new CategoryDriveFacade();
             Category_Drive categoryDrive = new Category_Drive(selectedCategory.getCategory_id(), driveFacade.getLastDriveId());
             categoryDriveFacade.persistCategoryDrive(categoryDrive);
         }

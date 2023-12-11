@@ -14,7 +14,7 @@ public class Drive {
     private Time arrivalTime;
     private Integer waitingTime;
     private Double drivenKilometres;
-    private Status status;
+    private com.example.fahrtenbuch.entities.Status status;
 
     // lange vor der Fahrt (zukünftige Fahrt)
     public Drive(Integer vehicleId, Date date) {
@@ -22,7 +22,7 @@ public class Drive {
         this.date = date;
         this.waitingTime = 0;
         this.drivenKilometres = 0.0;
-        this.status = Status.ZUKUENFTIG;
+        this.status = com.example.fahrtenbuch.entities.Status.ZUKUENFTIG;
     }
 
     // kurz vor der Fahrt (bei Abfahrt)
@@ -32,7 +32,7 @@ public class Drive {
         this.departureTime = departureTime;
         this.waitingTime = 0;
         this.drivenKilometres = 0.0;
-        this.status = Status.AUF_FAHRT;
+        this.status = com.example.fahrtenbuch.entities.Status.AUF_FAHRT;
     }
 
     public Drive(int id, Date vonDate, Date bisDate) {
@@ -49,7 +49,7 @@ public class Drive {
         this.arrivalTime = arrivalTime;
         this.waitingTime = waitingTime;
         this.drivenKilometres = drivenKilometres;
-        this.status = Status.ABGESCHLOSSEN;
+        this.status = com.example.fahrtenbuch.entities.Status.ABGESCHLOSSEN;
     }
 
     public Drive() {
@@ -112,7 +112,7 @@ public class Drive {
         this.drivenKilometres = drivenKilometres;
     }
 
-    public Status getStatus() {
+    public com.example.fahrtenbuch.entities.Status getStatus() {
         return status;
     }
 
