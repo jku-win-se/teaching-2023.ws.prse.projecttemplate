@@ -1062,28 +1062,25 @@ public class FahrtenbuchUI extends Application {
         TextField avgTF = new TextField();
         avgTF.setPromptText("avg V eingeben");
         avgTF.setMaxWidth(200);
+        Label categorylabel = new Label("Kategorie");
+        categorylabel.setMaxWidth(200);
 
         //category filter
-        // create the data to show in the CheckComboBox
-        final ObservableList<String> strings = fahrtenbuch.getKategorien(true);
-
-        final CheckComboBox<String> checkComboBox = new CheckComboBox<String>(strings);
-        checkComboBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
-            public void onChanged(ListChangeListener.Change<? extends String> c) {
-
-                System.out.println(checkComboBox.getCheckModel().getCheckedItems());
-            }
-        });
-
+        final CheckComboBox<String> categoryfilter = new CheckComboBox<>(fahrtenbuch.getKategorien(true));
 
         // Ergebnis des Dialogs konvertieren, wenn der Benutzer "Filtern" klickt
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == filterButtonType) {
                 try {
+                    //TODO kombiniere alle filter-items (führe sie zusammen?)
                     LocalDate date = datum.getValue();
+                    List<Fahrt> gefilterteFahrten = fahrtenbuch.filterByKategorie(categoryfilter.getCheckModel().getCheckedItems().stream().toList());
+
                     fahrtenListe.clear();
-                    fahrtenListe.addAll(fahrtenbuch.filterByDate(date));
+                   // fahrtenListe.addAll(fahrtenbuch.filterByDate(date));
+                    fahrtenListe.addAll(gefilterteFahrten);
                     fahrtenTabelle.setItems(this.fahrtenListe);
+
                 } catch (DateTimeParseException d) {
                     Alert dateAlert = new Alert(Alert.AlertType.WARNING);
                     dateAlert.setContentText("Wrong Format! use: DD:MM:YYYY or HH:MM..");
@@ -1120,7 +1117,7 @@ public class FahrtenbuchUI extends Application {
             return false;
         });
         VBox fahrtTextinputboxen = new VBox(1);
-        fahrtTextinputboxen.getChildren().addAll(datum,avgLabel,avgTF,checkComboBox);
+        fahrtTextinputboxen.getChildren().addAll(datum,avgLabel,avgTF,categorylabel,categoryfilter);
         ScrollPane scrollPane = new ScrollPane(fahrtTextinputboxen);
         scrollPane.setFitToWidth(true); // Passt die Breite der ScrollPane an die Breite der VBox an
         scrollPane.setPrefHeight(400); // Setzen Sie eine bevorzugte Höhe

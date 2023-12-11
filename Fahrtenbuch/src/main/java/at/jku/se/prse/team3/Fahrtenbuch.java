@@ -453,4 +453,17 @@ public class Fahrtenbuch {
         }
         return gefilterteFahrten;
     }
+
+    public List<Fahrt> filterByKategorie(List<String> filterKategorien) {
+        if (kategorien == null || filterKategorien.isEmpty()) {
+            return this.fahrten;
+        }
+        List<Fahrt> gefilterteFahrten = new ArrayList<>();
+        for (String filterKategorie : filterKategorien) {
+            gefilterteFahrten.addAll(this.fahrten.stream()
+                    .filter(f -> f.getKategorien().contains(filterKategorie))
+                    .collect(Collectors.toList()));
+        }
+        return gefilterteFahrten;
+    }
 }
