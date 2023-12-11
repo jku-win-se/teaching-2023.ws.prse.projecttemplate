@@ -831,7 +831,12 @@ public class FahrtenbuchUI extends Application {
             }
         });
     }
-
+    /**
+     * Initialisiert den Menü-Button für Statistiken.
+     * Diese Methode erstellt und konfiguriert den Menü-Button für den Zugriff auf verschiedene
+     * statistische Ansichten. Dazu gehören Menüeinträge für die Jahresstatistik, erweiterte Statistik
+     * und weitere statistische Auswertungen.
+     */
     private void initializeStatistikMenuButton() {
         statistikMenuButton = new MenuButton("Statistik");
 
@@ -843,7 +848,12 @@ public class FahrtenbuchUI extends Application {
 
         statistikMenuButton.getItems().addAll(jahresStatistikItem, erweiterteStatistikItem);
     }
-
+    /**
+     * Initialisiert den Menü-Button für grafische Ansichten.
+     * Diese Methode erstellt und konfiguriert den Menü-Button, der den Zugriff auf verschiedene
+     * grafische Darstellungen der Statistiken ermöglicht. Dazu gehören Menüeinträge für die Anzeige
+     * der Kilometer pro Monat und Kilometer pro Jahr.
+     */
     private void initializeGrafikMenuButton() {
         grafikMenuButton = new MenuButton("Grafische Ansicht");
 
@@ -857,7 +867,11 @@ public class FahrtenbuchUI extends Application {
 
         );
     }
-
+    /**
+     * Zeigt ein Balkendiagramm mit den gefahrenen Kilometern pro Monat.
+     * Diese Methode erstellt und zeigt ein Balkendiagramm, das die gefahrenen Kilometer pro Monat
+     * und Kategorie anzeigt. Die Daten werden aus dem Fahrtenbuch bezogen und grafisch aufbereitet.
+     */
     void zeigeKilometerDiagramm() {
         Stage stage = new Stage();
         stage.setTitle("Kilometerstatistik");
@@ -893,7 +907,11 @@ public class FahrtenbuchUI extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * Zeigt ein Balkendiagramm mit den gesamten gefahrenen Kilometern pro Jahr.
+     * Diese Methode generiert ein Balkendiagramm, das die jährliche Fahrleistung nach Kategorien
+     * aufschlüsselt. Die Diagrammdaten werden aus dem Fahrtenbuch abgerufen und visuell dargestellt.
+     */
     void zeigeJahresKilometerDiagramm() {
         Stage stage = new Stage();
         stage.setTitle("Jahreskilometerstatistik");
