@@ -1,11 +1,11 @@
 package com.example.fahrtenbuch.entities;
 
 public class Category {
-    private Integer category_id;
+    private Integer categoryId;
     private String name;
 
-    public Category(Integer category_id, String name) {
-        this.category_id = category_id;
+    public Category(Integer categoryId, String name) {
+        this.categoryId = categoryId;
         this.name = name;
     }
 
@@ -17,12 +17,12 @@ public class Category {
         this.name = name;
     }
 
-    public Integer getCategory_id() {
-        return category_id;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory_id(Integer category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {

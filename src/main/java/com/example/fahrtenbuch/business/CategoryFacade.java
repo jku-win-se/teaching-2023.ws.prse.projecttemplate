@@ -27,7 +27,7 @@ public class CategoryFacade {
 
             if (resultSet.next()) {
                 category = new Category();
-                category.setCategory_id(resultSet.getInt("category_id"));
+                category.setCategoryId(resultSet.getInt("category_id"));
                 category.setName(resultSet.getString("category_name"));
             }
         } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class CategoryFacade {
 
             if (resultSet.next()) {
                 category = new Category();
-                category.setCategory_id(resultSet.getInt("category_id"));
+                category.setCategoryId(resultSet.getInt("category_id"));
                 category.setName(resultSet.getString("category_name"));
             }
         } catch (SQLException e) {
@@ -68,7 +68,7 @@ public class CategoryFacade {
 
             while (resultSet.next()) {
                 Category category = new Category();
-                category.setCategory_id(resultSet.getInt("category_id"));
+                category.setCategoryId(resultSet.getInt("category_id"));
                 category.setName(resultSet.getString("category_name"));
                 categories.add(category);
             }

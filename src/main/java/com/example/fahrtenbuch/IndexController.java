@@ -257,7 +257,7 @@ public class IndexController{
 
         if (selectedCategory != null) {
             CategoryDriveFacade categoryDriveFacade = new CategoryDriveFacade();
-            CategoryDrive categoryDrive = new CategoryDrive(selectedCategory.getCategory_id(), driveFacade.getLastDriveId());
+            CategoryDrive categoryDrive = new CategoryDrive(selectedCategory.getCategoryId(), driveFacade.getLastDriveId());
             categoryDriveFacade.persistCategoryDrive(categoryDrive);
         }
 
