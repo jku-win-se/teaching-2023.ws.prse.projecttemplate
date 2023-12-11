@@ -287,7 +287,7 @@ public class FahrtenbucherController implements Initializable{
 
 
     @FXML
-    void StatusAllDriveActionBtn(ActionEvent event) {
+    void statusAllDriveActionBtn(ActionEvent event) {
         handleStatusFilter("all");
     }
 
