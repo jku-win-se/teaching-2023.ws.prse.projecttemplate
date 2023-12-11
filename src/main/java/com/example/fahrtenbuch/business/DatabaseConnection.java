@@ -1,22 +1,20 @@
 package com.example.fahrtenbuch.business;
 
-import com.example.fahrtenbuch.entities.Category;
-import com.example.fahrtenbuch.entities.CategoryDrive;
-import com.example.fahrtenbuch.entities.Drive;
-import com.example.fahrtenbuch.entities.Vehicle;
 
 import java.io.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import com.example.fahrtenbuch.entities.*;
+
 
 public class DatabaseConnection {
     public Connection conn;
     Statement statement = null;
 
     public Connection getConnection() {
-        String jdbcURL = "jdbc:mysql://localhost/logbook";
+        String jdbcURL = "jdbc:mysql://localhost:3306/logbook";
         String user = "root";
         String pass = "12345678";
 
@@ -28,6 +26,18 @@ public class DatabaseConnection {
         }
 
         return conn;
+    }
+
+    public static void main(String [] args) {
+        DatabaseConnection db = new DatabaseConnection();
+        Connection con = db.getConnection();
+
+        if(con!=null) {
+          //  System.out.println("Successfull");
+        }else {
+           // System.out.println("connection failed");
+        }
+
     }
 
     public void initiateDB() throws SQLException {

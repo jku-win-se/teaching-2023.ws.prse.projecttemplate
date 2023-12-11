@@ -21,7 +21,7 @@
     <children>
         <AnchorPane layoutX="-182.0" layoutY="-109.0" prefHeight="706.0" prefWidth="1171.0">
             <children>
-            <VBox layoutY="91.0" />
+                <VBox layoutY="91.0" />
                 <Pane layoutX="148.0" layoutY="109.0" prefHeight="597.0" prefWidth="218.0" style="-fx-background-color: #333E50;">
                     <children>
                         <ImageView fx:id="logoIcon" fitHeight="115.0" fitWidth="131.0" layoutX="47.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
@@ -58,16 +58,16 @@
                                 <Font size="18.0" />
                             </font>
                         </Button>
-                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="52.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/Logo.png" />
-                     </image>
-                  </ImageView>
-                  <Button fx:id="btnNewRide" layoutX="34.0" layoutY="251.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="122.0" style="-fx-background-color: #333E50; -fx-font-family: Arial; -fx-cursor: pointer;" text="Neue Fahrt" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
+                        <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="52.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/Logo.png" />
+                            </image>
+                        </ImageView>
+                        <Button fx:id="btnNewRide" layoutX="34.0" layoutY="251.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="122.0" style="-fx-background-color: #333E50; -fx-font-family: Arial; -fx-cursor: pointer;" text="Neue Fahrt" textFill="WHITE">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Button>
                     </children>
                 </Pane>
                 <Pane layoutX="366.0" layoutY="108.0" prefHeight="49.0" prefWidth="807.0" style="-fx-background-color: #333E50;">
@@ -93,27 +93,27 @@
                         <Font size="16.0" />
                     </font>
                 </Button>
-            <ComboBox fx:id="kategoriesTF" layoutX="769.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: gray;  -fx-border-width: 0.5; -fx-border-radius: 5; ">
-               <items>
-                  <FXCollections fx:factory="observableArrayList">
-                  </FXCollections>
-               </items>
-            </ComboBox>
-             <Button fx:id="btnAddCategory" layoutX="1065.0" layoutY="225.0" mnemonicParsing="false" onAction="#showAddCategoryPopup" prefHeight="49.0" prefWidth="44.0" text="+">
-                 <font>
-                     <Font name="Arial Rounded MT Bold" size="12.0" />
-                 </font>
-             </Button>
+                <ComboBox fx:id="kategoriesTF" layoutX="769.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: rgb(128,128,128);  -fx-border-width: 0.5; -fx-border-radius: 5; ">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Button fx:id="btnAddCategory" layoutX="1065.0" layoutY="225.0" mnemonicParsing="false" onAction="#showAddCategoryPopup" prefHeight="49.0" prefWidth="44.0" text="+">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                    </font>
+                </Button>
                 <TextField fx:id="datumTF" layoutX="407.0" layoutY="487.0" prefHeight="49.0" prefWidth="296.0" promptText="Datum" style="-fx-padding: 0px 20px;" />
-            <Button fx:id="btnAddKfz" layoutX="703.0" layoutY="225.0" mnemonicParsing="false" onAction="#showAddKfzPopup" prefHeight="49.0" prefWidth="44.0" text="+">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="12.0" />
-               </font>
-            </Button>
+                <Button fx:id="btnAddKfz" layoutX="703.0" layoutY="225.0" mnemonicParsing="false" onAction="#showAddKfzPopup" prefHeight="49.0" prefWidth="44.0" text="+">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                    </font>
+                </Button>
                 <AnchorPane fx:id="popupPane" layoutX="584.0" layoutY="290.0" />
             </children>
-         <rotationAxis>
-            <Point3D />
-         </rotationAxis></AnchorPane>
+            <rotationAxis>
+                <Point3D />
+            </rotationAxis></AnchorPane>
     </children>
 </AnchorPane>
