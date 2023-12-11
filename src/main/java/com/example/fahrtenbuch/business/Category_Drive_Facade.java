@@ -1,3 +1,8 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.example.fahrtenbuch.business;
 
 import com.example.fahrtenbuch.entities.Category_Drive;
@@ -15,27 +20,28 @@ public class Category_Drive_Facade {
 
     public Category_Drive_Facade() {
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        conn = databaseConnection.getConnection();
+        this.conn = databaseConnection.getConnection();
     }
 
     public List<Drive> getDrivesByCategoryId(Integer id) throws SQLException {
         Drive drive = null;
-        List<Drive> drives = new ArrayList<>();
+        List<Drive> drives = new ArrayList();
         DriveFacade driveFacade = new DriveFacade();
         String query = "SELECT * FROM category_drive WHERE category_id = ?";
 
         try {
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            PreparedStatement preparedStatement = this.conn.prepareStatement(query);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
+            while(resultSet.next()) {
                 drive = driveFacade.getDriveById(resultSet.getInt("drive_id"));
                 drives.add(drive);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException var8) {
+            var8.printStackTrace();
         }
+
         return drives;
     }
 
@@ -48,12 +54,12 @@ public class Category_Drive_Facade {
                 throw new IllegalArgumentException("drive_id darf nicht null sein.");
             }
 
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            PreparedStatement preparedStatement = this.conn.prepareStatement(query);
             preparedStatement.setInt(1, cd.getCategory_id());
             preparedStatement.setInt(2, cd.getDrive_id());
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException var5) {
+            var5.printStackTrace();
         }
 
     }

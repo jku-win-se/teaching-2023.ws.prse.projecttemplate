@@ -1,6 +1,6 @@
 package com.example.fahrtenbuch.business;
-import com.example.fahrtenbuch.entities.Drive;
-import com.example.fahrtenbuch.entities.Status;
+import com.example.fahrtenbuch.entities.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -171,4 +171,146 @@ public class DriveFacade {
 
         return lastDriveId;
     }
+
+
+
+    /*
+     *
+     * new method's
+     * need for filter page
+     *
+     * */
+
+    public String getLicense_plateByDriveId(int dID) {
+        String query = "SELECT * FROM `vehicle` WHERE vehicle_id=?";
+        String str="";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, dID);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+
+                    str = resultSet.getString("license_plate");
+                    System.out.println("license plate"+str);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return str;
+    }
+
+    public String getCategoryNameByDriveId(int driveId) {
+        String categoryName = "...";
+
+        String sql = "SELECT c.category_name " + "FROM category c "
+                + "JOIN category_drive cd ON c.category_id = cd.category_id " + "WHERE cd.drive_id = ?";
+
+        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, driveId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    categoryName = resultSet.getString("category_name");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categoryName;
+    }
+
+
+    @SuppressWarnings("exports")
+    public List<Drive> filterDrivesWithQuery(String query, String category) {
+        List<Drive> filteredDrives = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            if (category != null && !category.isEmpty()) {
+                preparedStatement.setString(1, category);
+            }
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Drive drive = new Drive();
+                    drive.setDriveId(resultSet.getInt("drive_id"));
+                    drive.setVehicleId(resultSet.getInt("vehicle_id"));
+                    drive.setDate(resultSet.getDate("drive_date"));
+                    drive.setDepartureTime(resultSet.getTime("departure_time"));
+                    drive.setArrivalTime(resultSet.getTime("arrival_time"));
+                    drive.setWaitingTime(resultSet.getInt("waiting_time"));
+                    drive.setDrivenKilometres(resultSet.getDouble("driven_kilometres"));
+                    drive.setStatus(Status.valueOf(resultSet.getString("status")));
+
+                    filteredDrives.add(drive);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return filteredDrives;
+    }
+
+    public List<String> getAllCategoryNames() {
+        List<String> categoryNames = new ArrayList<>();
+        String query = "SELECT category_name FROM category";
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                String categoryName = resultSet.getString("category_name");
+                categoryNames.add(categoryName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categoryNames;
+    }
+
+
+    @SuppressWarnings({ "unused", "exports" })
+    public List<Drive> filterByStatus(String status) {
+        List<Drive> filteredDrives = new ArrayList<>();
+        String query = "SELECT * FROM drive";
+
+        if (!"all".equals(status)) {
+            //System.out.println();
+            query += " WHERE status = ?";
+        }
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            if (!"all".equals(status)) {
+                preparedStatement.setString(1, status);
+            }
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                List<Drive> driveList = new ArrayList<>();
+                while (resultSet.next()) {
+                    Drive drive = new Drive();
+                    drive.setDriveId(resultSet.getInt("drive_id"));
+                    drive.setVehicleId(resultSet.getInt("vehicle_id"));
+                    drive.setDate(resultSet.getDate("drive_date"));
+                    drive.setDepartureTime(resultSet.getTime("departure_time"));
+                    drive.setArrivalTime(resultSet.getTime("arrival_time"));
+                    drive.setWaitingTime(resultSet.getInt("waiting_time"));
+                    drive.setDrivenKilometres(resultSet.getDouble("driven_kilometres"));
+                    drive.setStatus(Status.valueOf(resultSet.getString("status")));
+
+                    filteredDrives.add(drive);
+                }
+
+                return filteredDrives;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return filteredDrives;
+    }
+
+
 }

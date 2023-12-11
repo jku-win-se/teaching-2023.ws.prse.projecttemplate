@@ -1,7 +1,7 @@
 package com.example.fahrtenbuch;
+
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.fahrtenbuch.business.*;
-import com.example.fahrtenbuch.entities.Category;
-import com.example.fahrtenbuch.entities.Category_Drive;
-import com.example.fahrtenbuch.entities.Drive;
-import com.example.fahrtenbuch.entities.Vehicle;
+import com.example.fahrtenbuch.entities.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -167,17 +164,24 @@ public class IndexController{
 
     @FXML
     private void handleBtnCreateRide(ActionEvent event) throws IOException {
+        //FahrtenbucherController fbp = new FahrtenbucherController();
+        //ObservableList<Drive> driveList = FXCollections.observableArrayList(driveFacade.getAllDrives());
+        //fetTableLogbook(driveList);
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FahrtenbucherPage.fxml"));
         Parent root = loader.load();
 
         FahrtenbucherController fahrtenbucherController = loader.getController();
-        fahrtenbucherController.setTableLogbook(fahrtListe);
+        ObservableList<Drive> driveList = FXCollections.observableArrayList(driveFacade.getAllDrives());
+        fahrtenbucherController.setTableLogbook(driveList);
 
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
+
+
     @FXML
     public void addFahrt(ActionEvent event) throws IOException {
         String licensePlate = kfzTF.getText();
