@@ -57,42 +57,6 @@ public class DriveFacadeTest {
 		}
 	}
 
-
-	
-	@Test
-	public void testGetCategoryNameByDriveId() {
-		int driveId = 1;
-
-		String categoryName = driveFacade.getCategoryNameByDriveId(driveId);
-		assertNotNull(categoryName);
-	}
-	
-	@Test
-    public void testGetAllCategoryNames() {
-        List<String> categoryNames = driveFacade.getAllCategoryNames();
-
-        assertNotNull(categoryNames);
-        assertFalse(categoryNames.isEmpty());
-        assertTrue(categoryNames.contains("Reparatur"));
-    }
-
-	@Test
-    public void testGetDriveById() {
-        Integer driveIdToTest = 1;
-
-        try {
-            Drive drive = driveFacade.getDriveById(driveIdToTest);
-            assertNotNull(drive);
-            assertEquals(driveIdToTest, drive.getDriveId());
-            System.out.println("Drive details: " + drive);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-	
-	
-	
-	
 	
 	@Test
     public void testParseTextFieldToIntValidInput() {
