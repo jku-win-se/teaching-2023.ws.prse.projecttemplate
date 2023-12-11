@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.fahrtenbuch.business.*;
+
 import com.example.fahrtenbuch.entities.*;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,7 +29,7 @@ import javafx.stage.Stage;
 
 public class IndexController{
     @FXML
-    public TextField AbfahrtTF;
+    public TextField abfahrtTF;
     @FXML
     public TextField aktiveFahTF;
     @FXML
@@ -185,7 +187,7 @@ public class IndexController{
     @FXML
     public void addFahrt(ActionEvent event) throws IOException {
         String licensePlate = kfzTF.getText();
-        String abfahrtField = AbfahrtTF.getText();
+        String abfahrtField = abfahrtTF.getText();
         String ankunftField = ankunftTF.getText();
         String gefahreneKmField = gefahreneKmTF.getText();
         String aktiveFahField = aktiveFahTF.getText();

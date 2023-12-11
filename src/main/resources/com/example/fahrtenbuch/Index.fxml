@@ -86,7 +86,7 @@
                 <TextField fx:id="kfzTF" layoutX="407.0" layoutY="225.0" prefHeight="49.0" prefWidth="296.0" promptText="KFZ-Kennzeichen" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="aktiveFahTF" layoutX="407.0" layoutY="328.0" prefHeight="49.0" prefWidth="296.0" promptText="Stehzeit" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="gefahreneKmTF" layoutX="407.0" layoutY="407.0" prefHeight="49.0" prefWidth="296.0" promptText="gefahrene km" style="-fx-padding: 0px 20px;" />
-                <TextField fx:id="AbfahrtTF" layoutX="770.0" layoutY="328.0" prefHeight="49.0" prefWidth="177.0" promptText="Abfahrtszeit" style="-fx-padding: 0px 20px;" />
+                <TextField fx:id="abfahrtTF" layoutX="770.0" layoutY="328.0" prefHeight="49.0" prefWidth="177.0" promptText="Abfahrtszeit" style="-fx-padding: 0px 20px;" />
                 <TextField fx:id="ankunftTF" layoutX="770.0" layoutY="407.0" prefHeight="49.0" prefWidth="177.0" promptText="Ankunftszeit" style="-fx-padding: 0px 20px;" />
                 <Button fx:id="btnCreateRide" layoutX="406.0" layoutY="579.0" mnemonicParsing="false" onAction="#addFahrt" prefHeight="49.0" prefWidth="296.0" style="-fx-background-color: #333E50; -fx-border-radius: 10px; -fx-cursor: pointer;" text="FAHRT ANLEGEN" textFill="WHITE">
                     <font>
