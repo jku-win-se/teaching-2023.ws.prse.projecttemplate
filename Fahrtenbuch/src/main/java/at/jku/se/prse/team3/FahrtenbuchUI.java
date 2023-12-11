@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
@@ -37,6 +38,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.util.converter.*;
+import org.controlsfx.control.CheckComboBox;
 
 
 import java.io.IOException;
@@ -1060,6 +1062,20 @@ public class FahrtenbuchUI extends Application {
         TextField avgTF = new TextField();
         avgTF.setPromptText("avg V eingeben");
         avgTF.setMaxWidth(200);
+
+        //category filter
+        // create the data to show in the CheckComboBox
+        final ObservableList<String> strings = fahrtenbuch.getKategorien(true);
+
+        final CheckComboBox<String> checkComboBox = new CheckComboBox<String>(strings);
+        checkComboBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+            public void onChanged(ListChangeListener.Change<? extends String> c) {
+
+                System.out.println(checkComboBox.getCheckModel().getCheckedItems());
+            }
+        });
+
+
         // Ergebnis des Dialogs konvertieren, wenn der Benutzer "Filtern" klickt
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == filterButtonType) {
@@ -1104,7 +1120,7 @@ public class FahrtenbuchUI extends Application {
             return false;
         });
         VBox fahrtTextinputboxen = new VBox(1);
-        fahrtTextinputboxen.getChildren().addAll(datum,avgLabel,avgTF);
+        fahrtTextinputboxen.getChildren().addAll(datum,avgLabel,avgTF,checkComboBox);
         ScrollPane scrollPane = new ScrollPane(fahrtTextinputboxen);
         scrollPane.setFitToWidth(true); // Passt die Breite der ScrollPane an die Breite der VBox an
         scrollPane.setPrefHeight(400); // Setzen Sie eine bevorzugte Höhe

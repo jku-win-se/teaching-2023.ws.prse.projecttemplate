@@ -42,7 +42,11 @@ public class FahrtenbuchUITest extends ApplicationTest {
         }
         app = new FahrtenbuchUI(fahrtenbuch);
         //app.overview(stage);
-        app.start(stage);
+        try {
+            app.start(stage);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
