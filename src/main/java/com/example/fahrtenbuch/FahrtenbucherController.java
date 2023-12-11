@@ -230,15 +230,8 @@ public class FahrtenbucherController implements Initializable{
         String category = kategoryTF.getValue();
         Integer month = parseTextFieldToInt(monat.getText());
         Integer year = parseTextFieldToInt(jahrTF.getText());
-        Integer waiting_time = parseTextFieldToInt(fahrtzeitTF.getText());
+        Integer waitingTime = parseTextFieldToInt(fahrtzeitTF.getText());
 
-        System.out.println("avgSpeed "+avgSpeed);
-        System.out.println("category "+category);
-        System.out.println("month "+month);
-        System.out.println("km "+km);
-        System.out.println("year "+year);
-        System.out.println("avgSpeed "+avgSpeed);
-        System.out.println("waiting_time "+waiting_time);
 
         if (year != null) {
             queryBuilder.append(" AND YEAR(drive_date) = ").append(year);
@@ -262,8 +255,8 @@ public class FahrtenbucherController implements Initializable{
                     .append(avgSpeed).append(") <= ").append(avgSpeed * 0.10);
         }
 
-        if (waiting_time != null) {
-            queryBuilder.append(" AND waiting_time = ").append(waiting_time);
+        if (waitingTime != null) {
+            queryBuilder.append(" AND waiting_time = ").append(waitingTime);
         }
 
         List<Drive> driveList = driveFacade.filterDrivesWithQuery(queryBuilder.toString(), category);
@@ -294,25 +287,25 @@ public class FahrtenbucherController implements Initializable{
 
 
     @FXML
-    void StatusAllDriveActionBtn(ActionEvent event) {
+    void statusAllDriveActionBtn(ActionEvent event) {
         handleStatusFilter("all");
     }
 
     @FXML
-    void CompleteTFActionBtn(ActionEvent event) {
+    void completeTFActionBtn(ActionEvent event) {
         handleStatusFilter("COMPLETED");
     }
 
 
 
     @FXML
-    void FutureTFActionBtn(ActionEvent event) {
+    void futureTFActionBtn(ActionEvent event) {
         handleStatusFilter("ZUKUENFTIG");
     }
 
 
     @FXML
-    void DriveAwayTFActionBtn(ActionEvent event) {
+    void driveAwayTFActionBtn(ActionEvent event) {
         handleStatusFilter("AUF_FAHRT");
     }
 
