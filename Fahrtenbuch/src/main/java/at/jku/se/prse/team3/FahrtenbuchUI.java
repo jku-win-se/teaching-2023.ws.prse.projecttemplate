@@ -8,14 +8,11 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableDoubleValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 
 
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -27,9 +24,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelBuffer;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import javafx.scene.shape.Box;
@@ -43,7 +38,6 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -51,6 +45,7 @@ import java.time.YearMonth;
 
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 
@@ -1067,19 +1062,30 @@ public class FahrtenbuchUI extends Application {
 
         //category filter
         final CheckComboBox<String> categoryfilter = new CheckComboBox<>(fahrtenbuch.getKategorien(true));
+       ObservableList<Fahrt> fahrtenByCat = FXCollections.observableArrayList();
+        ObservableList<Fahrt> fahrtenByDate = FXCollections.observableArrayList();
 
         // Ergebnis des Dialogs konvertieren, wenn der Benutzer "Filtern" klickt
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == filterButtonType) {
                 try {
-                    //TODO kombiniere alle filter-items (führe sie zusammen?)
-                    LocalDate date = datum.getValue();
-                    List<Fahrt> gefilterteFahrten = fahrtenbuch.filterByKategorie(categoryfilter.getCheckModel().getCheckedItems().stream().toList());
 
-                    fahrtenListe.clear();
-                   // fahrtenListe.addAll(fahrtenbuch.filterByDate(date));
-                    fahrtenListe.addAll(gefilterteFahrten);
-                    fahrtenTabelle.setItems(this.fahrtenListe);
+                    if (!categoryfilter.getCheckModel().getCheckedIndices().isEmpty()|| datum.getValue() != null||!categoryfilter.getCheckModel().isEmpty()&& datum.getValue()!=null){
+
+                        LocalDate date = datum.getValue();
+
+
+                        fahrtenByCat.addAll(fahrtenbuch.filterByKategorie(categoryfilter.getCheckModel().getCheckedItems().stream().toList()));
+
+
+
+                        fahrtenByDate.addAll(fahrtenByCat.stream().filter(fahrt -> fahrt.getDatum().isEqual(date)).toList());
+
+                        fahrtenTabelle.setItems(fahrtenByDate);
+
+                    } else fahrtenTabelle.setItems(fahrtenListe);
+                    //TODO kombiniere alle filter-items (führe sie zusammen?)
+
 
                 } catch (DateTimeParseException d) {
                     Alert dateAlert = new Alert(Alert.AlertType.WARNING);
