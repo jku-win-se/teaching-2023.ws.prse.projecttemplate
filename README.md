@@ -13,7 +13,7 @@ Nachdem Sie das Maven-Projekt gebaut haben, können Sie die Applikation wie folg
 2. Wechseln Sie in das Verzeichnis, in dem sich die generierte JAR-Datei befindet. Dies ist typischerweise das `target`-Verzeichnis im Projektordner:
 
     ```bash
-    cd Pfad/zu/Ihrem/Projekt/target
+    cd Pfad/zum//Projekt/target
     ```
 
 3. Führen Sie die Applikation aus, indem Sie den folgenden Befehl eingeben:
