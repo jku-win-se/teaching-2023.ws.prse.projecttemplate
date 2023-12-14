@@ -71,6 +71,7 @@ public class FahrtenbuchUI extends Application {
     private ObservableList<Fahrt> fahrtenListe; // Klassenvariable für die Fahrtenliste
     private ButtonType deleteButtonType = new ButtonType("Löschen", ButtonBar.ButtonData.APPLY);
 
+
     /**
      * Konstruktor
      *
@@ -96,6 +97,7 @@ public class FahrtenbuchUI extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
+
         StackPane root = new StackPane();
 
         InputStream imageStream = getClass().getResourceAsStream("/logo.png");
@@ -116,7 +118,7 @@ public class FahrtenbuchUI extends Application {
 
 
         logoView.setOpacity(0);
-        primaryStage.initStyle(StageStyle.UNDECORATED);
+       // primaryStage.initStyle(StageStyle.UNDECORATED);
         ProgressBar lol = new ProgressBar();
         lol.setStyle("-fx-accent: black;");
         lol.setMaxWidth(logo.getWidth());
@@ -129,15 +131,10 @@ public class FahrtenbuchUI extends Application {
         fadeTransition.play();
 
 
-        Scene scene = new Scene(root, 600, 400);
-
-        primaryStage.setScene(scene);
-
-        primaryStage.setWidth(logo.getWidth());
-        primaryStage.setHeight(logo.getHeight());
 
 
-        primaryStage.show();
+
+        //primaryStage.show();
         //basically useless Task can be removed if wished for controls the progress of loading bar
         Task<Void> task = new Task<>() {
             @Override
@@ -162,6 +159,14 @@ public class FahrtenbuchUI extends Application {
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+
+        Scene scene = new Scene(root, 600, 400);
+
+        primaryStage.setScene(scene);
+
+        primaryStage.setWidth(logo.getWidth());
+        primaryStage.setHeight(logo.getHeight());
+        primaryStage.show();
 
 
     }

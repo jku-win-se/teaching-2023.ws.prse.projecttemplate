@@ -15,8 +15,6 @@ public abstract class App {
     public static void main(String[] args) throws IOException, CsvValidationException, InterruptedException {
 
 
-
-
         Fahrtenbuch fahrtenbuch = new Fahrtenbuch();
         fahrtenbuch.importFahrt();
 
@@ -26,6 +24,7 @@ public abstract class App {
         FahrtenbuchUI fahrtenbuchUI = new FahrtenbuchUI(fahrtenbuch);
         Stage stage = new Stage();
         try {
+            stage.initStyle(StageStyle.DECORATED);
             fahrtenbuchUI.start(stage);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
