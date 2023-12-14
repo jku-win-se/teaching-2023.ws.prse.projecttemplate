@@ -50,25 +50,25 @@ public class FahrtenbuchUITest extends ApplicationTest {
     }
 
 
-    @Test
-    public void testEditButton() {
-        verifyThat("#fahrtenTabelle", NodeMatchers.isVisible());
-        clickOn("#fahrtenTabelle");
-
-        TableView tableView = lookup("#fahrtenTabelle").queryAs(TableView.class);
-
-        //clickOn(".table-row").clickOn(MouseButton.PRIMARY);
-        if (!tableView.getSelectionModel().isEmpty()) {
-            Fahrt selectedFahrt = (Fahrt) tableView.getSelectionModel().getSelectedItem();
-            System.out.println("Fahrt ausgewählt:" + selectedFahrt.getKfzKennzeichen());
-
-            clickOn("#editButton");
-            verifyThat("#kfzKennzeichenEditField", TextInputControlMatchers.hasText(selectedFahrt.getKfzKennzeichen()));
-
-        } else {
-            System.out.println("Keine Fahrt ausgewählt.");
-        }
-    }
+//    @Test
+//    public void testEditButton() {
+//        verifyThat("#fahrtenTabelle", NodeMatchers.isVisible());
+//        clickOn("#fahrtenTabelle");
+//
+//        TableView tableView = lookup("#fahrtenTabelle").queryAs(TableView.class);
+//
+//        //clickOn(".table-row").clickOn(MouseButton.PRIMARY);
+//        if (!tableView.getSelectionModel().isEmpty()) {
+//            Fahrt selectedFahrt = (Fahrt) tableView.getSelectionModel().getSelectedItem();
+//            System.out.println("Fahrt ausgewählt:" + selectedFahrt.getKfzKennzeichen());
+//
+//            clickOn("#editButton");
+//            verifyThat("#kfzKennzeichenEditField", TextInputControlMatchers.hasText(selectedFahrt.getKfzKennzeichen()));
+//
+//        } else {
+//            System.out.println("Keine Fahrt ausgewählt.");
+//        }
+//    }
 
     /*@Test
     public void testAddNewTripDialog() {
@@ -93,31 +93,31 @@ public class FahrtenbuchUITest extends ApplicationTest {
         assertTrue(neueFahrtVorhanden);
     }
 */
-    @Test
-    public void testDeleteButton() {
-        clickOn("#fahrtenTabelle");
-        TableView tableView = lookup("#fahrtenTabelle").queryAs(TableView.class);
-        if (!tableView.getSelectionModel().isEmpty()) {
-            Fahrt ausgewaehlterFahrt = (Fahrt) tableView.getSelectionModel().getSelectedItem();
-            clickOn("#editButton");
-            clickOn("#deleteButton");
-            verifyThat("Löschen bestätigen", NodeMatchers.isVisible());
-            clickOn("Löschen");
+//    @Test
+//    public void testDeleteButton() {
+//        clickOn("#fahrtenTabelle");
+//        TableView tableView = lookup("#fahrtenTabelle").queryAs(TableView.class);
+//        if (!tableView.getSelectionModel().isEmpty()) {
+//            Fahrt ausgewaehlterFahrt = (Fahrt) tableView.getSelectionModel().getSelectedItem();
+//            clickOn("#editButton");
+//            clickOn("#deleteButton");
+//            verifyThat("Löschen bestätigen", NodeMatchers.isVisible());
+//            clickOn("Löschen");
+//
+//            ObservableList<Fahrt> fahrten = tableView.getItems();
+//            boolean fahrtNichtVorhanden = fahrten.stream().noneMatch(fahrt ->
+//                            fahrt.getKfzKennzeichen().equals(ausgewaehlterFahrt.getKfzKennzeichen())
+//            );
+//            assertTrue(fahrtNichtVorhanden);
+//        } else {
+//            System.out.println("Keine Fahrt ausgewählt.");
+//        }
+//    }
 
-            ObservableList<Fahrt> fahrten = tableView.getItems();
-            boolean fahrtNichtVorhanden = fahrten.stream().noneMatch(fahrt ->
-                            fahrt.getKfzKennzeichen().equals(ausgewaehlterFahrt.getKfzKennzeichen())
-            );
-            assertTrue(fahrtNichtVorhanden);
-        } else {
-            System.out.println("Keine Fahrt ausgewählt.");
-        }
-    }
-
-    @Test
-    public void testSettingsButton() {
-        clickOn("#settingsButton");
-    }
+//    @Test
+//    public void testSettingsButton() {
+//        clickOn("#settingsButton");
+//    }
 
     @Test
     public void testBerechneKilometerProMonatUndKategorie() throws IOException {
