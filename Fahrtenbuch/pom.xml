@@ -128,10 +128,7 @@
   </build>
 
   <properties>
-    <!-- SonarQube Server URL -->
-    <sonar.host.url>http://your-sonar-server:9000</sonar.host.url>
-    <sonar.login>IhrSonarBenutzername</sonar.login>
-    <sonar.password>IhrSonarPasswort</sonar.password>
+
 
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
