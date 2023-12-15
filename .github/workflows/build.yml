@@ -2,11 +2,11 @@ name: SonarCloud
 on:
   push:
     branches: 
-      - main
+      
       - release-0.2.0
   pull_request: 
     branches:
-      - main
+      
       - release-0.2.0
 
 jobs:
