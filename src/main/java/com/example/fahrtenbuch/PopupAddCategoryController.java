@@ -9,8 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.util.function.Consumer;
-
 public class PopupAddCategoryController {
 
     @FXML

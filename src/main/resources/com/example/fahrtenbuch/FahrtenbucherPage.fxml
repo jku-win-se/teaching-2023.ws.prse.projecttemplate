@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.FahrtenbucherController">
+<AnchorPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.FahrtenbucherController">
     <AnchorPane layoutX="-197.0" layoutY="-109.0" prefHeight="700.0" prefWidth="900.0">
         <Pane layoutX="175.0" layoutY="108.0" prefHeight="597.0" prefWidth="218.0" style="-fx-background-color: #333E50;">
             <ImageView fitHeight="115.0" fitWidth="131.0" layoutX="47.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
@@ -79,32 +79,32 @@
         <Label layoutX="451.0" layoutY="433.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Absolviert" />
         <Label layoutX="545.0" layoutY="433.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Zukunftige" />
         <Label layoutX="644.0" layoutY="433.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-padding: 3px 10px; -fx-border-color: #CDCDCD;" text="auf Fahrt " />
-         <Pane layoutX="402.0" layoutY="165.0" prefHeight="217.0" prefWidth="759.0" style="-fx-border-color: #CDCDCD;">
-             <Pane prefHeight="33.0" prefWidth="759.0" style="-fx-background-color: #CDCDCD;">
-                 <Label layoutX="22.0" layoutY="8.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;" text="Fahrten filtern">
-                     <font>
-                         <Font size="14.0" />
-                     </font>
-                 </Label>
-             </Pane>
-             <TextField fx:id="monat" layoutX="21.0" layoutY="105.0" prefHeight="41.0" prefWidth="218.0" promptText="Monat" style="-fx-padding: 0px 20px;" />
-             <TextField fx:id="tagTF" layoutX="21.0" layoutY="47.0" prefHeight="41.0" prefWidth="218.0" promptText="Tag" style="-fx-padding: 0px 20px;" />
-             <TextField fx:id="durchlicheTF" layoutX="264.0" layoutY="47.0" prefHeight="41.0" prefWidth="218.0" promptText="durchschnittliche Geschwindigkeit" style="-fx-padding: 0px 20px;" />
-             <TextField fx:id="fahrtzeitTF" layoutX="264.0" layoutY="162.0" prefHeight="41.0" prefWidth="218.0" promptText="Stehzeit" style="-fx-padding: 0px 20px;" />
-             <TextField fx:id="gefahreneKmTF" layoutX="264.0" layoutY="105.0" prefHeight="41.0" prefWidth="218.0" promptText="gefahrene km" style="-fx-padding: 0px 20px;" />
-             <TextField fx:id="jahrTF" layoutX="21.0" layoutY="162.0" prefHeight="41.0" prefWidth="218.0" promptText="Jahr" style="-fx-padding: 0px 20px;" />
-         <ComboBox fx:id="kategoryTF" layoutX="507.0" layoutY="47.0" prefHeight="41.0" prefWidth="232.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: gray;  -fx-border-width: 0.5; -fx-border-radius: 5; ">
-            <items>
-               <FXCollections fx:factory="observableArrayList">
-                  <String fx:value="Option 1" />
-                  <String fx:value="Option 2" />
-                  <String fx:value="Option 3" />
-                  <String fx:value="Option 4" />
-                  <String fx:value="Option 5" />
-               </FXCollections>
-            </items>
-         </ComboBox>
-         </Pane>
-      <Button fx:id="btnShowDrive" layoutX="1052.0" layoutY="395.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="109.0" text="Fahrt anzeigen" />
+        <Pane layoutX="402.0" layoutY="165.0" prefHeight="217.0" prefWidth="759.0" style="-fx-border-color: #CDCDCD;">
+            <Pane prefHeight="33.0" prefWidth="759.0" style="-fx-background-color: #CDCDCD;">
+                <Label layoutX="22.0" layoutY="8.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;" text="Fahrten filtern">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+            </Pane>
+            <TextField fx:id="monat" layoutX="21.0" layoutY="105.0" prefHeight="41.0" prefWidth="218.0" promptText="Monat" style="-fx-padding: 0px 20px;" />
+            <TextField fx:id="tagTF" layoutX="21.0" layoutY="47.0" prefHeight="41.0" prefWidth="218.0" promptText="Tag" style="-fx-padding: 0px 20px;" />
+            <TextField fx:id="durchlicheTF" layoutX="264.0" layoutY="47.0" prefHeight="41.0" prefWidth="218.0" promptText="durchschnittliche Geschwindigkeit" style="-fx-padding: 0px 20px;" />
+            <TextField fx:id="fahrtzeitTF" layoutX="264.0" layoutY="162.0" prefHeight="41.0" prefWidth="218.0" promptText="Stehzeit" style="-fx-padding: 0px 20px;" />
+            <TextField fx:id="gefahreneKmTF" layoutX="264.0" layoutY="105.0" prefHeight="41.0" prefWidth="218.0" promptText="gefahrene km" style="-fx-padding: 0px 20px;" />
+            <TextField fx:id="jahrTF" layoutX="21.0" layoutY="162.0" prefHeight="41.0" prefWidth="218.0" promptText="Jahr" style="-fx-padding: 0px 20px;" />
+            <ComboBox fx:id="kategoryTF" layoutX="507.0" layoutY="47.0" prefHeight="41.0" prefWidth="232.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: rgb(128,128,128);  -fx-border-width: 0.5; -fx-border-radius: 5; ">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Option 1" />
+                        <String fx:value="Option 2" />
+                        <String fx:value="Option 3" />
+                        <String fx:value="Option 4" />
+                        <String fx:value="Option 5" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </Pane>
+        <Button fx:id="btnShowDrive" layoutX="1052.0" layoutY="395.0" mnemonicParsing="false" onAction="#handleShowDrive" prefHeight="23.0" prefWidth="109.0" text="Filter Data" />
     </AnchorPane>
 </AnchorPane>

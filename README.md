@@ -81,6 +81,54 @@ Die Tests wurden mittels JUnit auf einer lokal eingerichteten Entwicklungsumgebu
 Sonarcube Testergebnis 6.12:
 <img width="1100" alt="image" src="https://github.com/jku-win-se/teaching-2023.ws.prse.braeuer.team2/assets/32127275/2fc6adc5-0ad7-417e-a57b-b80307a2bc24">
 
+# Testdokumentation für die Klasse DriveFacadeTest
+
+## Übersicht
+
+Die Testklasse **DriveFacadeTest** enthält Tests für die Methoden der Klasse **DriveFacade**, die für die Verwaltung von Fahrten in der Datenbank verantwortlich ist. Die Tests überprüfen insbesondere die Funktionalität der Methode `getLicense_plateByDriveId()`.
+
+## Umgebung
+
+- **Sprache:** Java
+- **Framework:** JUnit
+- **Datenbank:** MySQL
+
+## Testfälle
+
+### 1. **testParseTextFieldToIntValidInput()**
+   - **Beschreibung:** Überprüft die Konvertierung von Text zu Integer mit gültiger Eingabe.
+   - **Schritte:**
+     - Aufruf von `parseTextFieldToInt()` mit einer gültigen Zahl als Eingabe.
+   - **Erwartetes Ergebnis:** Die zurückgegebene Zahl entspricht der erwarteten Zahl.
+
+### 2. **testParseTextFieldToIntInvalidInput()**
+   - **Beschreibung:** Überprüft die Konvertierung von Text zu Integer mit ungültiger Eingabe.
+   - **Schritte:**
+     - Aufruf von `parseTextFieldToInt()` mit einer ungültigen Eingabe.
+   - **Erwartetes Ergebnis:** Es wird null zurückgegeben.
+
+### 3. **testParseTextFieldToDoubleValidInput()**
+   - **Beschreibung:** Überprüft die Konvertierung von Text zu Double mit gültiger Eingabe.
+   - **Schritte:**
+     - Aufruf von `parseTextFieldToDouble()` mit einer gültigen Zahl als Eingabe.
+   - **Erwartetes Ergebnis:** Die zurückgegebene Zahl entspricht der erwarteten Zahl.
+
+### 4. **testParseTextFieldToDoubleInvalidInput()**
+   - **Beschreibung:** Überprüft die Konvertierung von Text zu Double mit ungültiger Eingabe.
+   - **Schritte:**
+     - Aufruf von `parseTextFieldToDouble()` mit einer ungültigen Eingabe.
+   - **Erwartetes Ergebnis:** Es wird null zurückgegeben.
+
+### 5. **testGetLicensePlateByDriveId()**
+   - **Beschreibung:** Überprüft die Abfrage des Kennzeichens anhand der Fahrten-ID.
+   - **Schritte:**
+     - Aufruf von `getLicense_plateByDriveId()` mit einer existierenden Fahrten-ID.
+   - **Erwartetes Ergebnis:** Das zurückgegebene Kennzeichen ist nicht null.
+
+## Ausführung
+
+Die Tests wurden mittels JUnit auf einer lokal eingerichteten Entwicklungsumgebung ausgeführt und erfolgreich validiert.
+
 
 ## API-Dokumentation
 

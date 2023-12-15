@@ -1,6 +1,11 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package model;
 
-public class Fahrt{
+public class Fahrt {
     private String KFZ_kennzeichen;
     private String activeFahrzeit;
     private String abfahrtszeit;
@@ -8,9 +13,7 @@ public class Fahrt{
     private String Ankunftszeit;
     private String kategorie;
 
-    public Fahrt(String kFZ_kennzeichen, String activeFahrzeit, String abfahrtszeit,
-                 String ankunftszeit, String gefahreneKM, String kategorieField) {
-        super();
+    public Fahrt(String kFZ_kennzeichen, String activeFahrzeit, String abfahrtszeit, String ankunftszeit, String gefahreneKM, String kategorieField) {
         this.KFZ_kennzeichen = kFZ_kennzeichen;
         this.activeFahrzeit = activeFahrzeit;
         this.abfahrtszeit = abfahrtszeit;
@@ -20,47 +23,50 @@ public class Fahrt{
     }
 
     public String getKFZ_kennzeichen() {
-        return KFZ_kennzeichen;
+        return this.KFZ_kennzeichen;
     }
+
     public void setKFZ_kennzeichen(String kFZ_kennzeichen) {
-        KFZ_kennzeichen = kFZ_kennzeichen;
+        this.KFZ_kennzeichen = kFZ_kennzeichen;
     }
 
     public String getActiveFahrzeit() {
-        return activeFahrzeit;
+        return this.activeFahrzeit;
     }
+
     public void setActiveFahrzeit(String activeFahrzeit) {
         this.activeFahrzeit = activeFahrzeit;
     }
 
     public String getAbfahrtszeit() {
-        return abfahrtszeit;
+        return this.abfahrtszeit;
     }
+
     public void setAbfahrtszeit(String abfahrtszeit) {
         this.abfahrtszeit = abfahrtszeit;
     }
 
     public String getGefahreneKM() {
-        return gefahreneKM;
+        return this.gefahreneKM;
     }
+
     public void setGefahreneKM(String gefahreneKM) {
         this.gefahreneKM = gefahreneKM;
     }
 
     public String getAnkunftszeit() {
-        return Ankunftszeit;
-    }
-    public void setAnkunftszeit(String ankunftszeit) {
-        Ankunftszeit = ankunftszeit;
+        return this.Ankunftszeit;
     }
 
+    public void setAnkunftszeit(String ankunftszeit) {
+        this.Ankunftszeit = ankunftszeit;
+    }
 
     public String getKategorie() {
-        return kategorie;
+        return this.kategorie;
     }
+
     public void setKategorie(String kategorie) {
         this.kategorie = kategorie;
     }
-
-
 }

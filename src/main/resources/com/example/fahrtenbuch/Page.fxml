@@ -64,11 +64,11 @@
                                 <Font size="18.0" />
                             </font>
                         </Button>
-                  <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="52.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/Logo.png" />
-                     </image>
-                  </ImageView>
+                        <ImageView fitHeight="142.0" fitWidth="154.0" layoutX="52.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/Logo.png" />
+                            </image>
+                        </ImageView>
                     </children>
                 </Pane>
                 <Pane layoutX="372.0" layoutY="108.0" prefHeight="49.0" prefWidth="801.0" style="-fx-background-color: #333E50;">
@@ -87,15 +87,15 @@
                         <Font size="16.0" />
                     </font>
                 </Button>
-            <ComboBox fx:id="repeatDrive" layoutX="786.0" layoutY="201.0" prefHeight="60.0" prefWidth="296.0" promptText="Wiederholungen" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: gray;  -fx-border-width: 0.5; -fx-border-radius: 5; ">
-               <items>
-                  <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="täglich" />
-                     <String fx:value="wöchentlich" />
-                     <String fx:value="alle 2 Wochen" />
-                  </FXCollections>
-               </items>
-            </ComboBox>
+                <ComboBox fx:id="repeatDrive" layoutX="786.0" layoutY="201.0" prefHeight="60.0" prefWidth="296.0" promptText="Wiederholungen" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: rgb(128,128,128);  -fx-border-width: 0.5; -fx-border-radius: 5; ">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="täglich" />
+                            <String fx:value="wöchentlich" />
+                            <String fx:value="alle 2 Wochen" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
             </children></AnchorPane>
     </children>
 </AnchorPane>

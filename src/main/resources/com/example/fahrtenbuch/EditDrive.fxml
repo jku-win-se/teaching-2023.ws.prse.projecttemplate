@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="578.0" prefWidth="986.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.EditDriveController">
-    <children>
+   <children>
       <AnchorPane layoutX="-187.0" layoutY="-99.0" prefHeight="700.0" prefWidth="900.0">
          <children>
             <Pane layoutX="175.0" layoutY="99.0" prefHeight="606.0" prefWidth="218.0" style="-fx-background-color: #333E50;">
@@ -95,7 +95,7 @@
                   <TextField fx:id="datumTF" layoutX="25.0" layoutY="291.0" prefHeight="49.0" prefWidth="296.0" promptText="Datum" style="-fx-padding: 0px 20px;" />
                   <TextField fx:id="AbfahrtTF" layoutX="408.0" layoutY="61.0" prefHeight="49.0" prefWidth="177.0" promptText="Abfahrtszeit" style="-fx-padding: 0px 20px;" />
                   <TextField fx:id="ankunftTF" layoutX="408.0" layoutY="137.0" prefHeight="49.0" prefWidth="177.0" promptText="Ankunftszeit" style="-fx-padding: 0px 20px;" />
-                  <ComboBox fx:id="kategoriesTF" layoutX="408.0" layoutY="215.0" prefHeight="49.0" prefWidth="296.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: gray;  -fx-border-width: 0.5; -fx-border-radius: 5; ">
+                  <ComboBox fx:id="kategoriesTF" layoutX="408.0" layoutY="215.0" prefHeight="49.0" prefWidth="296.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: rgb(128,128,128);  -fx-border-width: 0.5; -fx-border-radius: 5; ">
                      <items>
                         <FXCollections fx:factory="observableArrayList" />
                      </items>

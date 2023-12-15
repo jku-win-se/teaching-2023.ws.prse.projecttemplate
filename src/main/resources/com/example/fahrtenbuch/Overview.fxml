@@ -45,17 +45,17 @@
                     <TextField fx:id="gefahreneKmTextField" layoutX="244.0" layoutY="53.0" prefHeight="41.0" prefWidth="218.0" promptText="gefahrene km" />
                     <TextField fx:id="durchschnittlicheGeschTextField" layoutX="244.0" layoutY="101.0" prefHeight="41.0" prefWidth="218.0" promptText="durchscnittliche Geschwindigkeit" />
                     <TextField fx:id="fahrtzeitTextField" layoutX="244.0" layoutY="6.0" prefHeight="41.0" prefWidth="218.0" promptText="Stehzeit" />
-               <ComboBox fx:id="kategoryTF" layoutX="477.0" layoutY="6.0" prefHeight="41.0" prefWidth="218.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: gray;  -fx-border-width: 0.5; -fx-border-radius: 5; ">
-                  <items>
-                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Option 1" />
-                        <String fx:value="Option 2" />
-                        <String fx:value="Option 3" />
-                        <String fx:value="Option 4" />
-                        <String fx:value="Option 5" />
-                     </FXCollections>
-                  </items>
-               </ComboBox>
+                    <ComboBox fx:id="kategoryTF" layoutX="477.0" layoutY="6.0" prefHeight="41.0" prefWidth="218.0" promptText="Kategorie (optional)" style="-fx-background-color: white; -fx-padding: 0px 20px; -fx-border-color: rgb(128,128,128);  -fx-border-width: 0.5; -fx-border-radius: 5; ">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Option 1" />
+                                <String fx:value="Option 2" />
+                                <String fx:value="Option 3" />
+                                <String fx:value="Option 4" />
+                                <String fx:value="Option 5" />
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
                 </AnchorPane>
             </items>
         </SplitPane>

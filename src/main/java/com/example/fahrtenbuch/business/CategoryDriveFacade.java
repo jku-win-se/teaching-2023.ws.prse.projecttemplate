@@ -1,3 +1,4 @@
+
 package com.example.fahrtenbuch.business;
 
 import com.example.fahrtenbuch.entities.CategoryDrive;
@@ -15,16 +16,24 @@ public class CategoryDriveFacade {
 
     public CategoryDriveFacade() {
         DatabaseConnection databaseConnection = new DatabaseConnection();
+
+      
+
         conn = databaseConnection.getConnection();
+
     }
 
     public List<Drive> getDrivesByCategoryId(Integer id) throws SQLException {
         Drive drive = null;
+
+
         List<Drive> drives = new ArrayList<>();
+
         DriveFacade driveFacade = new DriveFacade();
         String query = "SELECT * FROM category_drive WHERE category_id = ?";
 
         try {
+
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -36,6 +45,7 @@ public class CategoryDriveFacade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return drives;
     }
 
@@ -54,6 +64,7 @@ public class CategoryDriveFacade {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+
         }
 
     }
