@@ -10,6 +10,9 @@ localhost:8080/index.html
 - "Main" Klasse 'FahrtenbuchApp' ausführen
 - Im lokalen Browser 'localhost:8080/index.html' ausführen
 
+## Projektdokumentation
+docs/realease-0.2.0
+
 ## UML-Klassendiagram
 
 ![image](https://github.com/jku-win-se/teaching-2023.ws.prse.braeuer.team4/assets/122016173/7b235fe3-97c6-48c2-8011-4e85c015596c)
