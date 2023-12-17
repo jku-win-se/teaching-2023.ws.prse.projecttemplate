@@ -75,10 +75,6 @@
                 <TableColumn fx:id="kategorieColumn" prefWidth="137.0" text="Kategorie" />
             </columns>
         </TableView>
-        <Label layoutX="402.0" layoutY="433.0" style="-fx-font-size: 15px; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Alle" />
-        <Label layoutX="451.0" layoutY="433.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Absolviert" />
-        <Label layoutX="545.0" layoutY="433.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-border-color: #CDCDCD; -fx-padding: 3px 10px;" text="Zukunftige" />
-        <Label layoutX="644.0" layoutY="433.0" style="-fx-font-size: 15; -fx-font-weight: 700; -fx-padding: 3px 10px; -fx-border-color: #CDCDCD;" text="auf Fahrt " />
         <Pane layoutX="402.0" layoutY="165.0" prefHeight="217.0" prefWidth="759.0" style="-fx-border-color: #CDCDCD;">
             <Pane prefHeight="33.0" prefWidth="759.0" style="-fx-background-color: #CDCDCD;">
                 <Label layoutX="22.0" layoutY="8.0" style="-fx-font-family: Tahoma; -fx-font-weight: 700;" text="Fahrten filtern">
@@ -106,5 +102,9 @@
             </ComboBox>
         </Pane>
         <Button fx:id="btnShowDrive" layoutX="1052.0" layoutY="395.0" mnemonicParsing="false" onAction="#handleShowDrive" prefHeight="23.0" prefWidth="109.0" text="Filter Data" />
+        <Button layoutX="402.0" layoutY="433.0" mnemonicParsing="false" onAction="#statusAllDriveActionBtn" prefHeight="25.0" prefWidth="51.0" text="Alle" />
+        <Button layoutX="456.0" layoutY="433.0" mnemonicParsing="false" onAction="#completeTFActionBtn" prefHeight="25.0" prefWidth="69.0" text="Absolviert" />
+        <Button layoutX="528.0" layoutY="433.0" mnemonicParsing="false" onAction="#futureTFActionBtn" prefHeight="25.0" prefWidth="73.0" text="Zukunftige" />
+        <Button layoutX="605.0" layoutY="433.0" mnemonicParsing="false" onAction="#driveAwayTFActionBtn" prefHeight="25.0" prefWidth="84.0" text="auf Fahrt" />
     </AnchorPane>
 </AnchorPane>
