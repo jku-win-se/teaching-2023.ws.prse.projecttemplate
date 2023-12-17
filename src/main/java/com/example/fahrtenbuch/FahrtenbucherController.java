@@ -132,6 +132,19 @@ public class FahrtenbucherController implements Initializable{
         });
 
         tableLogbook.setItems(fahrtListe);
+
+        tableLogbook.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) {
+                Drive selectedDrive = tableLogbook.getSelectionModel().getSelectedItem();
+                if (selectedDrive != null) {
+                    try {
+                        handleSelectedDrive(event, selectedDrive);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
 
