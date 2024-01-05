@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="174.0" prefWidth="333.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fahrtenbuch.PopupAddKfzController">
+    <children>
+        <AnchorPane prefHeight="168.0" prefWidth="333.0">
+            <children>
+                <TextField fx:id="newKfzTextField" layoutX="22.0" layoutY="70.0" prefHeight="30.0" prefWidth="212.0" promptText="Neues KFZ-Kennzeichen" />
+                <TextField fx:id="newOdometer" layoutX="22.0" layoutY="119.0" prefHeight="30.0" prefWidth="212.0" promptText="Kilometerstand" />
+                <Button layoutX="22.0" layoutY="168.0" mnemonicParsing="false" onAction="#addNewKfz" prefHeight="30.0" prefWidth="100.0" text="Hinzufügen" />
+                <Button layoutX="132.0" layoutY="168.0" mnemonicParsing="false" onAction="#closePopup" prefHeight="30.0" prefWidth="100.0" text="Schließen" />
+                <Label layoutX="26.0" layoutY="38.0" text="Neues KFZ- Kennzeichen hinzufügen:">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>
