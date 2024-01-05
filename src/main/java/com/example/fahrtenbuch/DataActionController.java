@@ -63,6 +63,12 @@ public class DataActionController {
     }
 
     @FXML
+    private void handleDataCloudExport() throws IOException, InterruptedException {
+        this.alert.setContentText(this.databaseConnection.exportDataToCloud());
+        this.alert.showAndWait();
+    }
+
+    @FXML
     private void returnToStartBtn(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("hello-view.fxml"));
         Parent root = (Parent)loader.load();

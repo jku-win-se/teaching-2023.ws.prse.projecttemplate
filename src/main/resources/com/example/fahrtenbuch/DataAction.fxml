@@ -24,6 +24,11 @@
             <Font name="Arial" size="20.0" />
         </font>
     </Button>
+    <Button fx:id="btnDataActionExportToCloud" layoutX="402.0" layoutY="386.0" mnemonicParsing="false" onAction="#handleDataCloudExport" prefHeight="63.0" prefWidth="280.0" style="-fx-font-family: Arial; -fx-background-color: #343E51;" text="EXPORT DATA TO CLOUD" textFill="WHITE">
+        <font>
+            <Font name="Arial" size="20.0" />
+        </font>
+    </Button>
     <SplitPane layoutX="181.0" prefHeight="63.0" prefWidth="734.0" style="-fx-background-color: #343E51;">
         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" IMPORT/ EXPORT" wrappingWidth="256.14453125">
             <font>

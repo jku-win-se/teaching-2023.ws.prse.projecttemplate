@@ -10,6 +10,10 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 
 public class DatabaseConnection {
     public Connection conn;
@@ -151,6 +155,38 @@ public class DatabaseConnection {
             //System.out.println("Daten wurden erfolgreich exportiert.");
         } catch (SQLException | IOException e) {
             e.printStackTrace();
+        }
+    }
+    public String exportDataToCloud() throws IOException, InterruptedException {
+        conn = getConnection();
+        String links = "";
+        exportDataToCSV();
+        links = uploadFile("vehicle.csv");
+        links = links + "\n" + uploadFile("category.csv");
+        links = links + "\n" + uploadFile("drive.csv");
+        links = links + "\n" + uploadFile("category_drive.csv");
+
+        return links;
+    }
+
+    public String uploadFile(String filePath) throws IOException, InterruptedException {
+        //Doku von file.io nur mit curl; bei file Upload über HttpClient kam Error 500, daher umständlicher Upload über Processbuilder mit Curl
+        ProcessBuilder processBuilder = new ProcessBuilder("curl", "-F", "file=@" + filePath, "https://file.io");
+        Process process = processBuilder.start();StringBuilder response = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+        }
+        int exitVal = process.waitFor();
+        //export von Link aus HTTP response
+        if (exitVal == 0) {
+            JSONObject jsonResponse = new JSONObject(response.toString());
+            String link = jsonResponse.getString("link");
+            return("Link zu " + filePath + " : " + link);
+        } else {
+            return("Ein Fehler ist aufgetreten bei "+filePath);
         }
     }
 
