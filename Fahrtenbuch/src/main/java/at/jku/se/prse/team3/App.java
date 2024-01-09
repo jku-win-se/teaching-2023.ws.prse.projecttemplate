@@ -13,12 +13,6 @@ import java.util.List;
 
 public abstract class App {
     public static void main(String[] args) throws IOException, CsvValidationException, InterruptedException {
-        System.out.println("  ___     _        _            _            _   ");
-        System.out.println(" | __|_ _| |_  _ _| |_ ___ _ _ | |__ _  _ __| |_  ");
-        System.out.println(" | _/ _` | ' \\| '_|  _/ -_) ' \\| '_ \\ || / _| ' \\ ");
-        System.out.println(" |_|\\__,_|_||_|_|  \\__\\___|_||_|_.__/\\_,_\\__|_||_|");
-        System.out.println("     by  TEAM 3 - JKU   release 0.0.3                   ");
-
 
 
         Fahrtenbuch fahrtenbuch = new Fahrtenbuch();
@@ -29,10 +23,15 @@ public abstract class App {
     {
         FahrtenbuchUI fahrtenbuchUI = new FahrtenbuchUI(fahrtenbuch);
         Stage stage = new Stage();
-        fahrtenbuchUI.start(stage);
+        try {
+            stage.initStyle(StageStyle.DECORATED);
+            fahrtenbuchUI.start(stage);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     });
 
-        fahrtenbuch.exportFahrt();
+        //fahrtenbuch.exportFahrt();
 }
 
 
