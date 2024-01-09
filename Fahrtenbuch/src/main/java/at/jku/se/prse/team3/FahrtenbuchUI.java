@@ -950,7 +950,12 @@ public class FahrtenbuchUI extends Application {
         stage.show();
     }
 
-
+    /**
+     * Erstellt eine TableView für die Darstellung von Jahreskilometern pro Kategorie.
+     *
+     * @param kategorien Eine Menge von Kategorienamen, für die Spalten erstellt werden sollen.
+     * @return Eine TableView, die Map-Einträge von Jahreszahlen zu Karten von Kategorien und Kilometern darstellt.
+     */
     private TableView<Map.Entry<Integer, Map<String, Double>>> erstelleJahresKilometerTableView(Set<String> kategorien) {
         TableView<Map.Entry<Integer, Map<String, Double>>> tableView = new TableView<>();
 
@@ -977,7 +982,9 @@ public class FahrtenbuchUI extends Application {
         return tableView;
     }
 
-
+    /**
+     * Zeigt eine Statistik der gefahrenen Kilometer pro Monat und Kategorie in einer TableView.
+     */
     void zeigeErweiterteKilometerStatistik() {
         Stage stage = new Stage();
         stage.setTitle("Erweiterte Kilometerstatistik");
@@ -993,6 +1000,12 @@ public class FahrtenbuchUI extends Application {
         stage.show();
     }
 
+    /**
+     * Erstellt eine TableView für die detaillierte Darstellung von Kilometern pro Monat und Kategorie.
+     *
+     * @param kategorien Eine Menge von Kategorienamen, für die Spalten erstellt werden sollen.
+     * @return Eine TableView, die Map-Einträge von YearMonth zu Karten von Kategorien und Kilometern darstellt.
+     */
     private TableView<Map.Entry<YearMonth, Map<String, Double>>> erstelleErweiterteKilometerTableView(Set<String> kategorien) {
         TableView<Map.Entry<YearMonth, Map<String, Double>>> tableView = new TableView<>();
 
@@ -1019,13 +1032,20 @@ public class FahrtenbuchUI extends Application {
         return tableView;
     }
 
-
+    /**
+     * Aktualisiert die Tabelle der erweiterten Kilometerstatistik mit den neuesten Daten.
+     *
+     * @param tableView Die TableView, die aktualisiert werden soll.
+     */
     private void aktualisiereErweiterteKilometerTabelle(TableView<Map.Entry<YearMonth, Map<String, Double>>> tableView) {
         Map<YearMonth, Map<String, Double>> data = fahrtenbuch.berechneKilometerProMonatUndKategorie();
         ObservableList<Map.Entry<YearMonth, Map<String, Double>>> tableData = FXCollections.observableArrayList(data.entrySet());
         tableView.setItems(tableData);
     }
 
+    /**
+     * Zeigt eine Statistik der gefahrenen Kilometer pro Jahr und Kategorie in einer TableView.
+     */
     void zeigeJahresKilometerStatistik() {
         Set<String> kategorien = fahrtenbuch.getKategorien(); // Angenommen, diese Methode gibt die Kategorien zurück
         Map<Integer, Map<String, Double>> data = fahrtenbuch.berechneKilometerProJahrUndKategorie();
@@ -1046,6 +1066,11 @@ public class FahrtenbuchUI extends Application {
         }
     }
 
+    /**
+     * Öffnet ein Dialogfenster zur Filterung von Fahrten nach verschiedenen Kriterien.
+     *
+     * @param fahrtenTabelle Die TableView, die die gefilterten Fahrten anzeigen wird.
+     */
     void oeffneFilter(TableView fahrtenTabelle) {
         // Dialogfenster für die Filterung erstellen
         Dialog<Boolean> dialog = new Dialog<>();

@@ -175,6 +175,11 @@ public class Fahrtenbuch {
         return fahrten;
     }
 
+    /**
+     * Filtert Fahrten anhand spezifischer Kriterien.
+     *
+     * @return Eine Liste gefilterter Fahrten.
+     */
     public List<Fahrt> filtereFahrten() {
 
         //List<Fahrt> fahrten = new ArrayList<Fahrt>();
@@ -182,25 +187,28 @@ public class Fahrtenbuch {
         return fahrten;
     }
 
+    /**
+     * Sortiert die Fahrten im Fahrtenbuch.
+     */
     public void sortiereFahrten() {
         fahrten.sort(Comparator.comparing(Fahrt::getDatum)
                 .thenComparing(Fahrt::getAbfahrtszeit));
     }
 
     /**
-     * Issue #6 getter für Fahrtstatus
+     * Ermittelt den Status einer spezifischen Fahrt.
      *
-     * @param fahrt
-     * @return
+     * @param fahrt Die Fahrt, für die der Status ermittelt werden soll.
+     * @return Der Status der Fahrt.
      */
     public FahrtStatus getFahrtstatus(Fahrt fahrt) {
         return fahrt.getFahrtstatus();
     }
 
     /**
-     * Issue #8 Export einer Fahrt
+     * Exportiert die Fahrtendaten in eine CSV-Datei.
      *
-     * @throws IOException
+     * @throws IOException Wenn beim Schreiben der Datei ein Fehler auftritt.
      */
     public void exportFahrt() throws IOException {
         //export Fahrten&Kategorien as CSV.
@@ -238,10 +246,10 @@ public class Fahrtenbuch {
     }
 
     /**
-     * Import der Userdaten
+     * Importiert Fahrtendaten aus einer CSV-Datei.
      *
-     * @throws IOException
-     * @throws CsvValidationException
+     * @throws IOException Wenn beim Lesen der Datei ein Fehler auftritt.
+     * @throws CsvValidationException Wenn die CSV-Daten ungültig sind.
      */
     public void importFahrt() throws IOException, CsvValidationException {
         //export Fahrten&Kategorien as CSV.
@@ -320,7 +328,11 @@ public class Fahrtenbuch {
 
     }
 
-    // Methode um gefahrene Kilometer pro Monat zu ermitteln
+    /**
+     * Berechnet die insgesamt gefahrenen Kilometer pro Monat.
+     *
+     * @return Eine Map, die jedem Monat (YearMonth) die insgesamt gefahrenen Kilometer zuordnet.
+     */
     public Map<YearMonth, Double> berechneKilometerProMonat() {
         Map<YearMonth, Double> kilometerProMonat = new TreeMap<>();
         for (Fahrt fahrt : fahrten) {
@@ -330,6 +342,12 @@ public class Fahrtenbuch {
         return kilometerProMonat;
     }
 
+
+    /**
+     * Berechnet die gefahrenen Kilometer pro Monat und Kategorie.
+     *
+     * @return Eine Map, die jedem Monat (YearMonth) eine Map von Kategorien und den jeweiligen Kilometern zuordnet.
+     */
     public Map<YearMonth, Map<String, Double>> berechneKilometerProMonatUndKategorie() {
         Map<YearMonth, Map<String, Double>> kilometerProMonatUndKategorie = new TreeMap<>();
 
@@ -346,6 +364,12 @@ public class Fahrtenbuch {
         return kilometerProMonatUndKategorie;
     }
 
+
+    /**
+     * Berechnet die gefahrenen Kilometer pro Jahr und Kategorie.
+     *
+     * @return Eine Map, die jedem Jahr eine Map von Kategorien und den jeweiligen Kilometern zuordnet.
+     */
     public Map<Integer, Map<String, Double>> berechneKilometerProJahrUndKategorie() {
         Map<Integer, Map<String, Double>> kilometerProJahrUndKategorie = new TreeMap<>();
 
@@ -362,7 +386,11 @@ public class Fahrtenbuch {
         return kilometerProJahrUndKategorie;
     }
 
-
+    /**
+     * Gibt eine Liste aller einzigartigen Kategorien zurück.
+     *
+     * @return Ein Set mit einzigartigen Kategorien.
+     */
     public Set<String> getKategorien() {
         Set<String> uniqueKategorien = new HashSet<>();
         for (Fahrt fahrt : fahrten) {
@@ -372,10 +400,11 @@ public class Fahrtenbuch {
     }
 
     /**
-     * same Functionality as getKategorien() but with a Boolean param to enable it
+     * Gibt alle Kategorien als ObservableList zurück.
+     * Diese Methode bietet die gleiche Funktionalität wie getKategorien(), gibt jedoch eine ObservableList zurück.
      *
-     * @param x can be true or false; enables this method to return ObservableList instead
-     * @return returns Observable list of all Categories
+     * @param x Aktiviert die Methode, wenn true. Kann true oder false sein.
+     * @return Eine ObservableList aller Kategorien.
      */
     public ObservableList<String> getKategorien(Boolean x) {
         ObservableList<String> uniqueKategorien = FXCollections.observableArrayList();
@@ -387,15 +416,20 @@ public class Fahrtenbuch {
     }
 
     /**
-     * adds any collection of Categories as for example an Observable list to Kategorien Liste in logic class
+     * Fügt eine Sammlung von Kategorien zur Liste der Kategorien in der Logikklasse hinzu.
      *
-     * @param kategorienNeu collection of categories
+     * @param kategorienNeu Eine Sammlung von Kategorien.
      */
     public void addKategories(Collection kategorienNeu) {
         kategorien.addAll(kategorienNeu);
     }
 
-
+    /**
+     * Filtert Fahrten nach einem spezifischen Datum.
+     *
+     * @param date Das Datum, nach dem gefiltert werden soll.
+     * @return Eine Liste von Fahrten, die am angegebenen Datum stattgefunden haben.
+     */
     public List<Fahrt> filterByDate(LocalDate date) {
         if (date == null) {
             return this.fahrten;
@@ -408,10 +442,10 @@ public class Fahrtenbuch {
 
 
     /**
-     * Compares average speed with given speed comparison variable. Clears table and adds only Trips that are under or
-     * equal to the comparison variable.
-     * @param avg comparison variable for average speed
-     * @return list of trips under the avg speed
+     * Filtert Fahrten, deren Durchschnittsgeschwindigkeit unter oder gleich dem angegebenen Wert ist.
+     *
+     * @param avg Die Vergleichsvariable für die Durchschnittsgeschwindigkeit.
+     * @return Eine Liste von Fahrten, deren Durchschnittsgeschwindigkeit unter oder gleich dem angegebenen Wert ist.
      */
     public List<Fahrt> filterByAvgVUnder(double avg){
         if (avg<0.00){
@@ -430,11 +464,12 @@ public class Fahrtenbuch {
         }
         return gefilterteFahrten;
     }
+
     /**
-     * Compares average speed with given speed comparison variable. Clears table and adds only Trips that are over or
-     * equal to the comparison variable.
-     * @param avg comparison variable for average speed
-     * @return list of trips over the avg speed
+     * Filtert Fahrten, deren Durchschnittsgeschwindigkeit über oder gleich dem angegebenen Wert ist.
+     *
+     * @param avg Die Vergleichsvariable für die Durchschnittsgeschwindigkeit.
+     * @return Eine Liste von Fahrten, deren Durchschnittsgeschwindigkeit über oder gleich dem angegebenen Wert ist.
      */
     public List<Fahrt> filterByAvgVOver(double avg){
         if (avg<0.00){
@@ -454,6 +489,12 @@ public class Fahrtenbuch {
         return gefilterteFahrten;
     }
 
+    /**
+     * Filtert Fahrten nach bestimmten Kategorien.
+     *
+     * @param filterKategorien Eine Liste von Kategorien, nach denen gefiltert werden soll.
+     * @return Eine Liste von Fahrten, die mindestens eine der angegebenen Kategorien enthalten.
+     */
     public List<Fahrt> filterByKategorie(List<String> filterKategorien) {
         if (kategorien == null || filterKategorien.isEmpty()) {
             return this.fahrten;
