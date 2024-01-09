@@ -7,6 +7,7 @@ https://design.penpot.app/#/workspace/52961d58-0a92-80c2-8003-42e3b171bfbd/3e6de
 
 # Ausführen der Applikation
 
+
 Nachdem Sie das Maven-Projekt gebaut haben, können Sie die Applikation wie folgt ausführen:
 
 1. Öffnen Sie ein Terminalfenster.
