@@ -51,7 +51,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
-import static at.jku.se.prse.team3.CloudBackup.uploadDB;
+
 
 
 public class FahrtenbuchUI extends Application {
@@ -123,7 +123,7 @@ public class FahrtenbuchUI extends Application {
 
 
         logoView.setOpacity(0);
-       // primaryStage.initStyle(StageStyle.UNDECORATED);
+        // primaryStage.initStyle(StageStyle.UNDECORATED);
         ProgressBar lol = new ProgressBar();
         lol.setStyle("-fx-accent: black;");
         lol.setMaxWidth(logo.getWidth());
@@ -788,7 +788,7 @@ public class FahrtenbuchUI extends Application {
         angezeigteKategorien.setEditable(false);
         // Anfangs nicht sichtbar machen
         angezeigteKategorien.setPrefHeight(50); // Höhe der TextArea anpassen
-
+/*
         Button CloudBackup = new Button("Cloud Backup aktualisieren");
         CloudBackup.setOnAction(event ->{
             //String in
@@ -804,6 +804,40 @@ public class FahrtenbuchUI extends Application {
             uploadDB(kategorienIn, cloudPathKategorien);
 
         });
+*/
+
+        Label tokenLabel = new Label("Enter Dropbox Access Token:");
+        TextField tokenTextField = new TextField();
+        tokenTextField.setStyle("-fx-text-fill: grey;");
+        Button uploadButton = new Button("Upload to Dropbox");
+
+        tokenLabel.setAlignment(Pos.CENTER_LEFT); // Align the label to the left
+        GridPane.setConstraints(tokenLabel, 0, 0);
+
+        tokenTextField.setAlignment(Pos.CENTER_LEFT); // Align the text field to the left
+        GridPane.setConstraints(tokenTextField, 1, 0);
+
+        uploadButton.setAlignment(Pos.CENTER_LEFT); // Align the button to the left
+        GridPane.setConstraints(uploadButton, 2, 0);
+
+
+        uploadButton.setOnAction(event -> {
+            String accessToken = tokenTextField.getText();
+            Path path1 = Paths.get(System.getProperty("user.home"), "Documents", "Fahrtenbuch 0.0.3", "fahrten.csv");
+            String fahrtenIn = path1.toString();
+            Path path2 = Paths.get(System.getProperty("user.home"), "Documents", "Fahrtenbuch 0.0.3", "Kategorien.csv");
+            String kategorienIn = path2.toString();
+            String cloudPathFahrten = "/Apps/SEPR_Team_3/fahrten.csv";
+            String cloudPathKategorien = "/Apps/SEPR_Team_3/kategorien.csv";
+            CloudBackup.uploadDB(fahrtenIn, cloudPathFahrten, accessToken);
+            CloudBackup.uploadDB(kategorienIn, cloudPathKategorien, accessToken);
+        });
+
+
+
+
+
+
 
         Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
         kategorieHinzufuegenButton.setOnAction(event -> {
@@ -826,7 +860,7 @@ public class FahrtenbuchUI extends Application {
         primaryStage.setTitle("Einstellungen");
         GridPane gridSettings = new GridPane();
 
-        gridSettings.getChildren().addAll(enterSavePath, backButton, Pfad, angezeigteKategorien, kategorieInp, CloudBackup);
+        gridSettings.getChildren().addAll(enterSavePath, backButton, Pfad, angezeigteKategorien, kategorieInp,uploadButton, tokenLabel, tokenTextField);
 
         gridSettings.setAlignment(Pos.CENTER);
         GridPane.setConstraints(backButton, 0, 5);
@@ -1114,7 +1148,7 @@ public class FahrtenbuchUI extends Application {
 
         //category filter
         final CheckComboBox<String> categoryfilter = new CheckComboBox<>(fahrtenbuch.getKategorien(true));
-       ObservableList<Fahrt> fahrtenByCat = FXCollections.observableArrayList();
+        ObservableList<Fahrt> fahrtenByCat = FXCollections.observableArrayList();
         ObservableList<Fahrt> fahrtenByDate = FXCollections.observableArrayList();
 
         // Ergebnis des Dialogs konvertieren, wenn der Benutzer "Filtern" klickt
@@ -1186,4 +1220,4 @@ public class FahrtenbuchUI extends Application {
         result.ifPresent(filter -> { // Aktualisierte Fahrt in der Liste und in der TableView anzeigen
             fahrtenTabelle.refresh(); dialog.close(); }); }
 
-        }
+}
