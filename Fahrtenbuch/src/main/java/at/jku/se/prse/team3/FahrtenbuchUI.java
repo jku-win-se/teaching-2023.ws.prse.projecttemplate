@@ -36,9 +36,12 @@ import javafx.util.converter.*;
 import org.controlsfx.control.CheckComboBox;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
@@ -47,6 +50,8 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+
+import static at.jku.se.prse.team3.CloudBackup.uploadDB;
 
 
 public class FahrtenbuchUI extends Application {
@@ -784,6 +789,22 @@ public class FahrtenbuchUI extends Application {
         // Anfangs nicht sichtbar machen
         angezeigteKategorien.setPrefHeight(50); // Höhe der TextArea anpassen
 
+        Button CloudBackup = new Button("Cloud Backup aktualisieren");
+        CloudBackup.setOnAction(event ->{
+            //String in
+            Path path1 = Paths.get(System.getProperty("user.home"), "Documents", "Fahrtenbuch 0.0.3", "fahrten.csv");
+            String fahrtenIn = path1.toString();
+            Path path2 = Paths.get(System.getProperty("user.home"), "Documents", "Fahrtenbuch 0.0.3", "Kategorien.csv");
+            String kategorienIn = path2.toString();
+            //String out
+            String cloudPathFahrten = "/Apps/SEPR_Team_3/fahrten.csv";
+            String cloudPathKategorien = "/Apps/SEPR_Team_3/kategorien.csv";
+
+            uploadDB(fahrtenIn, cloudPathFahrten);
+            uploadDB(kategorienIn, cloudPathKategorien);
+
+        });
+
         Button kategorieHinzufuegenButton = new Button("Kategorie hinzufügen");
         kategorieHinzufuegenButton.setOnAction(event -> {
             String kategorie = kategorienInput.getText().trim();
@@ -805,7 +826,7 @@ public class FahrtenbuchUI extends Application {
         primaryStage.setTitle("Einstellungen");
         GridPane gridSettings = new GridPane();
 
-        gridSettings.getChildren().addAll(enterSavePath, backButton, Pfad, angezeigteKategorien, kategorieInp);
+        gridSettings.getChildren().addAll(enterSavePath, backButton, Pfad, angezeigteKategorien, kategorieInp, CloudBackup);
 
         gridSettings.setAlignment(Pos.CENTER);
         GridPane.setConstraints(backButton, 0, 5);
@@ -828,6 +849,7 @@ public class FahrtenbuchUI extends Application {
         primaryStage.setOnCloseRequest(windowEvent -> {
             try {
                 fahrtenbuch.exportFahrt();
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
