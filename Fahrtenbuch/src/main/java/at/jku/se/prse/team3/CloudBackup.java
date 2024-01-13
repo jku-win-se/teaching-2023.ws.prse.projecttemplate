@@ -15,6 +15,13 @@ public class CloudBackup {
 
     private static final String CLIENT_IDENTIFIER = "wk400vxjbjtryt0";
 
+    /**
+     * Exportiert Datein in ein Dropbox Cloud Ordner. Issue 35.
+     *
+     * @param localPath Pfad wo lokale Daten lokal gespeichert sind.
+     * @param cloudPath Cloudpfad wo die Daten gespeichert werden.
+     * @param accessToken Access Token um Transaktion zu authorisieren, jede 4 Stunden wird neue gebraucht.
+     */
     public static void uploadDB(String localPath, String cloudPath, String accessToken) {
         try (InputStream in = new FileInputStream(localPath)) {
             DbxRequestConfig config = DbxRequestConfig.newBuilder(CLIENT_IDENTIFIER).build();
