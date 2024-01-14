@@ -1,0 +1,200 @@
+<html>
+<head>
+<title>TestNG:  Surefire test</title>
+<link href="../testng.css" rel="stylesheet" type="text/css" />
+<link href="../my-testng.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.log { display: none;} 
+.stack-trace { display: none;} 
+</style>
+<script type="text/javascript">
+<!--
+function flip(e) {
+  current = e.style.display;
+  if (current == 'block') {
+    e.style.display = 'none';
+    return 0;
+  }
+  else {
+    e.style.display = 'block';
+    return 1;
+  }
+}
+
+function toggleBox(szDivId, elem, msg1, msg2)
+{
+  var res = -1;  if (document.getElementById) {
+    res = flip(document.getElementById(szDivId));
+  }
+  else if (document.all) {
+    // this is the way old msie versions work
+    res = flip(document.all[szDivId]);
+  }
+  if(elem) {
+    if(res == 0) elem.innerHTML = msg1; else elem.innerHTML = msg2;
+  }
+
+}
+
+function toggleAllBoxes() {
+  if (document.getElementsByTagName) {
+    d = document.getElementsByTagName('div');
+    for (i = 0; i < d.length; i++) {
+      if (d[i].className == 'log') {
+        flip(d[i]);
+      }
+    }
+  }
+}
+
+// -->
+</script>
+
+</head>
+<body>
+<h2 align='center'>Surefire test</h2><table border='1' align="center">
+<tr>
+<td>Tests passed/Failed/Skipped:</td><td>24/0/0</td>
+</tr><tr>
+<td>Started on:</td><td>Sun Dec 10 22:19:37 CET 2023</td>
+</tr>
+<tr><td>Total time:</td><td>9 seconds (9898 ms)</td>
+</tr><tr>
+<td>Included groups:</td><td></td>
+</tr><tr>
+<td>Excluded groups:</td><td></td>
+</tr>
+</table><p/>
+<small><i>(Hover the method name to see the test class name)</i></small><p/>
+<table width='100%' border='1' class='invocation-passed'>
+<tr><td colspan='4' align='center'><b>PASSED TESTS</b></td></tr>
+<tr><td><b>Test method</b></td>
+<td><b>Attribute(s)</b></td>
+<td width="30%"><b>Exception</b></td>
+<td width="10%"><b>Time (seconds)</b></td>
+<td><b>Instance</b></td>
+</tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtTest.testAktiveFahrzeit()'><b>testAktiveFahrzeit</b><br>Test class: at.jku.se.prse.team3.FahrtTest</td>
+<td></td>
+<td>0</td>
+<td>testAktiveFahrzeit(at.jku.se.prse.team3.FahrtTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtTest.testFahrtstatus()'><b>testFahrtstatus</b><br>Test class: at.jku.se.prse.team3.FahrtTest</td>
+<td></td>
+<td>0</td>
+<td>testFahrtstatus(at.jku.se.prse.team3.FahrtTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchUITest.testZeigeKilometerDiagramm()'><b>testZeigeKilometerDiagramm</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchUITest</td>
+<td></td>
+<td>3</td>
+<td>testZeigeKilometerDiagramm(at.jku.se.prse.team3.FahrtenbuchUITest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtTest.testKfzKennzeichen()'><b>testKfzKennzeichen</b><br>Test class: at.jku.se.prse.team3.FahrtTest</td>
+<td></td>
+<td>0</td>
+<td>testKfzKennzeichen(at.jku.se.prse.team3.FahrtTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchTest.testExportImportFahrt()'><b>testExportImportFahrt</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchTest</td>
+<td></td>
+<td>0</td>
+<td>testExportImportFahrt(at.jku.se.prse.team3.FahrtenbuchTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchUITest.testZeigeErweiterteKilometerStatistik()'><b>testZeigeErweiterteKilometerStatistik</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchUITest</td>
+<td></td>
+<td>5</td>
+<td>testZeigeErweiterteKilometerStatistik(at.jku.se.prse.team3.FahrtenbuchUITest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtStatusTest.testFahrtStatusWerte()'><b>testFahrtStatusWerte</b><br>Test class: at.jku.se.prse.team3.FahrtStatusTest</td>
+<td></td>
+<td>0</td>
+<td>testFahrtStatusWerte(at.jku.se.prse.team3.FahrtStatusTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtTest.testAnkunftszeit()'><b>testAnkunftszeit</b><br>Test class: at.jku.se.prse.team3.FahrtTest</td>
+<td></td>
+<td>0</td>
+<td>testAnkunftszeit(at.jku.se.prse.team3.FahrtTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchTest.testBearbeiteFahrt()'><b>testBearbeiteFahrt</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchTest</td>
+<td></td>
+<td>0</td>
+<td>testBearbeiteFahrt(at.jku.se.prse.team3.FahrtenbuchTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchUITest.testEditButton()'><b>testEditButton</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchUITest</td>
+<td></td>
+<td>8</td>
+<td>testEditButton(at.jku.se.prse.team3.FahrtenbuchUITest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtTest.testAbfahrtszeit()'><b>testAbfahrtszeit</b><br>Test class: at.jku.se.prse.team3.FahrtTest</td>
+<td></td>
+<td>0</td>
+<td>testAbfahrtszeit(at.jku.se.prse.team3.FahrtTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchUITest.testZeigeJahresKilometerStatistik()'><b>testZeigeJahresKilometerStatistik</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchUITest</td>
+<td></td>
+<td>9</td>
+<td>testZeigeJahresKilometerStatistik(at.jku.se.prse.team3.FahrtenbuchUITest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchTest.testNeueFahrt()'><b>testNeueFahrt</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchTest</td>
+<td></td>
+<td>0</td>
+<td>testNeueFahrt(at.jku.se.prse.team3.FahrtenbuchTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchUITest.testSettingsButton()'><b>testSettingsButton</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchUITest</td>
+<td></td>
+<td>6</td>
+<td>testSettingsButton(at.jku.se.prse.team3.FahrtenbuchUITest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtTest.testKategorien()'><b>testKategorien</b><br>Test class: at.jku.se.prse.team3.FahrtTest</td>
+<td></td>
+<td>0</td>
+<td>testKategorien(at.jku.se.prse.team3.FahrtTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtStatusTest.testFahrtStatusWertOf()'><b>testFahrtStatusWertOf</b><br>Test class: at.jku.se.prse.team3.FahrtStatusTest</td>
+<td></td>
+<td>0</td>
+<td>testFahrtStatusWertOf(at.jku.se.prse.team3.FahrtStatusTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.AppTest.testApp()'><b>testApp</b><br>Test class: at.jku.se.prse.team3.AppTest</td>
+<td></td>
+<td>0</td>
+<td>testApp(at.jku.se.prse.team3.AppTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchUITest.testBerechneKilometerProMonatUndKategorie()'><b>testBerechneKilometerProMonatUndKategorie</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchUITest</td>
+<td></td>
+<td>8</td>
+<td>testBerechneKilometerProMonatUndKategorie(at.jku.se.prse.team3.FahrtenbuchUITest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchUITest.testZeigeJahresKilometerDiagramm()'><b>testZeigeJahresKilometerDiagramm</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchUITest</td>
+<td></td>
+<td>7</td>
+<td>testZeigeJahresKilometerDiagramm(at.jku.se.prse.team3.FahrtenbuchUITest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtTest.testAddKategorie()'><b>testAddKategorie</b><br>Test class: at.jku.se.prse.team3.FahrtTest</td>
+<td></td>
+<td>0</td>
+<td>testAddKategorie(at.jku.se.prse.team3.FahrtTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchTest.testLoescheFahrten()'><b>testLoescheFahrten</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchTest</td>
+<td></td>
+<td>0</td>
+<td>testLoescheFahrten(at.jku.se.prse.team3.FahrtenbuchTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtenbuchUITest.testDeleteButton()'><b>testDeleteButton</b><br>Test class: at.jku.se.prse.team3.FahrtenbuchUITest</td>
+<td></td>
+<td>4</td>
+<td>testDeleteButton(at.jku.se.prse.team3.FahrtenbuchUITest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtTest.testDatum()'><b>testDatum</b><br>Test class: at.jku.se.prse.team3.FahrtTest</td>
+<td></td>
+<td>0</td>
+<td>testDatum(at.jku.se.prse.team3.FahrtTest)</td></tr>
+<tr>
+<td title='at.jku.se.prse.team3.FahrtTest.testGefahreneKilometer()'><b>testGefahreneKilometer</b><br>Test class: at.jku.se.prse.team3.FahrtTest</td>
+<td></td>
+<td>0</td>
+<td>testGefahreneKilometer(at.jku.se.prse.team3.FahrtTest)</td></tr>
+</table><p>
+</body>
+</html>

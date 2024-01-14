@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="24" passed="24" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2023-12-10T22:19:37 MEZ" name="Surefire suite" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="9898">
+    <groups>
+    </groups>
+    <test started-at="2023-12-10T22:19:37 MEZ" name="Surefire test" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="9898">
+      <class name="at.jku.se.prse.team3.AppTest">
+        <test-method signature="testApp()" started-at="2023-12-10T22:19:37 MEZ" name="testApp" finished-at="2023-12-10T22:19:37 MEZ" duration-ms="15" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testApp -->
+      </class> <!-- at.jku.se.prse.team3.AppTest -->
+      <class name="at.jku.se.prse.team3.FahrtTest">
+        <test-method signature="testAnkunftszeit()" started-at="2023-12-10T22:19:47 MEZ" name="testAnkunftszeit" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="6" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testAnkunftszeit -->
+        <test-method signature="testDatum()" started-at="2023-12-10T22:19:47 MEZ" name="testDatum" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="5" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testDatum -->
+        <test-method signature="testAktiveFahrzeit()" started-at="2023-12-10T22:19:47 MEZ" name="testAktiveFahrzeit" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="5" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testAktiveFahrzeit -->
+        <test-method signature="testKategorien()" started-at="2023-12-10T22:19:47 MEZ" name="testKategorien" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="4" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testKategorien -->
+        <test-method signature="testFahrtstatus()" started-at="2023-12-10T22:19:47 MEZ" name="testFahrtstatus" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="4" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testFahrtstatus -->
+        <test-method signature="testGefahreneKilometer()" started-at="2023-12-10T22:19:47 MEZ" name="testGefahreneKilometer" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="4" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGefahreneKilometer -->
+        <test-method signature="testKfzKennzeichen()" started-at="2023-12-10T22:19:47 MEZ" name="testKfzKennzeichen" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="3" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testKfzKennzeichen -->
+        <test-method signature="testAddKategorie()" started-at="2023-12-10T22:19:47 MEZ" name="testAddKategorie" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="10" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testAddKategorie -->
+        <test-method signature="testAbfahrtszeit()" started-at="2023-12-10T22:19:47 MEZ" name="testAbfahrtszeit" finished-at="2023-12-10T22:19:47 MEZ" duration-ms="10" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testAbfahrtszeit -->
+      </class> <!-- at.jku.se.prse.team3.FahrtTest -->
+      <class name="at.jku.se.prse.team3.FahrtenbuchUITest">
+        <test-method signature="testZeigeKilometerDiagramm()" started-at="2023-12-10T22:19:37 MEZ" name="testZeigeKilometerDiagramm" finished-at="2023-12-10T22:19:40 MEZ" duration-ms="3452" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testZeigeKilometerDiagramm -->
+        <test-method signature="testDeleteButton()" started-at="2023-12-10T22:19:37 MEZ" name="testDeleteButton" finished-at="2023-12-10T22:19:42 MEZ" duration-ms="4661" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testDeleteButton -->
+        <test-method signature="testZeigeErweiterteKilometerStatistik()" started-at="2023-12-10T22:19:37 MEZ" name="testZeigeErweiterteKilometerStatistik" finished-at="2023-12-10T22:19:42 MEZ" duration-ms="5545" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testZeigeErweiterteKilometerStatistik -->
+        <test-method signature="testSettingsButton()" started-at="2023-12-10T22:19:37 MEZ" name="testSettingsButton" finished-at="2023-12-10T22:19:44 MEZ" duration-ms="6791" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSettingsButton -->
+        <test-method signature="testEditButton()" started-at="2023-12-10T22:19:37 MEZ" name="testEditButton" finished-at="2023-12-10T22:19:45 MEZ" duration-ms="8464" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testEditButton -->
+        <test-method signature="testZeigeJahresKilometerDiagramm()" started-at="2023-12-10T22:19:37 MEZ" name="testZeigeJahresKilometerDiagramm" finished-at="2023-12-10T22:19:44 MEZ" duration-ms="7434" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testZeigeJahresKilometerDiagramm -->
+        <test-method signature="testZeigeJahresKilometerStatistik()" started-at="2023-12-10T22:19:37 MEZ" name="testZeigeJahresKilometerStatistik" finished-at="2023-12-10T22:19:46 MEZ" duration-ms="9590" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testZeigeJahresKilometerStatistik -->
+        <test-method signature="testBerechneKilometerProMonatUndKategorie() throws java.io.IOException" started-at="2023-12-10T22:19:37 MEZ" name="testBerechneKilometerProMonatUndKategorie" finished-at="2023-12-10T22:19:46 MEZ" duration-ms="8896" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testBerechneKilometerProMonatUndKategorie -->
+      </class> <!-- at.jku.se.prse.team3.FahrtenbuchUITest -->
+      <class name="at.jku.se.prse.team3.FahrtStatusTest">
+        <test-method signature="testFahrtStatusWertOf()" started-at="2023-12-10T22:19:46 MEZ" name="testFahrtStatusWertOf" finished-at="2023-12-10T22:19:46 MEZ" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testFahrtStatusWertOf -->
+        <test-method signature="testFahrtStatusWerte()" started-at="2023-12-10T22:19:46 MEZ" name="testFahrtStatusWerte" finished-at="2023-12-10T22:19:46 MEZ" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testFahrtStatusWerte -->
+      </class> <!-- at.jku.se.prse.team3.FahrtStatusTest -->
+      <class name="at.jku.se.prse.team3.FahrtenbuchTest">
+        <test-method signature="testExportImportFahrt() throws java.io.IOException,com.opencsv.exceptions.CsvValidationException" started-at="2023-12-10T22:19:37 MEZ" name="testExportImportFahrt" finished-at="2023-12-10T22:19:37 MEZ" duration-ms="141" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testExportImportFahrt -->
+        <test-method signature="testNeueFahrt() throws java.io.IOException" started-at="2023-12-10T22:19:37 MEZ" name="testNeueFahrt" finished-at="2023-12-10T22:19:37 MEZ" duration-ms="142" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testNeueFahrt -->
+        <test-method signature="testBearbeiteFahrt() throws java.io.IOException" started-at="2023-12-10T22:19:37 MEZ" name="testBearbeiteFahrt" finished-at="2023-12-10T22:19:37 MEZ" duration-ms="144" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testBearbeiteFahrt -->
+        <test-method signature="testLoescheFahrten() throws java.io.IOException" started-at="2023-12-10T22:19:37 MEZ" name="testLoescheFahrten" finished-at="2023-12-10T22:19:37 MEZ" duration-ms="146" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testLoescheFahrten -->
+      </class> <!-- at.jku.se.prse.team3.FahrtenbuchTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>
